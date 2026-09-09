@@ -1,0 +1,125 @@
+# Diffusion port of orig WarpGAN SVINet training (ORIG_FAITHFUL_PORT_SPEC.md).
+# New file — the orig config train_inpainting.yaml stays untouched for diffing.
+#
+# Loss weights follow the ORIG checkpoint (L1 10 / PL 30 / ID 0.5 / latent 0.1)
+# with the two diffusion-mandated changes: epsilon-MSE is the main signal and
+# GAN/FM default to 0 (two white-blow divergences on x0 residual noise, §4.4).
+
+device: cuda:0
+exp_dir: ./experiments/train_inpainting_diffusion/step0_smoke
+
+checkpoint_path: null
+max_steps: 300000
+
+paths:
+  sd: ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  brushnet: ./pretrained_models/brushnet
+  # Stage-C W+ identity checkpoint (frozen档 mapper weights). See spec §4.2.
+  wplus_stage_c: /data/xzy/warpgan20260803/20260803/experiments/_wplus_identity_pretrain/checkpoints/iteration_50000.pt
+  dataset:
+    train: ./data/FFHQ-EG3D_all_static_rebalanced
+    test: ./data/celeba-hq_1000_static_rebalanced
+    synth: ./data/SynthData100000_rebalanced
+
+data:
+  batch_size: 1        # 512px diffusion stack precedent: bs=1 on 24GB
+  workers: 4
+  test_batch_size: 2
+  test_workers: 2
+  rebalanced: False    # orig default -> dataset.json
+  add_LPFF: False
+  synth:
+    able: True         # orig default: synth/real 1:1 alternation
+    zplus: False
+    batch_size: ${data.batch_size}
+
+gan:                   # WplusNet (GOAE encoder) for the latent closure loss only
+  device: ${device}
+  eg3d_type: plus_r
+  encoder_type: goae
+  psp:
+    n_styles: 14
+  goae:
+    mlp_layer: 2
+    cfg: ./configs/swinv2.yaml
+  state_dict_key: psp_state_dict
+  checkpoint_path: ./pretrained_models/inversion/gan_encoder.pt
+
+warp:
+  warp_ori_train: True   # 512x512
+  warp_ori_val: True
+  warp_pred: False       # orig default: pass2 warps the hybrid CONDITION, never the model output
+  hybrid: True           # orig default: hole filled with the complete inversion render
+  # NOTE: orig's erode_kernel/gaussian_blur_kernel are deliberately NOT ported
+  # (raw splatting mask; spec §2 — pixel erosion was falsified, 先验 4).
+
+wplus:
+  mode: frozen           # off | frozen | s1_mapper | s2_qkv  (spec §4.2 ladder)
+                         # off = "SD 之外零预训练"档：完全不注入 W+ tokens
+  gate_value: 3.0        # fixed tanh(3)≈0.995 constant injection (w-plus-adapter recipe)
+  init_from_stage_c: True  # frozen档 requires it; s1/s2 may restart from scratch
+
+reference:
+  use: True
+  use_mirror: False      # ablation #1 (Step 2): x_mirror rides RefNet in parallel
+                          # v2 (2026-08-24): INDEPENDENT K/V + gate tanh(0)=0 start
+                          # (v1 shared-gate token-concat destroyed BrushNet, §8.13)
+  gate_init: 0.5         # PRIMARY reference gate 0->0.5 init (先验 16)
+  mirror_gate_lr: 1.0e-4 # independent mirror gates: scalar, needs high lr
+  lr: 5.0e-6             # primary RefNet K/V/O adapters
+
+brushnet:
+  init: pretrained       # pretrained | from_unet | random
+                         #   pretrained = official inpainting ckpt (default, spec §4.1)
+                         #   from_unet  = official "train from scratch" recipe: copy SD
+                         #                UNet encoder (ONLY SD weights used)
+                         #   random     = fully random (no official precedent)
+  lr: 1.0e-5
+  use_8bit_adam: True
+  gradient_checkpointing: True
+
+losses:
+  eps_weight: 1.0
+  real_pass1:
+    # Weak epsilon anchor (spec §5.3) — the ONLY freedom beyond orig semantics.
+    visible_weight: 1.0  # target = Warper.inverse_warp(x)  (v2 contract, streak-free)
+    hole_weight: 0.1     # target = y_hat_novel @0.1 (ablation A: hole needs an anchor)
+  pixel:
+    max_timestep: 200    # self-gated low-t x0 single-step decode (FFC 1-step translation)
+    x0_clip: 3.0
+    resolution: 256      # latent-space resize then decode (memory precedent 15-17GB)
+    l1_weight: 10.0      # orig L1 weight_known (with_mask=False -> full frame)
+    resnet_pl_weight: 30.0
+    id_weight: 0.5
+    weights_path: ./pretrained_models/LaMa_perceptual_loss_models
+  latent:
+    weight: 0.1          # orig L1195-1200 faithful port (first time in diffusion port)
+  lpips:
+    weight: 0            # orig default: off
+  adversarial:
+    weight: 0            # default 0 (divergence prior); optional experiment, spec §4.4
+  feature_matching:
+    weight: 0
+
+log:
+  image_interval: 500
+  board_interval: 50
+  val_interval: 2000
+  save_interval: 2000
+  use_wandb: False
+
+smoke:
+  check: True            # Step-0 audit: loss terms non-zero / W+ grad-free / RefNet input / peak mem
+  fix_timestep: null     # e.g. 100 — force the low-t path so pixel & latent terms must fire
+
+###################################################
+
+defaults:
+  - _self_
+  - override hydra/hydra_logging: disabled
+  - override hydra/job_logging: disabled
+
+hydra:
+  output_subdir: null
+  run:
+    dir: .
