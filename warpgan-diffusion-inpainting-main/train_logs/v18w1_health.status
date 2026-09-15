@@ -1,0 +1,2703 @@
+===== 2026-09-10 02:52:43 =====
+[ctrl] alive=9 tracebacks=0 step 0
+[full] alive=9 tracebacks=0 step 0
+[struct] alive=9 tracebacks=0 step 0
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13652 MiB, 94 %
+[gpu] 3, 12304 MiB, 100 %
+===== 2026-09-10 03:02:44 =====
+[ctrl] alive=9 tracebacks=0 step 100
+[full] alive=9 tracebacks=0 step 150
+[struct] alive=9 tracebacks=0 step 200
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 78 %
+[gpu] 2, 13652 MiB, 100 %
+[gpu] 3, 12308 MiB, 100 %
+===== 2026-09-10 03:12:44 =====
+[ctrl] alive=9 tracebacks=0 step 150
+[full] alive=9 tracebacks=0 step 350
+[struct] alive=9 tracebacks=0 step 450
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13652 MiB, 100 %
+[gpu] 3, 12308 MiB, 97 %
+===== 2026-09-10 03:22:44 =====
+[ctrl] alive=9 tracebacks=0 step 250
+[full] alive=9 tracebacks=0 step 500
+[struct] alive=9 tracebacks=0 step 700
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13652 MiB, 100 %
+[gpu] 3, 12308 MiB, 100 %
+===== 2026-09-10 03:32:44 =====
+[ctrl] alive=9 tracebacks=0 step 300
+[full] alive=9 tracebacks=0 step 700
+[struct] alive=9 tracebacks=0 step 950
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 92 %
+[gpu] 2, 13652 MiB, 70 %
+[gpu] 3, 12308 MiB, 68 %
+===== 2026-09-10 03:42:45 =====
+[ctrl] alive=9 tracebacks=0 step 400
+[full] alive=9 tracebacks=0 step 850
+[struct] alive=9 tracebacks=0 step 1150
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13652 MiB, 76 %
+[gpu] 3, 12308 MiB, 100 %
+===== 2026-09-10 03:52:45 =====
+[ctrl] alive=9 tracebacks=0 step 500
+[full] alive=9 tracebacks=0 step 1000
+[struct] alive=9 tracebacks=0 step 1400
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13652 MiB, 100 %
+[gpu] 3, 12308 MiB, 100 %
+===== 2026-09-10 04:02:45 =====
+[ctrl] alive=9 tracebacks=0 step 550
+[full] alive=9 tracebacks=0 step 1200
+[struct] alive=9 tracebacks=0 step 1650
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13652 MiB, 100 %
+[gpu] 3, 12308 MiB, 100 %
+===== 2026-09-10 04:12:46 =====
+[ctrl] alive=9 tracebacks=0 step 650
+[full] alive=9 tracebacks=0 step 1350
+[struct] alive=9 tracebacks=0 step 1900
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13652 MiB, 64 %
+[gpu] 3, 12308 MiB, 97 %
+===== 2026-09-10 04:22:46 =====
+[ctrl] alive=9 tracebacks=0 step 700
+[full] alive=9 tracebacks=0 step 1550
+[struct] alive=9 tracebacks=0 step 2100
+[struct] [val step 1999] val_novel_full=0.3427 val_novel_hole=0.3205 val_novel_visible=0.3612
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13652 MiB, 63 %
+[gpu] 3, 12186 MiB, 85 %
+===== 2026-09-10 04:32:46 =====
+[ctrl] alive=9 tracebacks=0 step 800
+[full] alive=9 tracebacks=0 step 1700
+[struct] alive=9 tracebacks=0 step 2350
+[struct] [val step 1999] val_novel_full=0.3427 val_novel_hole=0.3205 val_novel_visible=0.3612
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13652 MiB, 100 %
+[gpu] 3, 12188 MiB, 100 %
+===== 2026-09-10 04:42:46 =====
+[ctrl] alive=9 tracebacks=0 step 900
+[full] alive=9 tracebacks=0 step 1900
+[struct] alive=9 tracebacks=0 step 2600
+[struct] [val step 1999] val_novel_full=0.3427 val_novel_hole=0.3205 val_novel_visible=0.3612
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13652 MiB, 62 %
+[gpu] 3, 12188 MiB, 95 %
+===== 2026-09-10 04:52:47 =====
+[ctrl] alive=9 tracebacks=0 step 950
+[full] alive=9 tracebacks=0 step 2050
+[full] [val step 1999] val_novel_full=0.3352 val_novel_hole=0.1788 val_novel_visible=0.3573
+[struct] alive=9 tracebacks=0 step 2800
+[struct] [val step 1999] val_novel_full=0.3427 val_novel_hole=0.3205 val_novel_visible=0.3612
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 97 %
+[gpu] 2, 13690 MiB, 100 %
+[gpu] 3, 12188 MiB, 100 %
+===== 2026-09-10 05:02:47 =====
+[ctrl] alive=9 tracebacks=0 step 1050
+[full] alive=9 tracebacks=0 step 2200
+[full] [val step 1999] val_novel_full=0.3352 val_novel_hole=0.1788 val_novel_visible=0.3573
+[struct] alive=9 tracebacks=0 step 3050
+[struct] [val step 1999] val_novel_full=0.3427 val_novel_hole=0.3205 val_novel_visible=0.3612
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13690 MiB, 100 %
+[gpu] 3, 12188 MiB, 96 %
+===== 2026-09-10 05:12:47 =====
+[ctrl] alive=9 tracebacks=0 step 1150
+[full] alive=9 tracebacks=0 step 2400
+[full] [val step 1999] val_novel_full=0.3352 val_novel_hole=0.1788 val_novel_visible=0.3573
+[struct] alive=9 tracebacks=0 step 3300
+[struct] [val step 1999] val_novel_full=0.3427 val_novel_hole=0.3205 val_novel_visible=0.3612
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 98 %
+[gpu] 2, 13690 MiB, 100 %
+[gpu] 3, 12188 MiB, 100 %
+===== 2026-09-10 05:22:47 =====
+[ctrl] alive=9 tracebacks=0 step 1200
+[full] alive=9 tracebacks=0 step 2550
+[full] [val step 1999] val_novel_full=0.3352 val_novel_hole=0.1788 val_novel_visible=0.3573
+[struct] alive=9 tracebacks=0 step 3550
+[struct] [val step 1999] val_novel_full=0.3427 val_novel_hole=0.3205 val_novel_visible=0.3612
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13690 MiB, 98 %
+[gpu] 3, 12188 MiB, 100 %
+===== 2026-09-10 05:32:48 =====
+[ctrl] alive=9 tracebacks=0 step 1300
+[full] alive=9 tracebacks=0 step 2750
+[full] [val step 1999] val_novel_full=0.3352 val_novel_hole=0.1788 val_novel_visible=0.3573
+[struct] alive=9 tracebacks=0 step 3750
+[struct] [val step 1999] val_novel_full=0.3427 val_novel_hole=0.3205 val_novel_visible=0.3612
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13690 MiB, 96 %
+[gpu] 3, 12188 MiB, 96 %
+===== 2026-09-10 05:42:48 =====
+[ctrl] alive=9 tracebacks=0 step 1400
+[full] alive=9 tracebacks=0 step 2900
+[full] [val step 1999] val_novel_full=0.3352 val_novel_hole=0.1788 val_novel_visible=0.3573
+[struct] alive=9 tracebacks=0 step 4000
+[struct] [val step 3999] val_novel_full=0.3215 val_novel_hole=0.2059 val_novel_visible=0.3424
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 100 %
+[gpu] 2, 13690 MiB, 72 %
+[gpu] 3, 17570 MiB, 79 %
+===== 2026-09-10 05:52:48 =====
+[ctrl] alive=9 tracebacks=0 step 1450
+[full] alive=9 tracebacks=0 step 3100
+[full] [val step 1999] val_novel_full=0.3352 val_novel_hole=0.1788 val_novel_visible=0.3573
+[struct] alive=9 tracebacks=0 step 4250
+[struct] [val step 3999] val_novel_full=0.3215 val_novel_hole=0.2059 val_novel_visible=0.3424
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 12522 MiB, 97 %
+[gpu] 2, 13690 MiB, 94 %
+[gpu] 3, 17570 MiB, 100 %
+===== 2026-09-10 06:02:49 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 3250
+[full] [val step 1999] val_novel_full=0.3352 val_novel_hole=0.1788 val_novel_visible=0.3573
+[struct] alive=9 tracebacks=0 step 4450
+[struct] [val step 3999] val_novel_full=0.3215 val_novel_hole=0.2059 val_novel_visible=0.3424
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 06:12:49 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 3450
+[full] [val step 1999] val_novel_full=0.3352 val_novel_hole=0.1788 val_novel_visible=0.3573
+[struct] alive=9 tracebacks=0 step 4700
+[struct] [val step 3999] val_novel_full=0.3215 val_novel_hole=0.2059 val_novel_visible=0.3424
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 06:22:49 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 3600
+[full] [val step 1999] val_novel_full=0.3352 val_novel_hole=0.1788 val_novel_visible=0.3573
+[struct] alive=9 tracebacks=0 step 4950
+[struct] [val step 3999] val_novel_full=0.3215 val_novel_hole=0.2059 val_novel_visible=0.3424
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 06:32:49 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 3800
+[full] [val step 1999] val_novel_full=0.3352 val_novel_hole=0.1788 val_novel_visible=0.3573
+[struct] alive=9 tracebacks=0 step 5200
+[struct] [val step 3999] val_novel_full=0.3215 val_novel_hole=0.2059 val_novel_visible=0.3424
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 06:42:50 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 3950
+[full] [val step 1999] val_novel_full=0.3352 val_novel_hole=0.1788 val_novel_visible=0.3573
+[struct] alive=9 tracebacks=0 step 5450
+[struct] [val step 3999] val_novel_full=0.3215 val_novel_hole=0.2059 val_novel_visible=0.3424
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 06:52:50 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 4100
+[full] [val step 3999] val_novel_full=0.3233 val_novel_hole=0.2556 val_novel_visible=0.3399
+[struct] alive=9 tracebacks=0 step 5650
+[struct] [val step 3999] val_novel_full=0.3215 val_novel_hole=0.2059 val_novel_visible=0.3424
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 07:02:50 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 4300
+[full] [val step 3999] val_novel_full=0.3233 val_novel_hole=0.2556 val_novel_visible=0.3399
+[struct] alive=9 tracebacks=0 step 5900
+[struct] [val step 3999] val_novel_full=0.3215 val_novel_hole=0.2059 val_novel_visible=0.3424
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 07:12:50 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 4450
+[full] [val step 3999] val_novel_full=0.3233 val_novel_hole=0.2556 val_novel_visible=0.3399
+[struct] alive=9 tracebacks=0 step 6150
+[struct] [val step 5999] val_novel_full=0.3330 val_novel_hole=0.2959 val_novel_visible=0.3513
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 07:22:51 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 4650
+[full] [val step 3999] val_novel_full=0.3233 val_novel_hole=0.2556 val_novel_visible=0.3399
+[struct] alive=9 tracebacks=0 step 6400
+[struct] [val step 5999] val_novel_full=0.3330 val_novel_hole=0.2959 val_novel_visible=0.3513
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 07:32:51 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 4800
+[full] [val step 3999] val_novel_full=0.3233 val_novel_hole=0.2556 val_novel_visible=0.3399
+[struct] alive=9 tracebacks=0 step 6600
+[struct] [val step 5999] val_novel_full=0.3330 val_novel_hole=0.2959 val_novel_visible=0.3513
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 07:42:51 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 5000
+[full] [val step 3999] val_novel_full=0.3233 val_novel_hole=0.2556 val_novel_visible=0.3399
+[struct] alive=9 tracebacks=0 step 6850
+[struct] [val step 5999] val_novel_full=0.3330 val_novel_hole=0.2959 val_novel_visible=0.3513
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 07:52:51 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 5150
+[full] [val step 3999] val_novel_full=0.3233 val_novel_hole=0.2556 val_novel_visible=0.3399
+[struct] alive=9 tracebacks=0 step 7100
+[struct] [val step 5999] val_novel_full=0.3330 val_novel_hole=0.2959 val_novel_visible=0.3513
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 08:02:52 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 5350
+[full] [val step 3999] val_novel_full=0.3233 val_novel_hole=0.2556 val_novel_visible=0.3399
+[struct] alive=9 tracebacks=0 step 7350
+[struct] [val step 5999] val_novel_full=0.3330 val_novel_hole=0.2959 val_novel_visible=0.3513
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 08:12:52 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 5500
+[full] [val step 3999] val_novel_full=0.3233 val_novel_hole=0.2556 val_novel_visible=0.3399
+[struct] alive=9 tracebacks=0 step 7550
+[struct] [val step 5999] val_novel_full=0.3330 val_novel_hole=0.2959 val_novel_visible=0.3513
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 08:22:52 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 5700
+[full] [val step 3999] val_novel_full=0.3233 val_novel_hole=0.2556 val_novel_visible=0.3399
+[struct] alive=9 tracebacks=0 step 7800
+[struct] [val step 5999] val_novel_full=0.3330 val_novel_hole=0.2959 val_novel_visible=0.3513
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 08:32:52 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 5850
+[full] [val step 3999] val_novel_full=0.3233 val_novel_hole=0.2556 val_novel_visible=0.3399
+[struct] alive=9 tracebacks=0 step 8050
+[struct] [val step 7999] val_novel_full=0.3101 val_novel_hole=0.2706 val_novel_visible=0.3295
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 08:42:53 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 6000
+[full] [val step 5999] val_novel_full=0.3045 val_novel_hole=0.2812 val_novel_visible=0.3240
+[struct] alive=9 tracebacks=0 step 8300
+[struct] [val step 7999] val_novel_full=0.3101 val_novel_hole=0.2706 val_novel_visible=0.3295
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 08:52:53 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 6200
+[full] [val step 5999] val_novel_full=0.3045 val_novel_hole=0.2812 val_novel_visible=0.3240
+[struct] alive=9 tracebacks=0 step 8500
+[struct] [val step 7999] val_novel_full=0.3101 val_novel_hole=0.2706 val_novel_visible=0.3295
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 09:02:53 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 6350
+[full] [val step 5999] val_novel_full=0.3045 val_novel_hole=0.2812 val_novel_visible=0.3240
+[struct] alive=9 tracebacks=0 step 8750
+[struct] [val step 7999] val_novel_full=0.3101 val_novel_hole=0.2706 val_novel_visible=0.3295
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 09:12:53 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 6550
+[full] [val step 5999] val_novel_full=0.3045 val_novel_hole=0.2812 val_novel_visible=0.3240
+[struct] alive=9 tracebacks=0 step 9000
+[struct] [val step 7999] val_novel_full=0.3101 val_novel_hole=0.2706 val_novel_visible=0.3295
+[gpu] Unable to determine the device handle for GPU0000:3B:00.0: Unknown Error
+===== 2026-09-10 09:22:54 =====
+[ctrl] alive=9 tracebacks=0 step 1500
+[full] alive=9 tracebacks=0 step 6700
+[full] [val step 5999] val_novel_full=0.3045 val_novel_hole=0.2812 val_novel_visible=0.3240
+[struct] alive=9 tracebacks=0 step 9250
+[struct] [val step 7999] val_novel_full=0.3101 val_novel_hole=0.2706 val_novel_visible=0.3295
+===== 2026-09-10 12:34:03 =====
+[ctrl] alive=1 tracebacks=0 step 1500
+[full] alive=1 tracebacks=0 step 8150
+[full] [val step 7999] val_novel_full=0.3001 val_novel_hole=0.2748 val_novel_visible=0.3212
+[struct] alive=1 tracebacks=0 step 11250
+[struct] [val step 9999] val_novel_full=0.3663 val_novel_hole=0.3351 val_novel_visible=0.3739
+[gpu] 0, 0 MiB, 0 %
+[gpu] 1, 0 MiB, 0 %
+[gpu] 2, 0 MiB, 0 %
+===== 2026-09-10 12:44:03 =====
+[ctrl] alive=9 tracebacks=0 step 150
+[full] alive=9 tracebacks=0 step 100
+[full] [val step 7999] val_novel_full=0.3001 val_novel_hole=0.2748 val_novel_visible=0.3212
+[struct] alive=9 tracebacks=0 step 10150
+[struct] [val step 9999] val_novel_full=0.3694 val_novel_hole=0.3489 val_novel_visible=0.3865
+[gpu] 0, 12384 MiB, 100 %
+[gpu] 1, 13736 MiB, 100 %
+[gpu] 2, 13964 MiB, 100 %
+===== 2026-09-10 12:54:03 =====
+[ctrl] alive=9 tracebacks=0 step 300
+[full] alive=9 tracebacks=0 step 300
+[full] [val step 7999] val_novel_full=0.3001 val_novel_hole=0.2748 val_novel_visible=0.3212
+[struct] alive=9 tracebacks=0 step 10400
+[struct] [val step 9999] val_novel_full=0.3694 val_novel_hole=0.3489 val_novel_visible=0.3865
+[gpu] 0, 12384 MiB, 100 %
+[gpu] 1, 13736 MiB, 100 %
+[gpu] 2, 13964 MiB, 96 %
+===== 2026-09-10 13:04:03 =====
+[ctrl] alive=9 tracebacks=0 step 500
+[full] alive=9 tracebacks=0 step 450
+[full] [val step 7999] val_novel_full=0.3001 val_novel_hole=0.2748 val_novel_visible=0.3212
+[struct] alive=9 tracebacks=0 step 10650
+[struct] [val step 9999] val_novel_full=0.3694 val_novel_hole=0.3489 val_novel_visible=0.3865
+[gpu] 0, 12384 MiB, 100 %
+[gpu] 1, 13736 MiB, 86 %
+[gpu] 2, 13964 MiB, 100 %
+===== 2026-09-10 13:14:04 =====
+[ctrl] alive=9 tracebacks=0 step 700
+[full] alive=9 tracebacks=0 step 650
+[full] [val step 7999] val_novel_full=0.3001 val_novel_hole=0.2748 val_novel_visible=0.3212
+[struct] alive=9 tracebacks=0 step 10850
+[struct] [val step 9999] val_novel_full=0.3694 val_novel_hole=0.3489 val_novel_visible=0.3865
+[gpu] 0, 12384 MiB, 100 %
+[gpu] 1, 13736 MiB, 96 %
+[gpu] 2, 13966 MiB, 100 %
+===== 2026-09-10 13:24:04 =====
+[ctrl] alive=9 tracebacks=0 step 850
+[full] alive=9 tracebacks=0 step 800
+[full] [val step 7999] val_novel_full=0.3001 val_novel_hole=0.2748 val_novel_visible=0.3212
+[struct] alive=9 tracebacks=0 step 11100
+[struct] [val step 9999] val_novel_full=0.3694 val_novel_hole=0.3489 val_novel_visible=0.3865
+[gpu] 0, 12384 MiB, 73 %
+[gpu] 1, 13736 MiB, 100 %
+[gpu] 2, 13966 MiB, 100 %
+===== 2026-09-10 13:34:04 =====
+[ctrl] alive=9 tracebacks=0 step 1050
+[full] alive=9 tracebacks=0 step 1000
+[full] [val step 7999] val_novel_full=0.3001 val_novel_hole=0.2748 val_novel_visible=0.3212
+[struct] alive=9 tracebacks=0 step 11350
+[struct] [val step 9999] val_novel_full=0.3694 val_novel_hole=0.3489 val_novel_visible=0.3865
+[gpu] 0, 12384 MiB, 100 %
+[gpu] 1, 13736 MiB, 100 %
+[gpu] 2, 13966 MiB, 100 %
+===== 2026-09-10 13:44:05 =====
+[ctrl] alive=9 tracebacks=0 step 1250
+[full] alive=9 tracebacks=0 step 1150
+[full] [val step 7999] val_novel_full=0.3001 val_novel_hole=0.2748 val_novel_visible=0.3212
+[struct] alive=9 tracebacks=0 step 11600
+[struct] [val step 9999] val_novel_full=0.3694 val_novel_hole=0.3489 val_novel_visible=0.3865
+[gpu] 0, 12384 MiB, 100 %
+[gpu] 1, 13736 MiB, 100 %
+[gpu] 2, 13966 MiB, 100 %
+===== 2026-09-10 13:54:05 =====
+[ctrl] alive=9 tracebacks=0 step 1450
+[full] alive=9 tracebacks=0 step 1350
+[full] [val step 7999] val_novel_full=0.3001 val_novel_hole=0.2748 val_novel_visible=0.3212
+[struct] alive=9 tracebacks=0 step 11800
+[struct] [val step 9999] val_novel_full=0.3694 val_novel_hole=0.3489 val_novel_visible=0.3865
+[gpu] 0, 12384 MiB, 100 %
+[gpu] 1, 13736 MiB, 100 %
+[gpu] 2, 13966 MiB, 100 %
+===== 2026-09-10 14:04:05 =====
+[ctrl] alive=9 tracebacks=0 step 1600
+[full] alive=9 tracebacks=0 step 1500
+[full] [val step 7999] val_novel_full=0.3001 val_novel_hole=0.2748 val_novel_visible=0.3212
+[struct] alive=9 tracebacks=0 step 12050
+[struct] [val step 11999] val_novel_full=0.3164 val_novel_hole=0.2755 val_novel_visible=0.3264
+[gpu] 0, 12384 MiB, 97 %
+[gpu] 1, 13736 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 14:14:05 =====
+[ctrl] alive=9 tracebacks=0 step 1800
+[full] alive=9 tracebacks=0 step 1650
+[full] [val step 7999] val_novel_full=0.3001 val_novel_hole=0.2748 val_novel_visible=0.3212
+[struct] alive=9 tracebacks=0 step 12300
+[struct] [val step 11999] val_novel_full=0.3164 val_novel_hole=0.2755 val_novel_visible=0.3264
+[gpu] 0, 12384 MiB, 100 %
+[gpu] 1, 13736 MiB, 100 %
+[gpu] 2, 16014 MiB, 97 %
+===== 2026-09-10 14:24:06 =====
+[ctrl] alive=9 tracebacks=0 step 1950
+[full] alive=9 tracebacks=0 step 1850
+[full] [val step 7999] val_novel_full=0.3001 val_novel_hole=0.2748 val_novel_visible=0.3212
+[struct] alive=9 tracebacks=0 step 12550
+[struct] [val step 11999] val_novel_full=0.3164 val_novel_hole=0.2755 val_novel_visible=0.3264
+[gpu] 0, 13340 MiB, 9 %
+[gpu] 1, 13736 MiB, 100 %
+[gpu] 2, 16014 MiB, 96 %
+===== 2026-09-10 14:34:06 =====
+[ctrl] alive=9 tracebacks=0 step 2150
+[ctrl] [val step 1999] val_novel_full=0.0615 val_novel_hole=0.0521 val_novel_visible=0.0673
+[full] alive=9 tracebacks=0 step 2000
+[full] [val step 1999] val_novel_full=0.3390 val_novel_hole=0.2159 val_novel_visible=0.3564
+[struct] alive=9 tracebacks=0 step 12750
+[struct] [val step 11999] val_novel_full=0.3164 val_novel_hole=0.2755 val_novel_visible=0.3264
+[gpu] 0, 12338 MiB, 95 %
+[gpu] 1, 14126 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 14:44:06 =====
+[ctrl] alive=9 tracebacks=0 step 2350
+[ctrl] [val step 1999] val_novel_full=0.0615 val_novel_hole=0.0521 val_novel_visible=0.0673
+[full] alive=9 tracebacks=0 step 2200
+[full] [val step 1999] val_novel_full=0.3390 val_novel_hole=0.2159 val_novel_visible=0.3564
+[struct] alive=9 tracebacks=0 step 13000
+[struct] [val step 11999] val_novel_full=0.3164 val_novel_hole=0.2755 val_novel_visible=0.3264
+[gpu] 0, 12338 MiB, 100 %
+[gpu] 1, 14126 MiB, 100 %
+[gpu] 2, 16014 MiB, 96 %
+===== 2026-09-10 14:54:06 =====
+[ctrl] alive=9 tracebacks=0 step 2500
+[ctrl] [val step 1999] val_novel_full=0.0615 val_novel_hole=0.0521 val_novel_visible=0.0673
+[full] alive=9 tracebacks=0 step 2350
+[full] [val step 1999] val_novel_full=0.3390 val_novel_hole=0.2159 val_novel_visible=0.3564
+[struct] alive=9 tracebacks=0 step 13250
+[struct] [val step 11999] val_novel_full=0.3164 val_novel_hole=0.2755 val_novel_visible=0.3264
+[gpu] 0, 17452 MiB, 100 %
+[gpu] 1, 14126 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 15:04:07 =====
+[ctrl] alive=9 tracebacks=0 step 2600
+[ctrl] [val step 1999] val_novel_full=0.0615 val_novel_hole=0.0521 val_novel_visible=0.0673
+[full] alive=9 tracebacks=0 step 2550
+[full] [val step 1999] val_novel_full=0.3390 val_novel_hole=0.2159 val_novel_visible=0.3564
+[struct] alive=9 tracebacks=0 step 13500
+[struct] [val step 11999] val_novel_full=0.3164 val_novel_hole=0.2755 val_novel_visible=0.3264
+[gpu] 0, 17452 MiB, 94 %
+[gpu] 1, 14126 MiB, 100 %
+[gpu] 2, 16014 MiB, 96 %
+===== 2026-09-10 15:14:07 =====
+[ctrl] alive=9 tracebacks=0 step 2750
+[ctrl] [val step 1999] val_novel_full=0.0615 val_novel_hole=0.0521 val_novel_visible=0.0673
+[full] alive=9 tracebacks=0 step 2700
+[full] [val step 1999] val_novel_full=0.3390 val_novel_hole=0.2159 val_novel_visible=0.3564
+[struct] alive=9 tracebacks=0 step 13700
+[struct] [val step 11999] val_novel_full=0.3164 val_novel_hole=0.2755 val_novel_visible=0.3264
+[gpu] 0, 17454 MiB, 100 %
+[gpu] 1, 14126 MiB, 100 %
+[gpu] 2, 16014 MiB, 96 %
+===== 2026-09-10 15:24:07 =====
+[ctrl] alive=9 tracebacks=0 step 2850
+[ctrl] [val step 1999] val_novel_full=0.0615 val_novel_hole=0.0521 val_novel_visible=0.0673
+[full] alive=9 tracebacks=0 step 2850
+[full] [val step 1999] val_novel_full=0.3390 val_novel_hole=0.2159 val_novel_visible=0.3564
+[struct] alive=9 tracebacks=0 step 13950
+[struct] [val step 11999] val_novel_full=0.3164 val_novel_hole=0.2755 val_novel_visible=0.3264
+[gpu] 0, 12338 MiB, 100 %
+[gpu] 1, 14126 MiB, 94 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 15:34:07 =====
+[ctrl] alive=9 tracebacks=0 step 3050
+[ctrl] [val step 1999] val_novel_full=0.0615 val_novel_hole=0.0521 val_novel_visible=0.0673
+[full] alive=9 tracebacks=0 step 3050
+[full] [val step 1999] val_novel_full=0.3390 val_novel_hole=0.2159 val_novel_visible=0.3564
+[struct] alive=9 tracebacks=0 step 14150
+[struct] [val step 13999] val_novel_full=0.3388 val_novel_hole=0.3028 val_novel_visible=0.3565
+[gpu] 0, 12338 MiB, 73 %
+[gpu] 1, 14126 MiB, 100 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 15:44:08 =====
+[ctrl] alive=9 tracebacks=0 step 3250
+[ctrl] [val step 1999] val_novel_full=0.0615 val_novel_hole=0.0521 val_novel_visible=0.0673
+[full] alive=9 tracebacks=0 step 3200
+[full] [val step 1999] val_novel_full=0.3390 val_novel_hole=0.2159 val_novel_visible=0.3564
+[struct] alive=9 tracebacks=0 step 14300
+[struct] [val step 13999] val_novel_full=0.3388 val_novel_hole=0.3028 val_novel_visible=0.3565
+[gpu] 0, 12338 MiB, 97 %
+[gpu] 1, 14126 MiB, 70 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 15:54:08 =====
+[ctrl] alive=9 tracebacks=0 step 3450
+[ctrl] [val step 1999] val_novel_full=0.0615 val_novel_hole=0.0521 val_novel_visible=0.0673
+[full] alive=9 tracebacks=0 step 3400
+[full] [val step 1999] val_novel_full=0.3390 val_novel_hole=0.2159 val_novel_visible=0.3564
+[struct] alive=9 tracebacks=0 step 14500
+[struct] [val step 13999] val_novel_full=0.3388 val_novel_hole=0.3028 val_novel_visible=0.3565
+[gpu] 0, 12338 MiB, 92 %
+[gpu] 1, 14126 MiB, 9 %
+[gpu] 2, 16014 MiB, 63 %
+===== 2026-09-10 16:04:08 =====
+[ctrl] alive=9 tracebacks=0 step 3600
+[ctrl] [val step 1999] val_novel_full=0.0615 val_novel_hole=0.0521 val_novel_visible=0.0673
+[full] alive=9 tracebacks=0 step 3550
+[full] [val step 1999] val_novel_full=0.3390 val_novel_hole=0.2159 val_novel_visible=0.3564
+[struct] alive=9 tracebacks=0 step 14750
+[struct] [val step 13999] val_novel_full=0.3388 val_novel_hole=0.3028 val_novel_visible=0.3565
+[gpu] 0, 12338 MiB, 100 %
+[gpu] 1, 14126 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 16:14:08 =====
+[ctrl] alive=9 tracebacks=0 step 3800
+[ctrl] [val step 1999] val_novel_full=0.0615 val_novel_hole=0.0521 val_novel_visible=0.0673
+[full] alive=9 tracebacks=0 step 3750
+[full] [val step 1999] val_novel_full=0.3390 val_novel_hole=0.2159 val_novel_visible=0.3564
+[struct] alive=9 tracebacks=0 step 15000
+[struct] [val step 13999] val_novel_full=0.3388 val_novel_hole=0.3028 val_novel_visible=0.3565
+[gpu] 0, 12338 MiB, 95 %
+[gpu] 1, 14126 MiB, 98 %
+[gpu] 2, 20040 MiB, 100 %
+===== 2026-09-10 16:24:09 =====
+[ctrl] alive=9 tracebacks=0 step 4000
+[ctrl] [val step 3999] val_novel_full=0.0490 val_novel_hole=0.0744 val_novel_visible=0.0428
+[full] alive=9 tracebacks=0 step 3900
+[full] [val step 1999] val_novel_full=0.3390 val_novel_hole=0.2159 val_novel_visible=0.3564
+[struct] alive=9 tracebacks=0 step 15200
+[struct] [val step 13999] val_novel_full=0.3388 val_novel_hole=0.3028 val_novel_visible=0.3565
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 14126 MiB, 100 %
+[gpu] 2, 20040 MiB, 100 %
+===== 2026-09-10 16:34:09 =====
+[ctrl] alive=9 tracebacks=0 step 4150
+[ctrl] [val step 3999] val_novel_full=0.0490 val_novel_hole=0.0744 val_novel_visible=0.0428
+[full] alive=9 tracebacks=0 step 4050
+[full] [val step 3999] val_novel_full=0.3081 val_novel_hole=0.2156 val_novel_visible=0.3308
+[struct] alive=9 tracebacks=0 step 15350
+[struct] [val step 13999] val_novel_full=0.3388 val_novel_hole=0.3028 val_novel_visible=0.3565
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 16:44:09 =====
+[ctrl] alive=9 tracebacks=0 step 4350
+[ctrl] [val step 3999] val_novel_full=0.0490 val_novel_hole=0.0744 val_novel_visible=0.0428
+[full] alive=9 tracebacks=0 step 4250
+[full] [val step 3999] val_novel_full=0.3081 val_novel_hole=0.2156 val_novel_visible=0.3308
+[struct] alive=9 tracebacks=0 step 15550
+[struct] [val step 13999] val_novel_full=0.3388 val_novel_hole=0.3028 val_novel_visible=0.3565
+[gpu] 0, 17720 MiB, 93 %
+[gpu] 1, 16174 MiB, 76 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 16:54:09 =====
+[ctrl] alive=9 tracebacks=0 step 4550
+[ctrl] [val step 3999] val_novel_full=0.0490 val_novel_hole=0.0744 val_novel_visible=0.0428
+[full] alive=9 tracebacks=0 step 4400
+[full] [val step 3999] val_novel_full=0.3081 val_novel_hole=0.2156 val_novel_visible=0.3308
+[struct] alive=9 tracebacks=0 step 15750
+[struct] [val step 13999] val_novel_full=0.3388 val_novel_hole=0.3028 val_novel_visible=0.3565
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 0 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 17:04:10 =====
+[ctrl] alive=9 tracebacks=0 step 4700
+[ctrl] [val step 3999] val_novel_full=0.0490 val_novel_hole=0.0744 val_novel_visible=0.0428
+[full] alive=9 tracebacks=0 step 4600
+[full] [val step 3999] val_novel_full=0.3081 val_novel_hole=0.2156 val_novel_visible=0.3308
+[struct] alive=9 tracebacks=0 step 15950
+[struct] [val step 13999] val_novel_full=0.3388 val_novel_hole=0.3028 val_novel_visible=0.3565
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 97 %
+===== 2026-09-10 17:14:10 =====
+[ctrl] alive=9 tracebacks=0 step 4900
+[ctrl] [val step 3999] val_novel_full=0.0490 val_novel_hole=0.0744 val_novel_visible=0.0428
+[full] alive=9 tracebacks=0 step 4750
+[full] [val step 3999] val_novel_full=0.3081 val_novel_hole=0.2156 val_novel_visible=0.3308
+[struct] alive=9 tracebacks=0 step 16100
+[struct] [val step 15999] val_novel_full=0.3071 val_novel_hole=0.2236 val_novel_visible=0.3222
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 95 %
+===== 2026-09-10 17:24:10 =====
+[ctrl] alive=9 tracebacks=0 step 5100
+[ctrl] [val step 3999] val_novel_full=0.0490 val_novel_hole=0.0744 val_novel_visible=0.0428
+[full] alive=9 tracebacks=0 step 4950
+[full] [val step 3999] val_novel_full=0.3081 val_novel_hole=0.2156 val_novel_visible=0.3308
+[struct] alive=9 tracebacks=0 step 16350
+[struct] [val step 15999] val_novel_full=0.3071 val_novel_hole=0.2236 val_novel_visible=0.3222
+[gpu] 0, 17720 MiB, 84 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 17:34:11 =====
+[ctrl] alive=9 tracebacks=0 step 5300
+[ctrl] [val step 3999] val_novel_full=0.0490 val_novel_hole=0.0744 val_novel_visible=0.0428
+[full] alive=9 tracebacks=0 step 5100
+[full] [val step 3999] val_novel_full=0.3081 val_novel_hole=0.2156 val_novel_visible=0.3308
+[struct] alive=9 tracebacks=0 step 16600
+[struct] [val step 15999] val_novel_full=0.3071 val_novel_hole=0.2236 val_novel_visible=0.3222
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 94 %
+[gpu] 2, 20040 MiB, 75 %
+===== 2026-09-10 17:44:11 =====
+[ctrl] alive=9 tracebacks=0 step 5450
+[ctrl] [val step 3999] val_novel_full=0.0490 val_novel_hole=0.0744 val_novel_visible=0.0428
+[full] alive=9 tracebacks=0 step 5300
+[full] [val step 3999] val_novel_full=0.3081 val_novel_hole=0.2156 val_novel_visible=0.3308
+[struct] alive=9 tracebacks=0 step 16750
+[struct] [val step 15999] val_novel_full=0.3071 val_novel_hole=0.2236 val_novel_visible=0.3222
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 0 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 17:54:11 =====
+[ctrl] alive=9 tracebacks=0 step 5650
+[ctrl] [val step 3999] val_novel_full=0.0490 val_novel_hole=0.0744 val_novel_visible=0.0428
+[full] alive=9 tracebacks=0 step 5450
+[full] [val step 3999] val_novel_full=0.3081 val_novel_hole=0.2156 val_novel_visible=0.3308
+[struct] alive=9 tracebacks=0 step 16950
+[struct] [val step 15999] val_novel_full=0.3071 val_novel_hole=0.2236 val_novel_visible=0.3222
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 18:04:11 =====
+[ctrl] alive=9 tracebacks=0 step 5850
+[ctrl] [val step 3999] val_novel_full=0.0490 val_novel_hole=0.0744 val_novel_visible=0.0428
+[full] alive=9 tracebacks=0 step 5650
+[full] [val step 3999] val_novel_full=0.3081 val_novel_hole=0.2156 val_novel_visible=0.3308
+[struct] alive=9 tracebacks=0 step 17150
+[struct] [val step 15999] val_novel_full=0.3071 val_novel_hole=0.2236 val_novel_visible=0.3222
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 77 %
+===== 2026-09-10 18:14:12 =====
+[ctrl] alive=9 tracebacks=0 step 6000
+[ctrl] [val step 5999] val_novel_full=0.0748 val_novel_hole=0.0636 val_novel_visible=0.0841
+[full] alive=9 tracebacks=0 step 5800
+[full] [val step 3999] val_novel_full=0.3081 val_novel_hole=0.2156 val_novel_visible=0.3308
+[struct] alive=9 tracebacks=0 step 17300
+[struct] [val step 15999] val_novel_full=0.3071 val_novel_hole=0.2236 val_novel_visible=0.3222
+[gpu] 0, 17720 MiB, 95 %
+[gpu] 1, 16174 MiB, 95 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 18:24:12 =====
+[ctrl] alive=9 tracebacks=0 step 6200
+[ctrl] [val step 5999] val_novel_full=0.0748 val_novel_hole=0.0636 val_novel_visible=0.0841
+[full] alive=9 tracebacks=0 step 5950
+[full] [val step 3999] val_novel_full=0.3081 val_novel_hole=0.2156 val_novel_visible=0.3308
+[struct] alive=9 tracebacks=0 step 17500
+[struct] [val step 15999] val_novel_full=0.3071 val_novel_hole=0.2236 val_novel_visible=0.3222
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 90 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 18:34:12 =====
+[ctrl] alive=9 tracebacks=0 step 6400
+[ctrl] [val step 5999] val_novel_full=0.0748 val_novel_hole=0.0636 val_novel_visible=0.0841
+[full] alive=9 tracebacks=0 step 6150
+[full] [val step 5999] val_novel_full=0.2578 val_novel_hole=0.2407 val_novel_visible=0.2721
+[struct] alive=9 tracebacks=0 step 17750
+[struct] [val step 15999] val_novel_full=0.3071 val_novel_hole=0.2236 val_novel_visible=0.3222
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 18:44:12 =====
+[ctrl] alive=9 tracebacks=0 step 6600
+[ctrl] [val step 5999] val_novel_full=0.0748 val_novel_hole=0.0636 val_novel_visible=0.0841
+[full] alive=9 tracebacks=0 step 6300
+[full] [val step 5999] val_novel_full=0.2578 val_novel_hole=0.2407 val_novel_visible=0.2721
+[struct] alive=9 tracebacks=0 step 17950
+[struct] [val step 15999] val_novel_full=0.3071 val_novel_hole=0.2236 val_novel_visible=0.3222
+[gpu] 0, 17720 MiB, 99 %
+[gpu] 1, 16174 MiB, 71 %
+[gpu] 2, 16014 MiB, 98 %
+===== 2026-09-10 18:54:13 =====
+[ctrl] alive=9 tracebacks=0 step 6750
+[ctrl] [val step 5999] val_novel_full=0.0748 val_novel_hole=0.0636 val_novel_visible=0.0841
+[full] alive=9 tracebacks=0 step 6500
+[full] [val step 5999] val_novel_full=0.2578 val_novel_hole=0.2407 val_novel_visible=0.2721
+[struct] alive=9 tracebacks=0 step 18200
+[struct] [val step 17999] val_novel_full=0.2820 val_novel_hole=0.2577 val_novel_visible=0.2925
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 71 %
+===== 2026-09-10 19:04:13 =====
+[ctrl] alive=9 tracebacks=0 step 6950
+[ctrl] [val step 5999] val_novel_full=0.0748 val_novel_hole=0.0636 val_novel_visible=0.0841
+[full] alive=9 tracebacks=0 step 6650
+[full] [val step 5999] val_novel_full=0.2578 val_novel_hole=0.2407 val_novel_visible=0.2721
+[struct] alive=9 tracebacks=0 step 18450
+[struct] [val step 17999] val_novel_full=0.2820 val_novel_hole=0.2577 val_novel_visible=0.2925
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 19:14:13 =====
+[ctrl] alive=9 tracebacks=0 step 7150
+[ctrl] [val step 5999] val_novel_full=0.0748 val_novel_hole=0.0636 val_novel_visible=0.0841
+[full] alive=9 tracebacks=0 step 6850
+[full] [val step 5999] val_novel_full=0.2578 val_novel_hole=0.2407 val_novel_visible=0.2721
+[struct] alive=9 tracebacks=0 step 18700
+[struct] [val step 17999] val_novel_full=0.2820 val_novel_hole=0.2577 val_novel_visible=0.2925
+[gpu] 0, 17720 MiB, 72 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 98 %
+===== 2026-09-10 19:24:14 =====
+[ctrl] alive=9 tracebacks=0 step 7350
+[ctrl] [val step 5999] val_novel_full=0.0748 val_novel_hole=0.0636 val_novel_visible=0.0841
+[full] alive=9 tracebacks=0 step 7000
+[full] [val step 5999] val_novel_full=0.2578 val_novel_hole=0.2407 val_novel_visible=0.2721
+[struct] alive=9 tracebacks=0 step 18900
+[struct] [val step 17999] val_novel_full=0.2820 val_novel_hole=0.2577 val_novel_visible=0.2925
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 97 %
+===== 2026-09-10 19:34:14 =====
+[ctrl] alive=9 tracebacks=0 step 7500
+[ctrl] [val step 5999] val_novel_full=0.0748 val_novel_hole=0.0636 val_novel_visible=0.0841
+[full] alive=9 tracebacks=0 step 7200
+[full] [val step 5999] val_novel_full=0.2578 val_novel_hole=0.2407 val_novel_visible=0.2721
+[struct] alive=9 tracebacks=0 step 19150
+[struct] [val step 17999] val_novel_full=0.2820 val_novel_hole=0.2577 val_novel_visible=0.2925
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 19:44:14 =====
+[ctrl] alive=9 tracebacks=0 step 7700
+[ctrl] [val step 5999] val_novel_full=0.0748 val_novel_hole=0.0636 val_novel_visible=0.0841
+[full] alive=9 tracebacks=0 step 7350
+[full] [val step 5999] val_novel_full=0.2578 val_novel_hole=0.2407 val_novel_visible=0.2721
+[struct] alive=9 tracebacks=0 step 19400
+[struct] [val step 17999] val_novel_full=0.2820 val_novel_hole=0.2577 val_novel_visible=0.2925
+[gpu] 0, 17720 MiB, 75 %
+[gpu] 1, 16174 MiB, 99 %
+[gpu] 2, 16014 MiB, 91 %
+===== 2026-09-10 19:54:14 =====
+[ctrl] alive=9 tracebacks=0 step 7900
+[ctrl] [val step 5999] val_novel_full=0.0748 val_novel_hole=0.0636 val_novel_visible=0.0841
+[full] alive=9 tracebacks=0 step 7500
+[full] [val step 5999] val_novel_full=0.2578 val_novel_hole=0.2407 val_novel_visible=0.2721
+[struct] alive=9 tracebacks=0 step 19650
+[struct] [val step 17999] val_novel_full=0.2820 val_novel_hole=0.2577 val_novel_visible=0.2925
+[gpu] 0, 17720 MiB, 99 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 98 %
+===== 2026-09-10 20:04:15 =====
+[ctrl] alive=9 tracebacks=0 step 8050
+[ctrl] [val step 7999] val_novel_full=0.0965 val_novel_hole=0.0991 val_novel_visible=0.0931
+[full] alive=9 tracebacks=0 step 7700
+[full] [val step 5999] val_novel_full=0.2578 val_novel_hole=0.2407 val_novel_visible=0.2721
+[struct] alive=9 tracebacks=0 step 19850
+[struct] [val step 17999] val_novel_full=0.2820 val_novel_hole=0.2577 val_novel_visible=0.2925
+[gpu] 0, 17720 MiB, 97 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 20:14:15 =====
+[ctrl] alive=9 tracebacks=0 step 8250
+[ctrl] [val step 7999] val_novel_full=0.0965 val_novel_hole=0.0991 val_novel_visible=0.0931
+[full] alive=9 tracebacks=0 step 7850
+[full] [val step 5999] val_novel_full=0.2578 val_novel_hole=0.2407 val_novel_visible=0.2721
+[struct] alive=9 tracebacks=0 step 20050
+[struct] [val step 19999] val_novel_full=0.3336 val_novel_hole=0.3098 val_novel_visible=0.3483
+[gpu] 0, 17720 MiB, 95 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 83 %
+===== 2026-09-10 20:24:15 =====
+[ctrl] alive=9 tracebacks=0 step 8450
+[ctrl] [val step 7999] val_novel_full=0.0965 val_novel_hole=0.0991 val_novel_visible=0.0931
+[full] alive=9 tracebacks=0 step 8050
+[full] [val step 7999] val_novel_full=0.2492 val_novel_hole=0.2137 val_novel_visible=0.2788
+[struct] alive=9 tracebacks=0 step 20250
+[struct] [val step 19999] val_novel_full=0.3336 val_novel_hole=0.3098 val_novel_visible=0.3483
+[gpu] 0, 17720 MiB, 94 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 96 %
+===== 2026-09-10 20:34:15 =====
+[ctrl] alive=9 tracebacks=0 step 8650
+[ctrl] [val step 7999] val_novel_full=0.0965 val_novel_hole=0.0991 val_novel_visible=0.0931
+[full] alive=9 tracebacks=0 step 8200
+[full] [val step 7999] val_novel_full=0.2492 val_novel_hole=0.2137 val_novel_visible=0.2788
+[struct] alive=9 tracebacks=0 step 20450
+[struct] [val step 19999] val_novel_full=0.3336 val_novel_hole=0.3098 val_novel_visible=0.3483
+[gpu] 0, 17720 MiB, 63 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 20:44:16 =====
+[ctrl] alive=9 tracebacks=0 step 8800
+[ctrl] [val step 7999] val_novel_full=0.0965 val_novel_hole=0.0991 val_novel_visible=0.0931
+[full] alive=9 tracebacks=0 step 8400
+[full] [val step 7999] val_novel_full=0.2492 val_novel_hole=0.2137 val_novel_visible=0.2788
+[struct] alive=9 tracebacks=0 step 20650
+[struct] [val step 19999] val_novel_full=0.3336 val_novel_hole=0.3098 val_novel_visible=0.3483
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 20:54:16 =====
+[ctrl] alive=9 tracebacks=0 step 9000
+[ctrl] [val step 7999] val_novel_full=0.0965 val_novel_hole=0.0991 val_novel_visible=0.0931
+[full] alive=9 tracebacks=0 step 8550
+[full] [val step 7999] val_novel_full=0.2492 val_novel_hole=0.2137 val_novel_visible=0.2788
+[struct] alive=9 tracebacks=0 step 20800
+[struct] [val step 19999] val_novel_full=0.3336 val_novel_hole=0.3098 val_novel_visible=0.3483
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 98 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 21:04:16 =====
+[ctrl] alive=9 tracebacks=0 step 9200
+[ctrl] [val step 7999] val_novel_full=0.0965 val_novel_hole=0.0991 val_novel_visible=0.0931
+[full] alive=9 tracebacks=0 step 8700
+[full] [val step 7999] val_novel_full=0.2492 val_novel_hole=0.2137 val_novel_visible=0.2788
+[struct] alive=9 tracebacks=0 step 21000
+[struct] [val step 19999] val_novel_full=0.3336 val_novel_hole=0.3098 val_novel_visible=0.3483
+[gpu] 0, 17720 MiB, 97 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 21:14:17 =====
+[ctrl] alive=9 tracebacks=0 step 9400
+[ctrl] [val step 7999] val_novel_full=0.0965 val_novel_hole=0.0991 val_novel_visible=0.0931
+[full] alive=9 tracebacks=0 step 8900
+[full] [val step 7999] val_novel_full=0.2492 val_novel_hole=0.2137 val_novel_visible=0.2788
+[struct] alive=9 tracebacks=0 step 21250
+[struct] [val step 19999] val_novel_full=0.3336 val_novel_hole=0.3098 val_novel_visible=0.3483
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 21:24:17 =====
+[ctrl] alive=9 tracebacks=0 step 9550
+[ctrl] [val step 7999] val_novel_full=0.0965 val_novel_hole=0.0991 val_novel_visible=0.0931
+[full] alive=9 tracebacks=0 step 9050
+[full] [val step 7999] val_novel_full=0.2492 val_novel_hole=0.2137 val_novel_visible=0.2788
+[struct] alive=9 tracebacks=0 step 21500
+[struct] [val step 19999] val_novel_full=0.3336 val_novel_hole=0.3098 val_novel_visible=0.3483
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 72 %
+===== 2026-09-10 21:34:17 =====
+[ctrl] alive=9 tracebacks=0 step 9750
+[ctrl] [val step 7999] val_novel_full=0.0965 val_novel_hole=0.0991 val_novel_visible=0.0931
+[full] alive=9 tracebacks=0 step 9250
+[full] [val step 7999] val_novel_full=0.2492 val_novel_hole=0.2137 val_novel_visible=0.2788
+[struct] alive=9 tracebacks=0 step 21750
+[struct] [val step 19999] val_novel_full=0.3336 val_novel_hole=0.3098 val_novel_visible=0.3483
+[gpu] 0, 17720 MiB, 95 %
+[gpu] 1, 16174 MiB, 99 %
+[gpu] 2, 17594 MiB, 100 %
+===== 2026-09-10 21:44:17 =====
+[ctrl] alive=9 tracebacks=0 step 9950
+[ctrl] [val step 7999] val_novel_full=0.0965 val_novel_hole=0.0991 val_novel_visible=0.0931
+[full] alive=9 tracebacks=0 step 9400
+[full] [val step 7999] val_novel_full=0.2492 val_novel_hole=0.2137 val_novel_visible=0.2788
+[struct] alive=9 tracebacks=0 step 21900
+[struct] [val step 19999] val_novel_full=0.3336 val_novel_hole=0.3098 val_novel_visible=0.3483
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 21:54:18 =====
+[ctrl] alive=9 tracebacks=0 step 10100
+[ctrl] [val step 9999] val_novel_full=0.0723 val_novel_hole=0.1176 val_novel_visible=0.0500
+[full] alive=9 tracebacks=0 step 9600
+[full] [val step 7999] val_novel_full=0.2492 val_novel_hole=0.2137 val_novel_visible=0.2788
+[struct] alive=9 tracebacks=0 step 22100
+[struct] [val step 21999] val_novel_full=0.2941 val_novel_hole=0.2355 val_novel_visible=0.3113
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 22:04:18 =====
+[ctrl] alive=9 tracebacks=0 step 10300
+[ctrl] [val step 9999] val_novel_full=0.0723 val_novel_hole=0.1176 val_novel_visible=0.0500
+[full] alive=9 tracebacks=0 step 9750
+[full] [val step 7999] val_novel_full=0.2492 val_novel_hole=0.2137 val_novel_visible=0.2788
+[struct] alive=9 tracebacks=0 step 22300
+[struct] [val step 21999] val_novel_full=0.2941 val_novel_hole=0.2355 val_novel_visible=0.3113
+[gpu] 0, 17720 MiB, 95 %
+[gpu] 1, 16174 MiB, 96 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 22:14:18 =====
+[ctrl] alive=9 tracebacks=0 step 10500
+[ctrl] [val step 9999] val_novel_full=0.0723 val_novel_hole=0.1176 val_novel_visible=0.0500
+[full] alive=9 tracebacks=0 step 9950
+[full] [val step 7999] val_novel_full=0.2492 val_novel_hole=0.2137 val_novel_visible=0.2788
+[struct] alive=9 tracebacks=0 step 22450
+[struct] [val step 21999] val_novel_full=0.2941 val_novel_hole=0.2355 val_novel_visible=0.3113
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 16174 MiB, 88 %
+[gpu] 2, 20048 MiB, 77 %
+===== 2026-09-10 22:24:19 =====
+[ctrl] alive=9 tracebacks=0 step 10700
+[ctrl] [val step 9999] val_novel_full=0.0723 val_novel_hole=0.1176 val_novel_visible=0.0500
+[full] alive=9 tracebacks=0 step 10100
+[full] [val step 9999] val_novel_full=0.2352 val_novel_hole=0.1509 val_novel_visible=0.2600
+[struct] alive=9 tracebacks=0 step 22650
+[struct] [val step 21999] val_novel_full=0.2941 val_novel_hole=0.2355 val_novel_visible=0.3113
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-10 22:34:19 =====
+[ctrl] alive=9 tracebacks=0 step 10850
+[ctrl] [val step 9999] val_novel_full=0.0723 val_novel_hole=0.1176 val_novel_visible=0.0500
+[full] alive=9 tracebacks=0 step 10250
+[full] [val step 9999] val_novel_full=0.2352 val_novel_hole=0.1509 val_novel_visible=0.2600
+[struct] alive=9 tracebacks=0 step 22900
+[struct] [val step 21999] val_novel_full=0.2941 val_novel_hole=0.2355 val_novel_visible=0.3113
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 97 %
+===== 2026-09-10 22:44:19 =====
+[ctrl] alive=9 tracebacks=0 step 11050
+[ctrl] [val step 9999] val_novel_full=0.0723 val_novel_hole=0.1176 val_novel_visible=0.0500
+[full] alive=9 tracebacks=0 step 10450
+[full] [val step 9999] val_novel_full=0.2352 val_novel_hole=0.1509 val_novel_visible=0.2600
+[struct] alive=9 tracebacks=0 step 23100
+[struct] [val step 21999] val_novel_full=0.2941 val_novel_hole=0.2355 val_novel_visible=0.3113
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 62 %
+===== 2026-09-10 22:54:19 =====
+[ctrl] alive=9 tracebacks=0 step 11250
+[ctrl] [val step 9999] val_novel_full=0.0723 val_novel_hole=0.1176 val_novel_visible=0.0500
+[full] alive=9 tracebacks=0 step 10600
+[full] [val step 9999] val_novel_full=0.2352 val_novel_hole=0.1509 val_novel_visible=0.2600
+[struct] alive=9 tracebacks=0 step 23350
+[struct] [val step 21999] val_novel_full=0.2941 val_novel_hole=0.2355 val_novel_visible=0.3113
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 96 %
+[gpu] 2, 16014 MiB, 64 %
+===== 2026-09-10 23:04:20 =====
+[ctrl] alive=9 tracebacks=0 step 11450
+[ctrl] [val step 9999] val_novel_full=0.0723 val_novel_hole=0.1176 val_novel_visible=0.0500
+[full] alive=9 tracebacks=0 step 10800
+[full] [val step 9999] val_novel_full=0.2352 val_novel_hole=0.1509 val_novel_visible=0.2600
+[struct] alive=9 tracebacks=0 step 23600
+[struct] [val step 21999] val_novel_full=0.2941 val_novel_hole=0.2355 val_novel_visible=0.3113
+[gpu] 0, 17720 MiB, 74 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 74 %
+===== 2026-09-10 23:14:20 =====
+[ctrl] alive=9 tracebacks=0 step 11600
+[ctrl] [val step 9999] val_novel_full=0.0723 val_novel_hole=0.1176 val_novel_visible=0.0500
+[full] alive=9 tracebacks=0 step 10950
+[full] [val step 9999] val_novel_full=0.2352 val_novel_hole=0.1509 val_novel_visible=0.2600
+[struct] alive=9 tracebacks=0 step 23850
+[struct] [val step 21999] val_novel_full=0.2941 val_novel_hole=0.2355 val_novel_visible=0.3113
+[gpu] 0, 17720 MiB, 77 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 82 %
+===== 2026-09-10 23:24:20 =====
+[ctrl] alive=9 tracebacks=0 step 11800
+[ctrl] [val step 9999] val_novel_full=0.0723 val_novel_hole=0.1176 val_novel_visible=0.0500
+[full] alive=9 tracebacks=0 step 11150
+[full] [val step 9999] val_novel_full=0.2352 val_novel_hole=0.1509 val_novel_visible=0.2600
+[struct] alive=9 tracebacks=0 step 24050
+[struct] [val step 23999] val_novel_full=0.3144 val_novel_hole=0.2883 val_novel_visible=0.3362
+[gpu] 0, 17720 MiB, 98 %
+[gpu] 1, 16174 MiB, 95 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 23:34:21 =====
+[ctrl] alive=9 tracebacks=0 step 12000
+[ctrl] [val step 11999] val_novel_full=0.0450 val_novel_hole=0.0531 val_novel_visible=0.0427
+[full] alive=9 tracebacks=0 step 11300
+[full] [val step 9999] val_novel_full=0.2352 val_novel_hole=0.1509 val_novel_visible=0.2600
+[struct] alive=9 tracebacks=0 step 24300
+[struct] [val step 23999] val_novel_full=0.3144 val_novel_hole=0.2883 val_novel_visible=0.3362
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-10 23:44:21 =====
+[ctrl] alive=9 tracebacks=0 step 12200
+[ctrl] [val step 11999] val_novel_full=0.0450 val_novel_hole=0.0531 val_novel_visible=0.0427
+[full] alive=9 tracebacks=0 step 11500
+[full] [val step 9999] val_novel_full=0.2352 val_novel_hole=0.1509 val_novel_visible=0.2600
+[struct] alive=9 tracebacks=0 step 24550
+[struct] [val step 23999] val_novel_full=0.3144 val_novel_hole=0.2883 val_novel_visible=0.3362
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 65 %
+===== 2026-09-10 23:54:21 =====
+[ctrl] alive=9 tracebacks=0 step 12350
+[ctrl] [val step 11999] val_novel_full=0.0450 val_novel_hole=0.0531 val_novel_visible=0.0427
+[full] alive=9 tracebacks=0 step 11650
+[full] [val step 9999] val_novel_full=0.2352 val_novel_hole=0.1509 val_novel_visible=0.2600
+[struct] alive=9 tracebacks=0 step 24750
+[struct] [val step 23999] val_novel_full=0.3144 val_novel_hole=0.2883 val_novel_visible=0.3362
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 71 %
+===== 2026-09-11 00:04:21 =====
+[ctrl] alive=9 tracebacks=0 step 12550
+[ctrl] [val step 11999] val_novel_full=0.0450 val_novel_hole=0.0531 val_novel_visible=0.0427
+[full] alive=9 tracebacks=0 step 11850
+[full] [val step 9999] val_novel_full=0.2352 val_novel_hole=0.1509 val_novel_visible=0.2600
+[struct] alive=9 tracebacks=0 step 25000
+[struct] [val step 23999] val_novel_full=0.3144 val_novel_hole=0.2883 val_novel_visible=0.3362
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 00:14:22 =====
+[ctrl] alive=9 tracebacks=0 step 12750
+[ctrl] [val step 11999] val_novel_full=0.0450 val_novel_hole=0.0531 val_novel_visible=0.0427
+[full] alive=9 tracebacks=0 step 12000
+[full] [val step 11999] val_novel_full=0.2746 val_novel_hole=0.1499 val_novel_visible=0.2972
+[struct] alive=9 tracebacks=0 step 25250
+[struct] [val step 23999] val_novel_full=0.3144 val_novel_hole=0.2883 val_novel_visible=0.3362
+[gpu] 0, 17720 MiB, 97 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 00:24:22 =====
+[ctrl] alive=9 tracebacks=0 step 12950
+[ctrl] [val step 11999] val_novel_full=0.0450 val_novel_hole=0.0531 val_novel_visible=0.0427
+[full] alive=9 tracebacks=0 step 12150
+[full] [val step 11999] val_novel_full=0.2746 val_novel_hole=0.1499 val_novel_visible=0.2972
+[struct] alive=9 tracebacks=0 step 25500
+[struct] [val step 23999] val_novel_full=0.3144 val_novel_hole=0.2883 val_novel_visible=0.3362
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 95 %
+===== 2026-09-11 00:34:22 =====
+[ctrl] alive=9 tracebacks=0 step 13100
+[ctrl] [val step 11999] val_novel_full=0.0450 val_novel_hole=0.0531 val_novel_visible=0.0427
+[full] alive=9 tracebacks=0 step 12350
+[full] [val step 11999] val_novel_full=0.2746 val_novel_hole=0.1499 val_novel_visible=0.2972
+[struct] alive=9 tracebacks=0 step 25700
+[struct] [val step 23999] val_novel_full=0.3144 val_novel_hole=0.2883 val_novel_visible=0.3362
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 78 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 00:44:23 =====
+[ctrl] alive=9 tracebacks=0 step 13300
+[ctrl] [val step 11999] val_novel_full=0.0450 val_novel_hole=0.0531 val_novel_visible=0.0427
+[full] alive=9 tracebacks=0 step 12500
+[full] [val step 11999] val_novel_full=0.2746 val_novel_hole=0.1499 val_novel_visible=0.2972
+[struct] alive=9 tracebacks=0 step 25950
+[struct] [val step 23999] val_novel_full=0.3144 val_novel_hole=0.2883 val_novel_visible=0.3362
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 00:54:23 =====
+[ctrl] alive=9 tracebacks=0 step 13500
+[ctrl] [val step 11999] val_novel_full=0.0450 val_novel_hole=0.0531 val_novel_visible=0.0427
+[full] alive=9 tracebacks=0 step 12700
+[full] [val step 11999] val_novel_full=0.2746 val_novel_hole=0.1499 val_novel_visible=0.2972
+[struct] alive=9 tracebacks=0 step 26200
+[struct] [val step 25999] val_novel_full=0.3006 val_novel_hole=0.2760 val_novel_visible=0.3212
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 01:04:23 =====
+[ctrl] alive=9 tracebacks=0 step 13700
+[ctrl] [val step 11999] val_novel_full=0.0450 val_novel_hole=0.0531 val_novel_visible=0.0427
+[full] alive=9 tracebacks=0 step 12850
+[full] [val step 11999] val_novel_full=0.2746 val_novel_hole=0.1499 val_novel_visible=0.2972
+[struct] alive=9 tracebacks=0 step 26450
+[struct] [val step 25999] val_novel_full=0.3006 val_novel_hole=0.2760 val_novel_visible=0.3212
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 01:14:23 =====
+[ctrl] alive=9 tracebacks=0 step 13850
+[ctrl] [val step 11999] val_novel_full=0.0450 val_novel_hole=0.0531 val_novel_visible=0.0427
+[full] alive=9 tracebacks=0 step 13050
+[full] [val step 11999] val_novel_full=0.2746 val_novel_hole=0.1499 val_novel_visible=0.2972
+[struct] alive=9 tracebacks=0 step 26650
+[struct] [val step 25999] val_novel_full=0.3006 val_novel_hole=0.2760 val_novel_visible=0.3212
+[gpu] 0, 17720 MiB, 77 %
+[gpu] 1, 16174 MiB, 88 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 01:24:24 =====
+[ctrl] alive=9 tracebacks=0 step 14050
+[ctrl] [val step 13999] val_novel_full=0.0384 val_novel_hole=0.0479 val_novel_visible=0.0367
+[full] alive=9 tracebacks=0 step 13200
+[full] [val step 11999] val_novel_full=0.2746 val_novel_hole=0.1499 val_novel_visible=0.2972
+[struct] alive=9 tracebacks=0 step 26900
+[struct] [val step 25999] val_novel_full=0.3006 val_novel_hole=0.2760 val_novel_visible=0.3212
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 01:34:24 =====
+[ctrl] alive=9 tracebacks=0 step 14250
+[ctrl] [val step 13999] val_novel_full=0.0384 val_novel_hole=0.0479 val_novel_visible=0.0367
+[full] alive=9 tracebacks=0 step 13400
+[full] [val step 11999] val_novel_full=0.2746 val_novel_hole=0.1499 val_novel_visible=0.2972
+[struct] alive=9 tracebacks=0 step 27150
+[struct] [val step 25999] val_novel_full=0.3006 val_novel_hole=0.2760 val_novel_visible=0.3212
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 61 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 01:44:24 =====
+[ctrl] alive=9 tracebacks=0 step 14450
+[ctrl] [val step 13999] val_novel_full=0.0384 val_novel_hole=0.0479 val_novel_visible=0.0367
+[full] alive=9 tracebacks=0 step 13550
+[full] [val step 11999] val_novel_full=0.2746 val_novel_hole=0.1499 val_novel_visible=0.2972
+[struct] alive=9 tracebacks=0 step 27400
+[struct] [val step 25999] val_novel_full=0.3006 val_novel_hole=0.2760 val_novel_visible=0.3212
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 85 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 01:54:25 =====
+[ctrl] alive=9 tracebacks=0 step 14600
+[ctrl] [val step 13999] val_novel_full=0.0384 val_novel_hole=0.0479 val_novel_visible=0.0367
+[full] alive=9 tracebacks=0 step 13750
+[full] [val step 11999] val_novel_full=0.2746 val_novel_hole=0.1499 val_novel_visible=0.2972
+[struct] alive=9 tracebacks=0 step 27600
+[struct] [val step 25999] val_novel_full=0.3006 val_novel_hole=0.2760 val_novel_visible=0.3212
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 02:04:25 =====
+[ctrl] alive=9 tracebacks=0 step 14800
+[ctrl] [val step 13999] val_novel_full=0.0384 val_novel_hole=0.0479 val_novel_visible=0.0367
+[full] alive=9 tracebacks=0 step 13900
+[full] [val step 11999] val_novel_full=0.2746 val_novel_hole=0.1499 val_novel_visible=0.2972
+[struct] alive=9 tracebacks=0 step 27850
+[struct] [val step 25999] val_novel_full=0.3006 val_novel_hole=0.2760 val_novel_visible=0.3212
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 02:14:25 =====
+[ctrl] alive=9 tracebacks=0 step 15000
+[ctrl] [val step 13999] val_novel_full=0.0384 val_novel_hole=0.0479 val_novel_visible=0.0367
+[full] alive=9 tracebacks=0 step 14050
+[full] [val step 13999] val_novel_full=0.2553 val_novel_hole=0.2349 val_novel_visible=0.2810
+[struct] alive=9 tracebacks=0 step 28100
+[struct] [val step 27999] val_novel_full=0.2958 val_novel_hole=0.2616 val_novel_visible=0.3169
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 69 %
+[gpu] 2, 16014 MiB, 68 %
+===== 2026-09-11 02:24:25 =====
+[ctrl] alive=9 tracebacks=0 step 15200
+[ctrl] [val step 13999] val_novel_full=0.0384 val_novel_hole=0.0479 val_novel_visible=0.0367
+[full] alive=9 tracebacks=0 step 14250
+[full] [val step 13999] val_novel_full=0.2553 val_novel_hole=0.2349 val_novel_visible=0.2810
+[struct] alive=9 tracebacks=0 step 28300
+[struct] [val step 27999] val_novel_full=0.2958 val_novel_hole=0.2616 val_novel_visible=0.3169
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 02:34:26 =====
+[ctrl] alive=9 tracebacks=0 step 15350
+[ctrl] [val step 13999] val_novel_full=0.0384 val_novel_hole=0.0479 val_novel_visible=0.0367
+[full] alive=9 tracebacks=0 step 14400
+[full] [val step 13999] val_novel_full=0.2553 val_novel_hole=0.2349 val_novel_visible=0.2810
+[struct] alive=9 tracebacks=0 step 28550
+[struct] [val step 27999] val_novel_full=0.2958 val_novel_hole=0.2616 val_novel_visible=0.3169
+[gpu] 0, 17720 MiB, 98 %
+[gpu] 1, 16174 MiB, 96 %
+[gpu] 2, 16014 MiB, 87 %
+===== 2026-09-11 02:44:26 =====
+[ctrl] alive=9 tracebacks=0 step 15550
+[ctrl] [val step 13999] val_novel_full=0.0384 val_novel_hole=0.0479 val_novel_visible=0.0367
+[full] alive=9 tracebacks=0 step 14600
+[full] [val step 13999] val_novel_full=0.2553 val_novel_hole=0.2349 val_novel_visible=0.2810
+[struct] alive=9 tracebacks=0 step 28800
+[struct] [val step 27999] val_novel_full=0.2958 val_novel_hole=0.2616 val_novel_visible=0.3169
+[gpu] 0, 17720 MiB, 85 %
+[gpu] 1, 16174 MiB, 97 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 02:54:26 =====
+[ctrl] alive=9 tracebacks=0 step 15750
+[ctrl] [val step 13999] val_novel_full=0.0384 val_novel_hole=0.0479 val_novel_visible=0.0367
+[full] alive=9 tracebacks=0 step 14750
+[full] [val step 13999] val_novel_full=0.2553 val_novel_hole=0.2349 val_novel_visible=0.2810
+[struct] alive=9 tracebacks=0 step 29050
+[struct] [val step 27999] val_novel_full=0.2958 val_novel_hole=0.2616 val_novel_visible=0.3169
+[gpu] 0, 17720 MiB, 70 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 03:04:27 =====
+[ctrl] alive=9 tracebacks=0 step 15950
+[ctrl] [val step 13999] val_novel_full=0.0384 val_novel_hole=0.0479 val_novel_visible=0.0367
+[full] alive=9 tracebacks=0 step 14950
+[full] [val step 13999] val_novel_full=0.2553 val_novel_hole=0.2349 val_novel_visible=0.2810
+[struct] alive=9 tracebacks=0 step 29250
+[struct] [val step 27999] val_novel_full=0.2958 val_novel_hole=0.2616 val_novel_visible=0.3169
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 96 %
+===== 2026-09-11 03:14:27 =====
+[ctrl] alive=9 tracebacks=0 step 16100
+[ctrl] [val step 15999] val_novel_full=0.0447 val_novel_hole=0.0519 val_novel_visible=0.0426
+[full] alive=9 tracebacks=0 step 15100
+[full] [val step 13999] val_novel_full=0.2553 val_novel_hole=0.2349 val_novel_visible=0.2810
+[struct] alive=9 tracebacks=0 step 29500
+[struct] [val step 27999] val_novel_full=0.2958 val_novel_hole=0.2616 val_novel_visible=0.3169
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 03:24:27 =====
+[ctrl] alive=9 tracebacks=0 step 16300
+[ctrl] [val step 15999] val_novel_full=0.0447 val_novel_hole=0.0519 val_novel_visible=0.0426
+[full] alive=9 tracebacks=0 step 15300
+[full] [val step 13999] val_novel_full=0.2553 val_novel_hole=0.2349 val_novel_visible=0.2810
+[struct] alive=9 tracebacks=0 step 29750
+[struct] [val step 27999] val_novel_full=0.2958 val_novel_hole=0.2616 val_novel_visible=0.3169
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 71 %
+===== 2026-09-11 03:34:27 =====
+[ctrl] alive=9 tracebacks=0 step 16500
+[ctrl] [val step 15999] val_novel_full=0.0447 val_novel_hole=0.0519 val_novel_visible=0.0426
+[full] alive=9 tracebacks=0 step 15450
+[full] [val step 13999] val_novel_full=0.2553 val_novel_hole=0.2349 val_novel_visible=0.2810
+[struct] alive=9 tracebacks=0 step 29950
+[struct] [val step 27999] val_novel_full=0.2958 val_novel_hole=0.2616 val_novel_visible=0.3169
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 74 %
+[gpu] 2, 16014 MiB, 3 %
+===== 2026-09-11 03:44:28 =====
+[ctrl] alive=9 tracebacks=0 step 16700
+[ctrl] [val step 15999] val_novel_full=0.0447 val_novel_hole=0.0519 val_novel_visible=0.0426
+[full] alive=9 tracebacks=0 step 15650
+[full] [val step 13999] val_novel_full=0.2553 val_novel_hole=0.2349 val_novel_visible=0.2810
+[struct] alive=9 tracebacks=0 step 30200
+[struct] [val step 29999] val_novel_full=0.3151 val_novel_hole=0.2785 val_novel_visible=0.3241
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 82 %
+===== 2026-09-11 03:54:28 =====
+[ctrl] alive=9 tracebacks=0 step 16850
+[ctrl] [val step 15999] val_novel_full=0.0447 val_novel_hole=0.0519 val_novel_visible=0.0426
+[full] alive=9 tracebacks=0 step 15800
+[full] [val step 13999] val_novel_full=0.2553 val_novel_hole=0.2349 val_novel_visible=0.2810
+[struct] alive=9 tracebacks=0 step 30450
+[struct] [val step 29999] val_novel_full=0.3151 val_novel_hole=0.2785 val_novel_visible=0.3241
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 95 %
+[gpu] 2, 16014 MiB, 96 %
+===== 2026-09-11 04:04:28 =====
+[ctrl] alive=9 tracebacks=0 step 17050
+[ctrl] [val step 15999] val_novel_full=0.0447 val_novel_hole=0.0519 val_novel_visible=0.0426
+[full] alive=9 tracebacks=0 step 15950
+[full] [val step 13999] val_novel_full=0.2553 val_novel_hole=0.2349 val_novel_visible=0.2810
+[struct] alive=9 tracebacks=0 step 30700
+[struct] [val step 29999] val_novel_full=0.3151 val_novel_hole=0.2785 val_novel_visible=0.3241
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 32 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 04:14:29 =====
+[ctrl] alive=9 tracebacks=0 step 17250
+[ctrl] [val step 15999] val_novel_full=0.0447 val_novel_hole=0.0519 val_novel_visible=0.0426
+[full] alive=9 tracebacks=0 step 16150
+[full] [val step 15999] val_novel_full=0.2794 val_novel_hole=0.2092 val_novel_visible=0.3001
+[struct] alive=9 tracebacks=0 step 30900
+[struct] [val step 29999] val_novel_full=0.3151 val_novel_hole=0.2785 val_novel_visible=0.3241
+[gpu] 0, 17720 MiB, 75 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 98 %
+===== 2026-09-11 04:24:29 =====
+[ctrl] alive=9 tracebacks=0 step 17450
+[ctrl] [val step 15999] val_novel_full=0.0447 val_novel_hole=0.0519 val_novel_visible=0.0426
+[full] alive=9 tracebacks=0 step 16300
+[full] [val step 15999] val_novel_full=0.2794 val_novel_hole=0.2092 val_novel_visible=0.3001
+[struct] alive=9 tracebacks=0 step 31150
+[struct] [val step 29999] val_novel_full=0.3151 val_novel_hole=0.2785 val_novel_visible=0.3241
+[gpu] 0, 17720 MiB, 97 %
+[gpu] 1, 16174 MiB, 95 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 04:34:29 =====
+[ctrl] alive=9 tracebacks=0 step 17600
+[ctrl] [val step 15999] val_novel_full=0.0447 val_novel_hole=0.0519 val_novel_visible=0.0426
+[full] alive=9 tracebacks=0 step 16500
+[full] [val step 15999] val_novel_full=0.2794 val_novel_hole=0.2092 val_novel_visible=0.3001
+[struct] alive=9 tracebacks=0 step 31400
+[struct] [val step 29999] val_novel_full=0.3151 val_novel_hole=0.2785 val_novel_visible=0.3241
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 96 %
+[gpu] 2, 16014 MiB, 80 %
+===== 2026-09-11 04:44:29 =====
+[ctrl] alive=9 tracebacks=0 step 17800
+[ctrl] [val step 15999] val_novel_full=0.0447 val_novel_hole=0.0519 val_novel_visible=0.0426
+[full] alive=9 tracebacks=0 step 16650
+[full] [val step 15999] val_novel_full=0.2794 val_novel_hole=0.2092 val_novel_visible=0.3001
+[struct] alive=9 tracebacks=0 step 31600
+[struct] [val step 29999] val_novel_full=0.3151 val_novel_hole=0.2785 val_novel_visible=0.3241
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 04:54:30 =====
+[ctrl] alive=9 tracebacks=0 step 18000
+[ctrl] [val step 17999] val_novel_full=0.0456 val_novel_hole=0.0498 val_novel_visible=0.0444
+[full] alive=9 tracebacks=0 step 16850
+[full] [val step 15999] val_novel_full=0.2794 val_novel_hole=0.2092 val_novel_visible=0.3001
+[struct] alive=9 tracebacks=0 step 31850
+[struct] [val step 29999] val_novel_full=0.3151 val_novel_hole=0.2785 val_novel_visible=0.3241
+[gpu] 0, 17720 MiB, 98 %
+[gpu] 1, 16174 MiB, 78 %
+[gpu] 2, 16014 MiB, 94 %
+===== 2026-09-11 05:04:30 =====
+[ctrl] alive=9 tracebacks=0 step 18150
+[ctrl] [val step 17999] val_novel_full=0.0456 val_novel_hole=0.0498 val_novel_visible=0.0444
+[full] alive=9 tracebacks=0 step 17000
+[full] [val step 15999] val_novel_full=0.2794 val_novel_hole=0.2092 val_novel_visible=0.3001
+[struct] alive=9 tracebacks=0 step 32100
+[struct] [val step 31999] val_novel_full=0.2820 val_novel_hole=0.2671 val_novel_visible=0.2884
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 96 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 05:14:30 =====
+[ctrl] alive=9 tracebacks=0 step 18350
+[ctrl] [val step 17999] val_novel_full=0.0456 val_novel_hole=0.0498 val_novel_visible=0.0444
+[full] alive=9 tracebacks=0 step 17200
+[full] [val step 15999] val_novel_full=0.2794 val_novel_hole=0.2092 val_novel_visible=0.3001
+[struct] alive=9 tracebacks=0 step 32350
+[struct] [val step 31999] val_novel_full=0.2820 val_novel_hole=0.2671 val_novel_visible=0.2884
+[gpu] 0, 17720 MiB, 95 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 96 %
+===== 2026-09-11 05:24:31 =====
+[ctrl] alive=9 tracebacks=0 step 18550
+[ctrl] [val step 17999] val_novel_full=0.0456 val_novel_hole=0.0498 val_novel_visible=0.0444
+[full] alive=9 tracebacks=0 step 17350
+[full] [val step 15999] val_novel_full=0.2794 val_novel_hole=0.2092 val_novel_visible=0.3001
+[struct] alive=9 tracebacks=0 step 32550
+[struct] [val step 31999] val_novel_full=0.2820 val_novel_hole=0.2671 val_novel_visible=0.2884
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 05:34:31 =====
+[ctrl] alive=9 tracebacks=0 step 18750
+[ctrl] [val step 17999] val_novel_full=0.0456 val_novel_hole=0.0498 val_novel_visible=0.0444
+[full] alive=9 tracebacks=0 step 17550
+[full] [val step 15999] val_novel_full=0.2794 val_novel_hole=0.2092 val_novel_visible=0.3001
+[struct] alive=9 tracebacks=0 step 32800
+[struct] [val step 31999] val_novel_full=0.2820 val_novel_hole=0.2671 val_novel_visible=0.2884
+[gpu] 0, 17720 MiB, 76 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 05:44:31 =====
+[ctrl] alive=9 tracebacks=0 step 18900
+[ctrl] [val step 17999] val_novel_full=0.0456 val_novel_hole=0.0498 val_novel_visible=0.0444
+[full] alive=9 tracebacks=0 step 17700
+[full] [val step 15999] val_novel_full=0.2794 val_novel_hole=0.2092 val_novel_visible=0.3001
+[struct] alive=9 tracebacks=0 step 33050
+[struct] [val step 31999] val_novel_full=0.2820 val_novel_hole=0.2671 val_novel_visible=0.2884
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 68 %
+[gpu] 2, 16014 MiB, 96 %
+===== 2026-09-11 05:54:32 =====
+[ctrl] alive=9 tracebacks=0 step 19100
+[ctrl] [val step 17999] val_novel_full=0.0456 val_novel_hole=0.0498 val_novel_visible=0.0444
+[full] alive=9 tracebacks=0 step 17850
+[full] [val step 15999] val_novel_full=0.2794 val_novel_hole=0.2092 val_novel_visible=0.3001
+[struct] alive=9 tracebacks=0 step 33300
+[struct] [val step 31999] val_novel_full=0.2820 val_novel_hole=0.2671 val_novel_visible=0.2884
+[gpu] 0, 17720 MiB, 97 %
+[gpu] 1, 16174 MiB, 95 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 06:04:32 =====
+[ctrl] alive=9 tracebacks=0 step 19300
+[ctrl] [val step 17999] val_novel_full=0.0456 val_novel_hole=0.0498 val_novel_visible=0.0444
+[full] alive=9 tracebacks=0 step 18050
+[full] [val step 17999] val_novel_full=0.3201 val_novel_hole=0.2381 val_novel_visible=0.3350
+[struct] alive=9 tracebacks=0 step 33500
+[struct] [val step 31999] val_novel_full=0.2820 val_novel_hole=0.2671 val_novel_visible=0.2884
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 96 %
+===== 2026-09-11 06:14:32 =====
+[ctrl] alive=9 tracebacks=0 step 19500
+[ctrl] [val step 17999] val_novel_full=0.0456 val_novel_hole=0.0498 val_novel_visible=0.0444
+[full] alive=9 tracebacks=0 step 18200
+[full] [val step 17999] val_novel_full=0.3201 val_novel_hole=0.2381 val_novel_visible=0.3350
+[struct] alive=9 tracebacks=0 step 33750
+[struct] [val step 31999] val_novel_full=0.2820 val_novel_hole=0.2671 val_novel_visible=0.2884
+[gpu] 0, 17720 MiB, 97 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 74 %
+===== 2026-09-11 06:24:32 =====
+[ctrl] alive=9 tracebacks=0 step 19650
+[ctrl] [val step 17999] val_novel_full=0.0456 val_novel_hole=0.0498 val_novel_visible=0.0444
+[full] alive=9 tracebacks=0 step 18400
+[full] [val step 17999] val_novel_full=0.3201 val_novel_hole=0.2381 val_novel_visible=0.3350
+[struct] alive=9 tracebacks=0 step 34000
+[struct] [val step 33999] val_novel_full=0.3064 val_novel_hole=0.2823 val_novel_visible=0.3265
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 66 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 06:34:33 =====
+[ctrl] alive=9 tracebacks=0 step 19850
+[ctrl] [val step 17999] val_novel_full=0.0456 val_novel_hole=0.0498 val_novel_visible=0.0444
+[full] alive=9 tracebacks=0 step 18550
+[full] [val step 17999] val_novel_full=0.3201 val_novel_hole=0.2381 val_novel_visible=0.3350
+[struct] alive=9 tracebacks=0 step 34200
+[struct] [val step 33999] val_novel_full=0.3064 val_novel_hole=0.2823 val_novel_visible=0.3265
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 06:44:33 =====
+[ctrl] alive=9 tracebacks=0 step 20050
+[ctrl] [val step 19999] val_novel_full=0.0395 val_novel_hole=0.0715 val_novel_visible=0.0350
+[full] alive=9 tracebacks=0 step 18750
+[full] [val step 17999] val_novel_full=0.3201 val_novel_hole=0.2381 val_novel_visible=0.3350
+[struct] alive=9 tracebacks=0 step 34450
+[struct] [val step 33999] val_novel_full=0.3064 val_novel_hole=0.2823 val_novel_visible=0.3265
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 93 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 06:54:33 =====
+[ctrl] alive=9 tracebacks=0 step 20250
+[ctrl] [val step 19999] val_novel_full=0.0395 val_novel_hole=0.0715 val_novel_visible=0.0350
+[full] alive=9 tracebacks=0 step 18900
+[full] [val step 17999] val_novel_full=0.3201 val_novel_hole=0.2381 val_novel_visible=0.3350
+[struct] alive=9 tracebacks=0 step 34700
+[struct] [val step 33999] val_novel_full=0.3064 val_novel_hole=0.2823 val_novel_visible=0.3265
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 81 %
+===== 2026-09-11 07:04:34 =====
+[ctrl] alive=9 tracebacks=0 step 20400
+[ctrl] [val step 19999] val_novel_full=0.0395 val_novel_hole=0.0715 val_novel_visible=0.0350
+[full] alive=9 tracebacks=0 step 19100
+[full] [val step 17999] val_novel_full=0.3201 val_novel_hole=0.2381 val_novel_visible=0.3350
+[struct] alive=9 tracebacks=0 step 34950
+[struct] [val step 33999] val_novel_full=0.3064 val_novel_hole=0.2823 val_novel_visible=0.3265
+[gpu] 0, 17720 MiB, 77 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 07:14:34 =====
+[ctrl] alive=9 tracebacks=0 step 20600
+[ctrl] [val step 19999] val_novel_full=0.0395 val_novel_hole=0.0715 val_novel_visible=0.0350
+[full] alive=9 tracebacks=0 step 19250
+[full] [val step 17999] val_novel_full=0.3201 val_novel_hole=0.2381 val_novel_visible=0.3350
+[struct] alive=9 tracebacks=0 step 35150
+[struct] [val step 33999] val_novel_full=0.3064 val_novel_hole=0.2823 val_novel_visible=0.3265
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 74 %
+===== 2026-09-11 07:24:34 =====
+[ctrl] alive=9 tracebacks=0 step 20800
+[ctrl] [val step 19999] val_novel_full=0.0395 val_novel_hole=0.0715 val_novel_visible=0.0350
+[full] alive=9 tracebacks=0 step 19450
+[full] [val step 17999] val_novel_full=0.3201 val_novel_hole=0.2381 val_novel_visible=0.3350
+[struct] alive=9 tracebacks=0 step 35400
+[struct] [val step 33999] val_novel_full=0.3064 val_novel_hole=0.2823 val_novel_visible=0.3265
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 96 %
+===== 2026-09-11 07:34:34 =====
+[ctrl] alive=9 tracebacks=0 step 21000
+[ctrl] [val step 19999] val_novel_full=0.0395 val_novel_hole=0.0715 val_novel_visible=0.0350
+[full] alive=9 tracebacks=0 step 19600
+[full] [val step 17999] val_novel_full=0.3201 val_novel_hole=0.2381 val_novel_visible=0.3350
+[struct] alive=9 tracebacks=0 step 35650
+[struct] [val step 33999] val_novel_full=0.3064 val_novel_hole=0.2823 val_novel_visible=0.3265
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 96 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 07:44:35 =====
+[ctrl] alive=9 tracebacks=0 step 21150
+[ctrl] [val step 19999] val_novel_full=0.0395 val_novel_hole=0.0715 val_novel_visible=0.0350
+[full] alive=9 tracebacks=0 step 19750
+[full] [val step 17999] val_novel_full=0.3201 val_novel_hole=0.2381 val_novel_visible=0.3350
+[struct] alive=9 tracebacks=0 step 35900
+[struct] [val step 33999] val_novel_full=0.3064 val_novel_hole=0.2823 val_novel_visible=0.3265
+[gpu] 0, 17720 MiB, 77 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 07:54:35 =====
+[ctrl] alive=9 tracebacks=0 step 21350
+[ctrl] [val step 19999] val_novel_full=0.0395 val_novel_hole=0.0715 val_novel_visible=0.0350
+[full] alive=9 tracebacks=0 step 19950
+[full] [val step 17999] val_novel_full=0.3201 val_novel_hole=0.2381 val_novel_visible=0.3350
+[struct] alive=9 tracebacks=0 step 36100
+[struct] [val step 35999] val_novel_full=0.3006 val_novel_hole=0.2797 val_novel_visible=0.3271
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 97 %
+===== 2026-09-11 08:04:35 =====
+[ctrl] alive=9 tracebacks=0 step 21550
+[ctrl] [val step 19999] val_novel_full=0.0395 val_novel_hole=0.0715 val_novel_visible=0.0350
+[full] alive=9 tracebacks=0 step 20100
+[full] [val step 19999] val_novel_full=0.2336 val_novel_hole=0.1300 val_novel_visible=0.2524
+[struct] alive=9 tracebacks=0 step 36350
+[struct] [val step 35999] val_novel_full=0.3006 val_novel_hole=0.2797 val_novel_visible=0.3271
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 0 %
+[gpu] 2, 16014 MiB, 95 %
+===== 2026-09-11 08:14:36 =====
+[ctrl] alive=9 tracebacks=0 step 21750
+[ctrl] [val step 19999] val_novel_full=0.0395 val_novel_hole=0.0715 val_novel_visible=0.0350
+[full] alive=9 tracebacks=0 step 20300
+[full] [val step 19999] val_novel_full=0.2336 val_novel_hole=0.1300 val_novel_visible=0.2524
+[struct] alive=9 tracebacks=0 step 36600
+[struct] [val step 35999] val_novel_full=0.3006 val_novel_hole=0.2797 val_novel_visible=0.3271
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 78 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 08:24:36 =====
+[ctrl] alive=9 tracebacks=0 step 21900
+[ctrl] [val step 19999] val_novel_full=0.0395 val_novel_hole=0.0715 val_novel_visible=0.0350
+[full] alive=9 tracebacks=0 step 20450
+[full] [val step 19999] val_novel_full=0.2336 val_novel_hole=0.1300 val_novel_visible=0.2524
+[struct] alive=9 tracebacks=0 step 36800
+[struct] [val step 35999] val_novel_full=0.3006 val_novel_hole=0.2797 val_novel_visible=0.3271
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 81 %
+===== 2026-09-11 08:34:36 =====
+[ctrl] alive=9 tracebacks=0 step 22100
+[ctrl] [val step 21999] val_novel_full=0.1021 val_novel_hole=0.1030 val_novel_visible=0.1010
+[full] alive=9 tracebacks=0 step 20650
+[full] [val step 19999] val_novel_full=0.2336 val_novel_hole=0.1300 val_novel_visible=0.2524
+[struct] alive=9 tracebacks=0 step 37050
+[struct] [val step 35999] val_novel_full=0.3006 val_novel_hole=0.2797 val_novel_visible=0.3271
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 95 %
+===== 2026-09-11 08:44:37 =====
+[ctrl] alive=9 tracebacks=0 step 22300
+[ctrl] [val step 21999] val_novel_full=0.1021 val_novel_hole=0.1030 val_novel_visible=0.1010
+[full] alive=9 tracebacks=0 step 20800
+[full] [val step 19999] val_novel_full=0.2336 val_novel_hole=0.1300 val_novel_visible=0.2524
+[struct] alive=9 tracebacks=0 step 37300
+[struct] [val step 35999] val_novel_full=0.3006 val_novel_hole=0.2797 val_novel_visible=0.3271
+[gpu] 0, 17720 MiB, 82 %
+[gpu] 1, 16174 MiB, 88 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 08:54:37 =====
+[ctrl] alive=9 tracebacks=0 step 22500
+[ctrl] [val step 21999] val_novel_full=0.1021 val_novel_hole=0.1030 val_novel_visible=0.1010
+[full] alive=9 tracebacks=0 step 21000
+[full] [val step 19999] val_novel_full=0.2336 val_novel_hole=0.1300 val_novel_visible=0.2524
+[struct] alive=9 tracebacks=0 step 37550
+[struct] [val step 35999] val_novel_full=0.3006 val_novel_hole=0.2797 val_novel_visible=0.3271
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 09:04:37 =====
+[ctrl] alive=9 tracebacks=0 step 22650
+[ctrl] [val step 21999] val_novel_full=0.1021 val_novel_hole=0.1030 val_novel_visible=0.1010
+[full] alive=9 tracebacks=0 step 21150
+[full] [val step 19999] val_novel_full=0.2336 val_novel_hole=0.1300 val_novel_visible=0.2524
+[struct] alive=9 tracebacks=0 step 37750
+[struct] [val step 35999] val_novel_full=0.3006 val_novel_hole=0.2797 val_novel_visible=0.3271
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 95 %
+[gpu] 2, 16014 MiB, 93 %
+===== 2026-09-11 09:14:37 =====
+[ctrl] alive=9 tracebacks=0 step 22850
+[ctrl] [val step 21999] val_novel_full=0.1021 val_novel_hole=0.1030 val_novel_visible=0.1010
+[full] alive=9 tracebacks=0 step 21300
+[full] [val step 19999] val_novel_full=0.2336 val_novel_hole=0.1300 val_novel_visible=0.2524
+[struct] alive=9 tracebacks=0 step 38000
+[struct] [val step 37999] val_novel_full=0.3034 val_novel_hole=0.2530 val_novel_visible=0.3182
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 16174 MiB, 69 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 09:24:38 =====
+[ctrl] alive=9 tracebacks=0 step 23050
+[ctrl] [val step 21999] val_novel_full=0.1021 val_novel_hole=0.1030 val_novel_visible=0.1010
+[full] alive=9 tracebacks=0 step 21500
+[full] [val step 19999] val_novel_full=0.2336 val_novel_hole=0.1300 val_novel_visible=0.2524
+[struct] alive=9 tracebacks=0 step 38250
+[struct] [val step 37999] val_novel_full=0.3034 val_novel_hole=0.2530 val_novel_visible=0.3182
+[gpu] 0, 17720 MiB, 75 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 19664 MiB, 100 %
+===== 2026-09-11 09:34:38 =====
+[ctrl] alive=9 tracebacks=0 step 23250
+[ctrl] [val step 21999] val_novel_full=0.1021 val_novel_hole=0.1030 val_novel_visible=0.1010
+[full] alive=9 tracebacks=0 step 21650
+[full] [val step 19999] val_novel_full=0.2336 val_novel_hole=0.1300 val_novel_visible=0.2524
+[struct] alive=9 tracebacks=0 step 38400
+[struct] [val step 37999] val_novel_full=0.3034 val_novel_hole=0.2530 val_novel_visible=0.3182
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 95 %
+===== 2026-09-11 09:44:38 =====
+[ctrl] alive=9 tracebacks=0 step 23400
+[ctrl] [val step 21999] val_novel_full=0.1021 val_novel_hole=0.1030 val_novel_visible=0.1010
+[full] alive=9 tracebacks=0 step 21850
+[full] [val step 19999] val_novel_full=0.2336 val_novel_hole=0.1300 val_novel_visible=0.2524
+[struct] alive=9 tracebacks=0 step 38600
+[struct] [val step 37999] val_novel_full=0.3034 val_novel_hole=0.2530 val_novel_visible=0.3182
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-11 09:54:39 =====
+[ctrl] alive=9 tracebacks=0 step 23600
+[ctrl] [val step 21999] val_novel_full=0.1021 val_novel_hole=0.1030 val_novel_visible=0.1010
+[full] alive=9 tracebacks=0 step 22000
+[full] [val step 21999] val_novel_full=0.2764 val_novel_hole=0.1907 val_novel_visible=0.2919
+[struct] alive=9 tracebacks=0 step 38800
+[struct] [val step 37999] val_novel_full=0.3034 val_novel_hole=0.2530 val_novel_visible=0.3182
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 59 %
+[gpu] 2, 20048 MiB, 96 %
+===== 2026-09-11 10:04:39 =====
+[ctrl] alive=9 tracebacks=0 step 23800
+[ctrl] [val step 21999] val_novel_full=0.1021 val_novel_hole=0.1030 val_novel_visible=0.1010
+[full] alive=9 tracebacks=0 step 22200
+[full] [val step 21999] val_novel_full=0.2764 val_novel_hole=0.1907 val_novel_visible=0.2919
+[struct] alive=9 tracebacks=0 step 39000
+[struct] [val step 37999] val_novel_full=0.3034 val_novel_hole=0.2530 val_novel_visible=0.3182
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 98 %
+===== 2026-09-11 10:14:39 =====
+[ctrl] alive=9 tracebacks=0 step 23999
+[ctrl] [val step 23999] val_novel_full=0.0400 val_novel_hole=0.0627 val_novel_visible=0.0368
+[full] alive=9 tracebacks=0 step 22350
+[full] [val step 21999] val_novel_full=0.2764 val_novel_hole=0.1907 val_novel_visible=0.2919
+[struct] alive=9 tracebacks=0 step 39150
+[struct] [val step 37999] val_novel_full=0.3034 val_novel_hole=0.2530 val_novel_visible=0.3182
+[gpu] 0, 17720 MiB, 97 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-11 10:24:40 =====
+[ctrl] alive=9 tracebacks=0 step 24150
+[ctrl] [val step 23999] val_novel_full=0.0400 val_novel_hole=0.0627 val_novel_visible=0.0368
+[full] alive=9 tracebacks=0 step 22550
+[full] [val step 21999] val_novel_full=0.2764 val_novel_hole=0.1907 val_novel_visible=0.2919
+[struct] alive=9 tracebacks=0 step 39400
+[struct] [val step 37999] val_novel_full=0.3034 val_novel_hole=0.2530 val_novel_visible=0.3182
+[gpu] 0, 17720 MiB, 98 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 10:34:40 =====
+[ctrl] alive=9 tracebacks=0 step 24350
+[ctrl] [val step 23999] val_novel_full=0.0400 val_novel_hole=0.0627 val_novel_visible=0.0368
+[full] alive=9 tracebacks=0 step 22700
+[full] [val step 21999] val_novel_full=0.2764 val_novel_hole=0.1907 val_novel_visible=0.2919
+[struct] alive=9 tracebacks=0 step 39600
+[struct] [val step 37999] val_novel_full=0.3034 val_novel_hole=0.2530 val_novel_visible=0.3182
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 94 %
+[gpu] 2, 20040 MiB, 100 %
+===== 2026-09-11 10:44:40 =====
+[ctrl] alive=9 tracebacks=0 step 24550
+[ctrl] [val step 23999] val_novel_full=0.0400 val_novel_hole=0.0627 val_novel_visible=0.0368
+[full] alive=9 tracebacks=0 step 22850
+[full] [val step 21999] val_novel_full=0.2764 val_novel_hole=0.1907 val_novel_visible=0.2919
+[struct] alive=9 tracebacks=0 step 39800
+[struct] [val step 37999] val_novel_full=0.3034 val_novel_hole=0.2530 val_novel_visible=0.3182
+[gpu] 0, 22834 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 100 %
+===== 2026-09-11 10:54:40 =====
+[ctrl] alive=9 tracebacks=0 step 24700
+[ctrl] [val step 23999] val_novel_full=0.0400 val_novel_hole=0.0627 val_novel_visible=0.0368
+[full] alive=9 tracebacks=0 step 23050
+[full] [val step 21999] val_novel_full=0.2764 val_novel_hole=0.1907 val_novel_visible=0.2919
+[struct] alive=9 tracebacks=0 step 40000
+[struct] [val step 39999] val_novel_full=0.2875 val_novel_hole=0.2604 val_novel_visible=0.3009
+[gpu] 0, 22834 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 97 %
+===== 2026-09-11 11:04:41 =====
+[ctrl] alive=9 tracebacks=0 step 24800
+[ctrl] [val step 23999] val_novel_full=0.0400 val_novel_hole=0.0627 val_novel_visible=0.0368
+[full] alive=9 tracebacks=0 step 23200
+[full] [val step 21999] val_novel_full=0.2764 val_novel_hole=0.1907 val_novel_visible=0.2919
+[struct] alive=9 tracebacks=0 step 40250
+[struct] [val step 39999] val_novel_full=0.2875 val_novel_hole=0.2604 val_novel_visible=0.3009
+[gpu] 0, 22834 MiB, 93 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 95 %
+===== 2026-09-11 11:14:41 =====
+[ctrl] alive=9 tracebacks=0 step 24950
+[ctrl] [val step 23999] val_novel_full=0.0400 val_novel_hole=0.0627 val_novel_visible=0.0368
+[full] alive=9 tracebacks=0 step 23400
+[full] [val step 21999] val_novel_full=0.2764 val_novel_hole=0.1907 val_novel_visible=0.2919
+[struct] alive=9 tracebacks=0 step 40500
+[struct] [val step 39999] val_novel_full=0.2875 val_novel_hole=0.2604 val_novel_visible=0.3009
+[gpu] 0, 22836 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 97 %
+===== 2026-09-11 11:24:41 =====
+[ctrl] alive=9 tracebacks=0 step 25100
+[ctrl] [val step 23999] val_novel_full=0.0400 val_novel_hole=0.0627 val_novel_visible=0.0368
+[full] alive=9 tracebacks=0 step 23550
+[full] [val step 21999] val_novel_full=0.2764 val_novel_hole=0.1907 val_novel_visible=0.2919
+[struct] alive=9 tracebacks=0 step 40750
+[struct] [val step 39999] val_novel_full=0.2875 val_novel_hole=0.2604 val_novel_visible=0.3009
+[gpu] 0, 22908 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 11:34:42 =====
+[ctrl] alive=9 tracebacks=0 step 25250
+[ctrl] [val step 23999] val_novel_full=0.0400 val_novel_hole=0.0627 val_novel_visible=0.0368
+[full] alive=9 tracebacks=0 step 23750
+[full] [val step 21999] val_novel_full=0.2764 val_novel_hole=0.1907 val_novel_visible=0.2919
+[struct] alive=9 tracebacks=0 step 40950
+[struct] [val step 39999] val_novel_full=0.2875 val_novel_hole=0.2604 val_novel_visible=0.3009
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 11:44:42 =====
+[ctrl] alive=9 tracebacks=0 step 25450
+[ctrl] [val step 23999] val_novel_full=0.0400 val_novel_hole=0.0627 val_novel_visible=0.0368
+[full] alive=9 tracebacks=0 step 23900
+[full] [val step 21999] val_novel_full=0.2764 val_novel_hole=0.1907 val_novel_visible=0.2919
+[struct] alive=9 tracebacks=0 step 41200
+[struct] [val step 39999] val_novel_full=0.2875 val_novel_hole=0.2604 val_novel_visible=0.3009
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20040 MiB, 77 %
+===== 2026-09-11 11:54:42 =====
+[ctrl] alive=9 tracebacks=0 step 25650
+[ctrl] [val step 23999] val_novel_full=0.0400 val_novel_hole=0.0627 val_novel_visible=0.0368
+[full] alive=9 tracebacks=0 step 24100
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=9 tracebacks=0 step 41400
+[struct] [val step 39999] val_novel_full=0.2875 val_novel_hole=0.2604 val_novel_visible=0.3009
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 20048 MiB, 90 %
+===== 2026-09-11 12:04:43 =====
+[ctrl] alive=9 tracebacks=0 step 25850
+[ctrl] [val step 23999] val_novel_full=0.0400 val_novel_hole=0.0627 val_novel_visible=0.0368
+[full] alive=9 tracebacks=0 step 24250
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=9 tracebacks=0 step 41600
+[struct] [val step 39999] val_novel_full=0.2875 val_novel_hole=0.2604 val_novel_visible=0.3009
+[gpu] 0, 17720 MiB, 98 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 12:14:43 =====
+[ctrl] alive=9 tracebacks=0 step 26000
+[ctrl] [val step 25999] val_novel_full=0.0631 val_novel_hole=0.1134 val_novel_visible=0.0414
+[full] alive=9 tracebacks=0 step 24400
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=9 tracebacks=0 step 41850
+[struct] [val step 39999] val_novel_full=0.2875 val_novel_hole=0.2604 val_novel_visible=0.3009
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 95 %
+[gpu] 2, 16014 MiB, 96 %
+===== 2026-09-11 12:24:43 =====
+[ctrl] alive=9 tracebacks=0 step 26200
+[ctrl] [val step 25999] val_novel_full=0.0631 val_novel_hole=0.1134 val_novel_visible=0.0414
+[full] alive=9 tracebacks=0 step 24600
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=9 tracebacks=0 step 42100
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 16174 MiB, 96 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 12:34:44 =====
+[ctrl] alive=9 tracebacks=0 step 26400
+[ctrl] [val step 25999] val_novel_full=0.0631 val_novel_hole=0.1134 val_novel_visible=0.0414
+[full] alive=9 tracebacks=0 step 24750
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=9 tracebacks=0 step 42300
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 16174 MiB, 100 %
+[gpu] 2, 16014 MiB, 100 %
+===== 2026-09-11 12:44:44 =====
+[ctrl] alive=9 tracebacks=0 step 26600
+[ctrl] [val step 25999] val_novel_full=0.0631 val_novel_hole=0.1134 val_novel_visible=0.0414
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 0 MiB, 0 %
+[gpu] 2, 0 MiB, 0 %
+===== 2026-09-11 12:54:44 =====
+[ctrl] alive=9 tracebacks=0 step 26750
+[ctrl] [val step 25999] val_novel_full=0.0631 val_novel_hole=0.1134 val_novel_visible=0.0414
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 0 MiB, 0 %
+[gpu] 2, 0 MiB, 0 %
+===== 2026-09-11 13:04:44 =====
+[ctrl] alive=9 tracebacks=0 step 26950
+[ctrl] [val step 25999] val_novel_full=0.0631 val_novel_hole=0.1134 val_novel_visible=0.0414
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 0 MiB, 0 %
+[gpu] 2, 0 MiB, 0 %
+===== 2026-09-11 13:14:45 =====
+[ctrl] alive=9 tracebacks=0 step 27150
+[ctrl] [val step 25999] val_novel_full=0.0631 val_novel_hole=0.1134 val_novel_visible=0.0414
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 0 MiB, 0 %
+[gpu] 2, 0 MiB, 0 %
+===== 2026-09-11 13:24:45 =====
+[ctrl] alive=9 tracebacks=0 step 27350
+[ctrl] [val step 25999] val_novel_full=0.0631 val_novel_hole=0.1134 val_novel_visible=0.0414
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 0 MiB, 0 %
+[gpu] 2, 0 MiB, 0 %
+===== 2026-09-11 13:34:45 =====
+[ctrl] alive=9 tracebacks=0 step 27550
+[ctrl] [val step 25999] val_novel_full=0.0631 val_novel_hole=0.1134 val_novel_visible=0.0414
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 0 MiB, 0 %
+[gpu] 2, 0 MiB, 0 %
+===== 2026-09-11 13:44:46 =====
+[ctrl] alive=9 tracebacks=0 step 27750
+[ctrl] [val step 25999] val_novel_full=0.0631 val_novel_hole=0.1134 val_novel_visible=0.0414
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 0 MiB, 0 %
+[gpu] 2, 0 MiB, 0 %
+===== 2026-09-11 13:54:46 =====
+[ctrl] alive=9 tracebacks=0 step 27950
+[ctrl] [val step 25999] val_novel_full=0.0631 val_novel_hole=0.1134 val_novel_visible=0.0414
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 97 %
+[gpu] 1, 0 MiB, 0 %
+[gpu] 2, 0 MiB, 0 %
+===== 2026-09-11 14:04:46 =====
+[ctrl] alive=9 tracebacks=0 step 28100
+[ctrl] [val step 27999] val_novel_full=0.0482 val_novel_hole=0.0621 val_novel_visible=0.0457
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 0 MiB, 0 %
+[gpu] 2, 0 MiB, 0 %
+===== 2026-09-11 14:14:47 =====
+[ctrl] alive=9 tracebacks=0 step 28300
+[ctrl] [val step 27999] val_novel_full=0.0482 val_novel_hole=0.0621 val_novel_visible=0.0457
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 0 MiB, 0 %
+[gpu] 2, 0 MiB, 0 %
+===== 2026-09-11 14:24:47 =====
+[ctrl] alive=9 tracebacks=0 step 28500
+[ctrl] [val step 27999] val_novel_full=0.0482 val_novel_hole=0.0621 val_novel_visible=0.0457
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 0 MiB, 0 %
+[gpu] 2, 0 MiB, 0 %
+===== 2026-09-11 14:34:47 =====
+[ctrl] alive=9 tracebacks=0 step 28700
+[ctrl] [val step 27999] val_novel_full=0.0482 val_novel_hole=0.0621 val_novel_visible=0.0457
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 0 MiB, 0 %
+[gpu] 2, 0 MiB, 0 %
+===== 2026-09-11 14:44:47 =====
+[ctrl] alive=9 tracebacks=0 step 28900
+[ctrl] [val step 27999] val_novel_full=0.0482 val_novel_hole=0.0621 val_novel_visible=0.0457
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 66 %
+[gpu] 1, 14212 MiB, 72 %
+[gpu] 2, 14538 MiB, 98 %
+===== 2026-09-11 14:54:48 =====
+[ctrl] alive=9 tracebacks=0 step 29050
+[ctrl] [val step 27999] val_novel_full=0.0482 val_novel_hole=0.0621 val_novel_visible=0.0457
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 29 %
+[gpu] 1, 14214 MiB, 100 %
+[gpu] 2, 14538 MiB, 100 %
+===== 2026-09-11 15:04:48 =====
+[ctrl] alive=9 tracebacks=0 step 29250
+[ctrl] [val step 27999] val_novel_full=0.0482 val_novel_hole=0.0621 val_novel_visible=0.0457
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 75 %
+[gpu] 1, 14214 MiB, 100 %
+[gpu] 2, 14538 MiB, 100 %
+===== 2026-09-11 15:14:48 =====
+[ctrl] alive=9 tracebacks=0 step 29450
+[ctrl] [val step 27999] val_novel_full=0.0482 val_novel_hole=0.0621 val_novel_visible=0.0457
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 14216 MiB, 67 %
+[gpu] 2, 14538 MiB, 100 %
+===== 2026-09-11 15:24:49 =====
+[ctrl] alive=9 tracebacks=0 step 29650
+[ctrl] [val step 27999] val_novel_full=0.0482 val_novel_hole=0.0621 val_novel_visible=0.0457
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 14216 MiB, 100 %
+[gpu] 2, 14538 MiB, 50 %
+===== 2026-09-11 15:34:49 =====
+[ctrl] alive=9 tracebacks=0 step 29800
+[ctrl] [val step 27999] val_novel_full=0.0482 val_novel_hole=0.0621 val_novel_visible=0.0457
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 14216 MiB, 72 %
+[gpu] 2, 14538 MiB, 96 %
+===== 2026-09-11 15:44:49 =====
+[ctrl] alive=9 tracebacks=0 step 30000
+[ctrl] [val step 29999] val_novel_full=0.0353 val_novel_hole=0.0441 val_novel_visible=0.0340
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 61 %
+[gpu] 1, 14216 MiB, 71 %
+[gpu] 2, 14538 MiB, 64 %
+===== 2026-09-11 15:54:50 =====
+[ctrl] alive=9 tracebacks=0 step 30200
+[ctrl] [val step 29999] val_novel_full=0.0353 val_novel_hole=0.0441 val_novel_visible=0.0340
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 95 %
+[gpu] 1, 13824 MiB, 100 %
+[gpu] 2, 14538 MiB, 100 %
+===== 2026-09-11 16:04:50 =====
+[ctrl] alive=9 tracebacks=0 step 30400
+[ctrl] [val step 29999] val_novel_full=0.0353 val_novel_hole=0.0441 val_novel_visible=0.0340
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 92 %
+[gpu] 1, 14132 MiB, 76 %
+[gpu] 2, 14538 MiB, 91 %
+===== 2026-09-11 16:14:50 =====
+[ctrl] alive=9 tracebacks=0 step 30550
+[ctrl] [val step 29999] val_novel_full=0.0353 val_novel_hole=0.0441 val_novel_visible=0.0340
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 95 %
+[gpu] 1, 14134 MiB, 100 %
+[gpu] 2, 14540 MiB, 100 %
+===== 2026-09-11 16:24:51 =====
+[ctrl] alive=9 tracebacks=0 step 30750
+[ctrl] [val step 29999] val_novel_full=0.0353 val_novel_hole=0.0441 val_novel_visible=0.0340
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 14134 MiB, 100 %
+[gpu] 2, 14540 MiB, 100 %
+===== 2026-09-11 16:34:51 =====
+[ctrl] alive=9 tracebacks=0 step 30950
+[ctrl] [val step 29999] val_novel_full=0.0353 val_novel_hole=0.0441 val_novel_visible=0.0340
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 14134 MiB, 100 %
+[gpu] 2, 16080 MiB, 96 %
+===== 2026-09-11 16:44:51 =====
+[ctrl] alive=9 tracebacks=0 step 31150
+[ctrl] [val step 29999] val_novel_full=0.0353 val_novel_hole=0.0441 val_novel_visible=0.0340
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 14134 MiB, 100 %
+[gpu] 2, 16080 MiB, 100 %
+===== 2026-09-11 16:54:51 =====
+[ctrl] alive=9 tracebacks=0 step 31300
+[ctrl] [val step 29999] val_novel_full=0.0353 val_novel_hole=0.0441 val_novel_visible=0.0340
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 19530 MiB, 100 %
+[gpu] 1, 14134 MiB, 68 %
+[gpu] 2, 16082 MiB, 100 %
+===== 2026-09-11 17:04:52 =====
+[ctrl] alive=9 tracebacks=0 step 31450
+[ctrl] [val step 29999] val_novel_full=0.0353 val_novel_hole=0.0441 val_novel_visible=0.0340
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 22834 MiB, 100 %
+[gpu] 1, 14134 MiB, 12 %
+[gpu] 2, 16082 MiB, 81 %
+===== 2026-09-11 17:14:52 =====
+[ctrl] alive=9 tracebacks=0 step 31600
+[ctrl] [val step 29999] val_novel_full=0.0353 val_novel_hole=0.0441 val_novel_visible=0.0340
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 22834 MiB, 69 %
+[gpu] 1, 19516 MiB, 48 %
+[gpu] 2, 16084 MiB, 100 %
+===== 2026-09-11 17:24:52 =====
+[ctrl] alive=9 tracebacks=0 step 31750
+[ctrl] [val step 29999] val_novel_full=0.0353 val_novel_hole=0.0441 val_novel_visible=0.0340
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 22836 MiB, 100 %
+[gpu] 1, 19516 MiB, 94 %
+[gpu] 2, 16084 MiB, 64 %
+===== 2026-09-11 17:34:53 =====
+[ctrl] alive=9 tracebacks=0 step 31850
+[ctrl] [val step 29999] val_novel_full=0.0353 val_novel_hole=0.0441 val_novel_visible=0.0340
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 22836 MiB, 100 %
+[gpu] 1, 19516 MiB, 75 %
+[gpu] 2, 16084 MiB, 100 %
+===== 2026-09-11 17:44:53 =====
+[ctrl] alive=9 tracebacks=0 step 32050
+[ctrl] [val step 31999] val_novel_full=0.0521 val_novel_hole=0.0665 val_novel_visible=0.0479
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 94 %
+[gpu] 1, 19516 MiB, 94 %
+[gpu] 2, 20118 MiB, 100 %
+===== 2026-09-11 17:54:53 =====
+[ctrl] alive=9 tracebacks=0 step 32250
+[ctrl] [val step 31999] val_novel_full=0.0521 val_novel_hole=0.0665 val_novel_visible=0.0479
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 95 %
+[gpu] 1, 19516 MiB, 99 %
+[gpu] 2, 20118 MiB, 100 %
+===== 2026-09-11 18:04:54 =====
+[ctrl] alive=9 tracebacks=0 step 32400
+[ctrl] [val step 31999] val_novel_full=0.0521 val_novel_hole=0.0665 val_novel_visible=0.0479
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 70 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 20118 MiB, 100 %
+===== 2026-09-11 18:14:54 =====
+[ctrl] alive=9 tracebacks=0 step 32600
+[ctrl] [val step 31999] val_novel_full=0.0521 val_novel_hole=0.0665 val_novel_visible=0.0479
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 20118 MiB, 79 %
+===== 2026-09-11 18:24:54 =====
+[ctrl] alive=9 tracebacks=0 step 32800
+[ctrl] [val step 31999] val_novel_full=0.0521 val_novel_hole=0.0665 val_novel_visible=0.0479
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 20118 MiB, 100 %
+===== 2026-09-11 18:34:54 =====
+[ctrl] alive=9 tracebacks=0 step 33000
+[ctrl] [val step 31999] val_novel_full=0.0521 val_novel_hole=0.0665 val_novel_visible=0.0479
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 73 %
+[gpu] 2, 18132 MiB, 83 %
+===== 2026-09-11 18:44:55 =====
+[ctrl] alive=9 tracebacks=0 step 33150
+[ctrl] [val step 31999] val_novel_full=0.0521 val_novel_hole=0.0665 val_novel_visible=0.0479
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 96 %
+===== 2026-09-11 18:54:55 =====
+[ctrl] alive=9 tracebacks=0 step 33350
+[ctrl] [val step 31999] val_novel_full=0.0521 val_novel_hole=0.0665 val_novel_visible=0.0479
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 92 %
+===== 2026-09-11 19:04:55 =====
+[ctrl] alive=9 tracebacks=0 step 33550
+[ctrl] [val step 31999] val_novel_full=0.0521 val_novel_hole=0.0665 val_novel_visible=0.0479
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 62 %
+[gpu] 1, 19516 MiB, 51 %
+[gpu] 2, 18132 MiB, 63 %
+===== 2026-09-11 19:14:56 =====
+[ctrl] alive=9 tracebacks=0 step 33750
+[ctrl] [val step 31999] val_novel_full=0.0521 val_novel_hole=0.0665 val_novel_visible=0.0479
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 95 %
+[gpu] 1, 19516 MiB, 97 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 19:24:56 =====
+[ctrl] alive=9 tracebacks=0 step 33950
+[ctrl] [val step 31999] val_novel_full=0.0521 val_novel_hole=0.0665 val_novel_visible=0.0479
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 78 %
+[gpu] 1, 19516 MiB, 89 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 19:34:56 =====
+[ctrl] alive=9 tracebacks=0 step 34100
+[ctrl] [val step 33999] val_novel_full=0.0587 val_novel_hole=0.0885 val_novel_visible=0.0440
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 19516 MiB, 95 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 19:44:57 =====
+[ctrl] alive=9 tracebacks=0 step 34300
+[ctrl] [val step 33999] val_novel_full=0.0587 val_novel_hole=0.0885 val_novel_visible=0.0440
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 19:54:57 =====
+[ctrl] alive=9 tracebacks=0 step 34500
+[ctrl] [val step 33999] val_novel_full=0.0587 val_novel_hole=0.0885 val_novel_visible=0.0440
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 79 %
+[gpu] 2, 18132 MiB, 77 %
+===== 2026-09-11 20:04:57 =====
+[ctrl] alive=9 tracebacks=0 step 34700
+[ctrl] [val step 33999] val_novel_full=0.0587 val_novel_hole=0.0885 val_novel_visible=0.0440
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 73 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 20:14:58 =====
+[ctrl] alive=9 tracebacks=0 step 34850
+[ctrl] [val step 33999] val_novel_full=0.0587 val_novel_hole=0.0885 val_novel_visible=0.0440
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 85 %
+[gpu] 1, 19516 MiB, 70 %
+[gpu] 2, 18132 MiB, 96 %
+===== 2026-09-11 20:24:58 =====
+[ctrl] alive=9 tracebacks=0 step 35050
+[ctrl] [val step 33999] val_novel_full=0.0587 val_novel_hole=0.0885 val_novel_visible=0.0440
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 72 %
+[gpu] 2, 18132 MiB, 97 %
+===== 2026-09-11 20:34:58 =====
+[ctrl] alive=9 tracebacks=0 step 35250
+[ctrl] [val step 33999] val_novel_full=0.0587 val_novel_hole=0.0885 val_novel_visible=0.0440
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 19516 MiB, 98 %
+[gpu] 2, 18132 MiB, 98 %
+===== 2026-09-11 20:44:59 =====
+[ctrl] alive=9 tracebacks=0 step 35450
+[ctrl] [val step 33999] val_novel_full=0.0587 val_novel_hole=0.0885 val_novel_visible=0.0440
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 92 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 20:54:59 =====
+[ctrl] alive=9 tracebacks=0 step 35650
+[ctrl] [val step 33999] val_novel_full=0.0587 val_novel_hole=0.0885 val_novel_visible=0.0440
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 75 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 21:04:59 =====
+[ctrl] alive=9 tracebacks=0 step 35800
+[ctrl] [val step 33999] val_novel_full=0.0587 val_novel_hole=0.0885 val_novel_visible=0.0440
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 53 %
+[gpu] 2, 18132 MiB, 99 %
+===== 2026-09-11 21:15:00 =====
+[ctrl] alive=9 tracebacks=0 step 36000
+[ctrl] [val step 35999] val_novel_full=0.0343 val_novel_hole=0.0612 val_novel_visible=0.0306
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 92 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 21:25:00 =====
+[ctrl] alive=9 tracebacks=0 step 36200
+[ctrl] [val step 35999] val_novel_full=0.0343 val_novel_hole=0.0612 val_novel_visible=0.0306
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 21:35:00 =====
+[ctrl] alive=9 tracebacks=0 step 36400
+[ctrl] [val step 35999] val_novel_full=0.0343 val_novel_hole=0.0612 val_novel_visible=0.0306
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 60 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 21:45:00 =====
+[ctrl] alive=9 tracebacks=0 step 36600
+[ctrl] [val step 35999] val_novel_full=0.0343 val_novel_hole=0.0612 val_novel_visible=0.0306
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 95 %
+[gpu] 2, 18132 MiB, 64 %
+===== 2026-09-11 21:55:01 =====
+[ctrl] alive=9 tracebacks=0 step 36750
+[ctrl] [val step 35999] val_novel_full=0.0343 val_novel_hole=0.0612 val_novel_visible=0.0306
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 96 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 22:05:01 =====
+[ctrl] alive=9 tracebacks=0 step 36950
+[ctrl] [val step 35999] val_novel_full=0.0343 val_novel_hole=0.0612 val_novel_visible=0.0306
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 88 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 53 %
+===== 2026-09-11 22:15:01 =====
+[ctrl] alive=9 tracebacks=0 step 37150
+[ctrl] [val step 35999] val_novel_full=0.0343 val_novel_hole=0.0612 val_novel_visible=0.0306
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 90 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 22:25:02 =====
+[ctrl] alive=9 tracebacks=0 step 37350
+[ctrl] [val step 35999] val_novel_full=0.0343 val_novel_hole=0.0612 val_novel_visible=0.0306
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 59 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 22:35:02 =====
+[ctrl] alive=9 tracebacks=0 step 37550
+[ctrl] [val step 35999] val_novel_full=0.0343 val_novel_hole=0.0612 val_novel_visible=0.0306
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 22:45:02 =====
+[ctrl] alive=9 tracebacks=0 step 37700
+[ctrl] [val step 35999] val_novel_full=0.0343 val_novel_hole=0.0612 val_novel_visible=0.0306
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 96 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 22:55:03 =====
+[ctrl] alive=9 tracebacks=0 step 37900
+[ctrl] [val step 35999] val_novel_full=0.0343 val_novel_hole=0.0612 val_novel_visible=0.0306
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 19516 MiB, 96 %
+[gpu] 2, 18132 MiB, 97 %
+===== 2026-09-11 23:05:03 =====
+[ctrl] alive=9 tracebacks=0 step 38100
+[ctrl] [val step 37999] val_novel_full=0.0607 val_novel_hole=0.0928 val_novel_visible=0.0449
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 92 %
+[gpu] 2, 18132 MiB, 69 %
+===== 2026-09-11 23:15:03 =====
+[ctrl] alive=9 tracebacks=0 step 38300
+[ctrl] [val step 37999] val_novel_full=0.0607 val_novel_hole=0.0928 val_novel_visible=0.0449
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 74 %
+[gpu] 2, 18132 MiB, 96 %
+===== 2026-09-11 23:25:04 =====
+[ctrl] alive=9 tracebacks=0 step 38450
+[ctrl] [val step 37999] val_novel_full=0.0607 val_novel_hole=0.0928 val_novel_visible=0.0449
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 72 %
+===== 2026-09-11 23:35:04 =====
+[ctrl] alive=9 tracebacks=0 step 38650
+[ctrl] [val step 37999] val_novel_full=0.0607 val_novel_hole=0.0928 val_novel_visible=0.0449
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 98 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-11 23:45:04 =====
+[ctrl] alive=9 tracebacks=0 step 38850
+[ctrl] [val step 37999] val_novel_full=0.0607 val_novel_hole=0.0928 val_novel_visible=0.0449
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 83 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 56 %
+===== 2026-09-11 23:55:05 =====
+[ctrl] alive=9 tracebacks=0 step 39050
+[ctrl] [val step 37999] val_novel_full=0.0607 val_novel_hole=0.0928 val_novel_visible=0.0449
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-12 00:05:05 =====
+[ctrl] alive=9 tracebacks=0 step 39250
+[ctrl] [val step 37999] val_novel_full=0.0607 val_novel_hole=0.0928 val_novel_visible=0.0449
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 78 %
+[gpu] 1, 19516 MiB, 50 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-12 00:15:05 =====
+[ctrl] alive=9 tracebacks=0 step 39400
+[ctrl] [val step 37999] val_novel_full=0.0607 val_novel_hole=0.0928 val_novel_visible=0.0449
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 69 %
+[gpu] 1, 19516 MiB, 74 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-12 00:25:05 =====
+[ctrl] alive=9 tracebacks=0 step 39600
+[ctrl] [val step 37999] val_novel_full=0.0607 val_novel_hole=0.0928 val_novel_visible=0.0449
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 72 %
+===== 2026-09-12 00:35:06 =====
+[ctrl] alive=9 tracebacks=0 step 39800
+[ctrl] [val step 37999] val_novel_full=0.0607 val_novel_hole=0.0928 val_novel_visible=0.0449
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 97 %
+[gpu] 2, 18132 MiB, 98 %
+===== 2026-09-12 00:45:06 =====
+[ctrl] alive=9 tracebacks=0 step 40000
+[ctrl] [val step 39999] val_novel_full=0.0346 val_novel_hole=0.0444 val_novel_visible=0.0328
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 97 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-12 00:55:06 =====
+[ctrl] alive=9 tracebacks=0 step 40150
+[ctrl] [val step 39999] val_novel_full=0.0346 val_novel_hole=0.0444 val_novel_visible=0.0328
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 95 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-12 01:05:07 =====
+[ctrl] alive=9 tracebacks=0 step 40350
+[ctrl] [val step 39999] val_novel_full=0.0346 val_novel_hole=0.0444 val_novel_visible=0.0328
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 82 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-12 01:15:07 =====
+[ctrl] alive=9 tracebacks=0 step 40550
+[ctrl] [val step 39999] val_novel_full=0.0346 val_novel_hole=0.0444 val_novel_visible=0.0328
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 95 %
+[gpu] 1, 19516 MiB, 76 %
+[gpu] 2, 18132 MiB, 74 %
+===== 2026-09-12 01:25:07 =====
+[ctrl] alive=9 tracebacks=0 step 40750
+[ctrl] [val step 39999] val_novel_full=0.0346 val_novel_hole=0.0444 val_novel_visible=0.0328
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-12 01:35:08 =====
+[ctrl] alive=9 tracebacks=0 step 40950
+[ctrl] [val step 39999] val_novel_full=0.0346 val_novel_hole=0.0444 val_novel_visible=0.0328
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 95 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-12 01:45:08 =====
+[ctrl] alive=9 tracebacks=0 step 41100
+[ctrl] [val step 39999] val_novel_full=0.0346 val_novel_hole=0.0444 val_novel_visible=0.0328
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 75 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 68 %
+===== 2026-09-12 01:55:08 =====
+[ctrl] alive=9 tracebacks=0 step 41300
+[ctrl] [val step 39999] val_novel_full=0.0346 val_novel_hole=0.0444 val_novel_visible=0.0328
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 97 %
+===== 2026-09-12 02:05:09 =====
+[ctrl] alive=9 tracebacks=0 step 41500
+[ctrl] [val step 39999] val_novel_full=0.0346 val_novel_hole=0.0444 val_novel_visible=0.0328
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 97 %
+[gpu] 1, 19516 MiB, 100 %
+[gpu] 2, 18132 MiB, 100 %
+===== 2026-09-12 02:15:09 =====
+[ctrl] alive=9 tracebacks=0 step 41700
+[ctrl] [val step 39999] val_novel_full=0.0346 val_novel_hole=0.0444 val_novel_visible=0.0328
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 14210 MiB, 81 %
+[gpu] 2, 14562 MiB, 100 %
+===== 2026-09-12 02:25:09 =====
+[ctrl] alive=9 tracebacks=0 step 41900
+[ctrl] [val step 39999] val_novel_full=0.0346 val_novel_hole=0.0444 val_novel_visible=0.0328
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 75 %
+[gpu] 1, 14212 MiB, 100 %
+[gpu] 2, 14564 MiB, 98 %
+===== 2026-09-12 02:35:09 =====
+[ctrl] alive=9 tracebacks=0 step 42050
+[ctrl] [val step 41999] val_novel_full=0.0578 val_novel_hole=0.0844 val_novel_visible=0.0446
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 92 %
+[gpu] 1, 14212 MiB, 89 %
+[gpu] 2, 14564 MiB, 75 %
+===== 2026-09-12 02:45:10 =====
+[ctrl] alive=9 tracebacks=0 step 42250
+[ctrl] [val step 41999] val_novel_full=0.0578 val_novel_hole=0.0844 val_novel_visible=0.0446
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 15940 MiB, 65 %
+[gpu] 2, 14564 MiB, 100 %
+===== 2026-09-12 02:55:10 =====
+[ctrl] alive=9 tracebacks=0 step 42450
+[ctrl] [val step 41999] val_novel_full=0.0578 val_novel_hole=0.0844 val_novel_visible=0.0446
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 15944 MiB, 100 %
+[gpu] 2, 14564 MiB, 74 %
+===== 2026-09-12 03:05:10 =====
+[ctrl] alive=9 tracebacks=0 step 42650
+[ctrl] [val step 41999] val_novel_full=0.0578 val_novel_hole=0.0844 val_novel_visible=0.0446
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 96 %
+[gpu] 1, 15944 MiB, 76 %
+[gpu] 2, 14564 MiB, 98 %
+===== 2026-09-12 03:15:11 =====
+[ctrl] alive=9 tracebacks=0 step 42800
+[ctrl] [val step 41999] val_novel_full=0.0578 val_novel_hole=0.0844 val_novel_visible=0.0446
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 97 %
+[gpu] 1, 15946 MiB, 74 %
+[gpu] 2, 14564 MiB, 100 %
+===== 2026-09-12 03:25:11 =====
+[ctrl] alive=9 tracebacks=0 step 43000
+[ctrl] [val step 41999] val_novel_full=0.0578 val_novel_hole=0.0844 val_novel_visible=0.0446
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 97 %
+[gpu] 1, 15946 MiB, 100 %
+[gpu] 2, 14564 MiB, 91 %
+===== 2026-09-12 03:35:11 =====
+[ctrl] alive=9 tracebacks=0 step 43200
+[ctrl] [val step 41999] val_novel_full=0.0578 val_novel_hole=0.0844 val_novel_visible=0.0446
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 97 %
+[gpu] 1, 15946 MiB, 76 %
+[gpu] 2, 14564 MiB, 80 %
+===== 2026-09-12 03:45:12 =====
+[ctrl] alive=9 tracebacks=0 step 43400
+[ctrl] [val step 41999] val_novel_full=0.0578 val_novel_hole=0.0844 val_novel_visible=0.0446
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 15946 MiB, 96 %
+[gpu] 2, 14564 MiB, 100 %
+===== 2026-09-12 03:55:12 =====
+[ctrl] alive=9 tracebacks=0 step 43600
+[ctrl] [val step 41999] val_novel_full=0.0578 val_novel_hole=0.0844 val_novel_visible=0.0446
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 15946 MiB, 90 %
+[gpu] 2, 14564 MiB, 95 %
+===== 2026-09-12 04:05:12 =====
+[ctrl] alive=9 tracebacks=0 step 43750
+[ctrl] [val step 41999] val_novel_full=0.0578 val_novel_hole=0.0844 val_novel_visible=0.0446
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 66 %
+[gpu] 1, 17994 MiB, 100 %
+[gpu] 2, 20202 MiB, 100 %
+===== 2026-09-12 04:15:13 =====
+[ctrl] alive=9 tracebacks=0 step 43950
+[ctrl] [val step 41999] val_novel_full=0.0578 val_novel_hole=0.0844 val_novel_visible=0.0446
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 100 %
+[gpu] 1, 17994 MiB, 83 %
+[gpu] 2, 20202 MiB, 100 %
+===== 2026-09-12 04:25:13 =====
+[ctrl] alive=9 tracebacks=0 step 44150
+[ctrl] [val step 43999] val_novel_full=0.0364 val_novel_hole=0.0402 val_novel_visible=0.0357
+[full] alive=0 tracebacks=0 step 24850
+[full] [val step 23999] val_novel_full=0.2666 val_novel_hole=0.1688 val_novel_visible=0.2804
+[struct] alive=0 tracebacks=0 step 42450
+[struct] [val step 41999] val_novel_full=0.2919 val_novel_hole=0.2815 val_novel_visible=0.2964
+[gpu] 0, 17720 MiB, 65 %
+[gpu] 1, 17994 MiB, 88 %
+[gpu] 2, 20202 MiB, 100 %

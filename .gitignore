@@ -1,0 +1,30 @@
+# ===== Training outputs (257GB: checkpoints / val images / tb events) =====
+# These stay on the training server only — re-generate by resuming training.
+warpgan-diffusion-inpainting-main/experiments/
+
+# ===== Archives (redundant copies) =====
+*.zip
+*.tar.gz
+
+# ===== Old pre-migration backups =====
+**/_backup_pre_mirror_anchor/
+
+# ===== Git bundle artifacts =====
+*.bundle
+
+# ===== Python =====
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.ipynb_checkpoints/
+
+# ===== OS / IDE =====
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ===== Misc runtime artifacts =====
+nohup.out
+*.log.tmp
