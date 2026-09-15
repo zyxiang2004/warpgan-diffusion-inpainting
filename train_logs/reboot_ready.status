@@ -1,0 +1,64 @@
+===== 2026-09-10 09:30:53 =====
+[struct] not-ready  step 9450
+[full] not-ready  step 6850
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 09:35:53 =====
+[struct] not-ready  step 9550
+[full] not-ready  step 6900
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 09:40:53 =====
+[struct] not-ready  step 9650
+[full] not-ready  step 7000
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 09:45:53 =====
+[struct] not-ready  step 9800
+[full] not-ready  step 7100
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 09:50:53 =====
+[struct] not-ready  step 9900
+[full] not-ready  step 7200
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 09:55:53 =====
+[struct] READY ckpt=iteration_0009999.pt  step 10000
+[full] not-ready  step 7250
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 10:00:53 =====
+[struct] READY ckpt=iteration_0009999.pt  step 10150
+[full] not-ready  step 7350
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 10:05:53 =====
+[struct] READY ckpt=iteration_0009999.pt  step 10250
+[full] not-ready  step 7450
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 10:10:53 =====
+[struct] READY ckpt=iteration_0009999.pt  step 10350
+[full] not-ready  step 7500
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 10:15:53 =====
+[struct] READY ckpt=iteration_0009999.pt  step 10500
+[full] not-ready  step 7600
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 10:20:53 =====
+[struct] READY ckpt=iteration_0009999.pt  step 10600
+[full] not-ready  step 7700
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 10:25:53 =====
+[struct] READY ckpt=iteration_0009999.pt  step 10700
+[full] not-ready  step 7750
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 10:30:53 =====
+[struct] READY ckpt=iteration_0009999.pt  step 10850
+[full] not-ready  step 7850
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 10:35:53 =====
+[struct] READY ckpt=iteration_0009999.pt  step 10950
+[full] not-ready  step 7950
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 10:40:53 =====
+[struct] READY ckpt=iteration_0009999.pt  step 11100
+[full] not-ready  step 8000
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md
+===== 2026-09-10 10:45:53 =====
+[struct] READY ckpt=iteration_0009999.pt  step 11200
+[full] not-ready  step 8100
+CTRL is dead (failed GPU) and cannot restart before reboot — see PREREG_V18W1_INCIDENTS.md

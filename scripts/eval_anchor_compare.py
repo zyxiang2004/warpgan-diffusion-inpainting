@@ -27,7 +27,7 @@ import torch
 import torch.nn.functional as F
 from PIL import Image
 
-ROOT = '/data/xzy/warpgan20260803/20260803/warpgan_orig/WarpGAN-main'
+ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 os.chdir(ROOT)
 sys.path.append('.')
 sys.path.append('..')
@@ -42,10 +42,35 @@ from utils.warp.Splatting import Warper
 DEV = 'cuda:0'
 DATA_ROOT = './data/celeba-hq_1000_static_rebalanced'
 FFC_CKPT = './pretrained_models/inpaintor/inpaintor.pt'
-OUT = './experiments/anchor_compare'
+# v18: models selected via argv 'tag=ckpt_dir' pairs (plus optional out=NAME).
+# Defaults to the three v18w1 arms when they exist. Usage:
+#   python scripts/eval_anchor_compare.py \
+#       ctrl=experiments/train_inpainting_diffusion/v18w1_ctrl_50k/checkpoints \
+#       full=experiments/train_inpainting_diffusion/v18w1_full_50k/checkpoints \
+#       struct=experiments/train_inpainting_diffusion/v18w1_struct_50k/checkpoints
+_V18_DEFAULT = './experiments/train_inpainting_diffusion/v18w1_%s_50k/checkpoints'
+MODELS = []
+OUT_SUFFIX = 'v18w1'
+for _a in sys.argv[1:]:
+    if _a.startswith('out='):
+        OUT_SUFFIX = _a[4:]
+        continue
+    if '=' not in _a:
+        continue
+    _t, _d = _a.split('=', 1)
+    MODELS.append((_t, _d))
+if not MODELS:
+    import glob as _glob
+    for _t in ('ctrl', 'full', 'struct'):
+        # fresh runs carry a [timestamp]_ prefix — glob and take the newest
+        _ds = sorted(_glob.glob(
+            f'./experiments/train_inpainting_diffusion/*_v18w1_{_t}_50k/checkpoints'))
+        if _ds:
+            MODELS.append((_t, _ds[-1]))
+assert MODELS, 'no model dirs given/found (tag=ckpt_dir pairs expected)'
+TAGS = [t for t, _ in MODELS]
+OUT = f'./experiments/anchor_compare_{OUT_SUFFIX}'
 os.makedirs(OUT, exist_ok=True)
-V16_DIR = './experiments/train_inpainting_diffusion/[20260903-032126]_step3_v16_photoref_50k/checkpoints'
-V12_DIR = './experiments/train_inpainting_diffusion/[20260828-205831]_step3_v12_dualband_50k/checkpoints'
 LAP = torch.tensor([[0., 1., 0.], [1., -4., 1.], [0., 1., 0.]]).view(1, 1, 3, 3)
 
 
@@ -207,7 +232,7 @@ def main():
     ffc = FFCRunner()
 
     results = {}
-    for tag, ckpt_dir in (('v16', V16_DIR), ('v12', V12_DIR)):
+    for tag, ckpt_dir in MODELS:
         ckpt = latest_ckpt(ckpt_dir)
         log(f'[{tag}] building coach from {ckpt}')
         coach = build_coach(ckpt)
@@ -228,17 +253,17 @@ def main():
             key = (ident, v)
             results[key]['FFC'] = ffc(results[key]['case'])['pred']
 
-    lines = ['panel row: x | y_hat_novel | mask(white=hole) | anchor | FFC | v16 | v12']
+    lines = ['panel row: x | y_hat_novel | mask(white=hole) | anchor | FFC | ' + ' | '.join(TAGS)]
     lines.append('aF/aH/aV = L1 vs anchor full/hole/visible; rH = L1 vs render (hole);')
     lines.append('lapH/lapV = laplacian energy in hole/visible (texture proxy)\n')
-    agg = {'FFC': [], 'v16': [], 'v12': []}
+    agg = {t: [] for t in ['FFC'] + TAGS}
     for ident in ids:
         for v in views:
             r = results[(ident, v)]
             case, nv = r['case'], r['nv']
             mask, anchor, yh, x = nv['mask'], nv['anchor'], case['yh'], case['x']
             row = [f'{ident}_v{v} h={float(mask.mean()):.2f}']
-            for tag in ('FFC', 'v16', 'v12'):
+            for tag in ['FFC'] + TAGS:
                 mm = metrics(r[tag], mask, anchor, yh, x)
                 agg[tag].append(mm)
                 row.append(f"{tag} aF/aH/aV={mm['full']:.3f}/{mm['hole']:.3f}/{mm['vis']:.3f} "
@@ -259,8 +284,8 @@ def main():
             mask, anchor = nv['mask'], nv['anchor']
             panel = torch.cat([case['x'][0].cpu(), case['yh'][0].cpu(),
                                mask[0].expand(3, -1, -1).cpu(), anchor[0].cpu(),
-                               r['FFC'][0].cpu(), r['v16'][0].cpu(),
-                               r['v12'][0].cpu()], dim=2)
+                               r['FFC'][0].cpu()]
+                              + [r[t][0].cpu() for t in TAGS], dim=2)
             vutils.save_image(panel, os.path.join(OUT, f'cmp_{ident}_v{v}.png'))
             rows_main.append(panel)
             m = mask[0, 0]
@@ -269,7 +294,7 @@ def main():
             r1, c1 = min(512, cy + 80), min(512, cx + 80)
             r0, c0 = r1 - 160, c1 - 160
             crops = []
-            for t in (r['FFC'], r['v16'], r['v12'], anchor):
+            for t in [r['FFC']] + [r[k] for k in TAGS] + [anchor]:
                 c = t[0, :, r0:r1, c0:c1].cpu()
                 crops.append(F.interpolate(c.unsqueeze(0), scale_factor=2,
                                            mode='bilinear', align_corners=False)[0])
@@ -282,7 +307,7 @@ def main():
         vutils.save_image(gh, os.path.join(OUT, f'overview_holes_{ident}.png'))
 
     summary = ['\nmean over all cases:']
-    for tag in ('FFC', 'v16', 'v12'):
+    for tag in ['FFC'] + TAGS:
         ms = agg[tag]
         summary.append(
             f"  {tag}: anchorL1 full/hole/vis="

@@ -6,6 +6,35 @@
 # GAN/FM default to 0 (two white-blow divergences on x0 residual noise, §4.4).
 
 device: cuda:0
+
+# v18.5: constant prompt conditioning. InvSR TRAINS with a positive quality
+# prompt (not empty) and infers with positive+negative CFG; teacher ② intended
+# W+ tokens to align WITH text features. preset '' (or text '') reproduces the
+# historical empty-prompt behavior exactly.
+prompt:
+  preset: ''              # '' | invsr  (invsr = their exact quality string)
+  text: ''                # explicit text overrides preset
+
+# v18.6: SDEdit / InvSR partial-noise inference — start from the noised
+# ANCHOR at t_start (user-verified domain fix 2026-09-13). 0 = legacy
+# pure-noise 50-step chain. Pair with real_pass1.t_max = the same value.
+infer:
+  t_start: 0
+
+# v18.8 (W5): AnyDoor-style high-frequency texture conditioning channel.
+# Sobel edge-weighted image of the mirror photo (the same-person texture
+# source), forward-warped to the novel view, concatenated into BrushNet
+# conditioning (5ch → 8ch). New channels ZERO-initialized (safe from-scratch).
+# Source: AnyDoor CVPR 2024, datasets/data_utils.py sobel(), exact port.
+hf:
+  enable: False          # True = activate the 3ch HF conditioning channel
+  thresh: 50.0           # AnyDoor's default (on 0-255 scale; /255 internally)
+
+# v18.8 (W5): DreamBooth-style prior preservation. Every N steps, one extra
+# forward where condition=target=real photo (identity mapping). Prevents
+# fine-tuning from eroding SD's photographic prior.
+prior_preserve:
+  freq: 0                # 0 = off; N = every N-th step (e.g., 10)
 exp_dir: ./experiments/train_inpainting_diffusion/step0_smoke
 
 checkpoint_path: null
@@ -125,6 +154,18 @@ losses:
                              # keeps structure intact while zeroing skin-pore /
                              # hair-strain bands (~sub-latent-pixel detail).
   real_pass1:
+    # v18 STRUCT arm switch: False = the real batch runs pass2 ONLY (no
+    # pass1 forward / supervision — the orig coach never supervised
+    # pred_novel on real data; the anchor's blind region is fabricated
+    # render evidence). cond1 is still built (pass2's condition derives
+    # from it); inference (validate/_sample_novel) is unchanged.
+    forward: True
+    # v18.6: pass1 trains ONLY in the deployed SDEdit domain (0 = full range).
+    # Set = losses.x0.t_max when infer.t_start > 0 (train/inference contract).
+    t_max: 0
+    # v18.7: median filter on the SUPERVISION anchor (impulse-noise cleanup:
+    # pinholes, sub-pixel boundary noise). 0 = off; 3 or 5 = kernel size.
+    anchor_median: 0
     # Weak epsilon anchor (spec §5.3) — the ONLY freedom beyond orig semantics.
     visible_weight: 1.0  # target = Warper.inverse_warp(x)  (v2 contract, streak-free)
     hole_weight: 0.1     # target = y_hat_novel @0.1 (ablation A: hole needs an anchor)
@@ -186,6 +227,23 @@ losses:
                          # frame). v14 starts at 1/10 — Stage-B lesson: gradual.
   x0:
     enable: False          # v17-prime: gate-free distribution supervision.
+    mode: renoise          # v18.3: 'renoise' = wave-1 legacy path (verbatim,
+                           # see _x0_losses); 'invsr' = InvSR-calibrated
+                           # (CVPR'5 2412.09013) latent-space supervision:
+                           # MSE + FM + small-adv on the single-step x0,
+                           # t<=t_max only, timestep-conditioned UNet
+                           # discriminator (unet_discriminator.py port),
+                           # hinge D loss, D warmup. No VAE decode in the loss.
+    t_max: 300             # invsr validity domain (MEASURED — diag_pair_domain;
+                           # InvSR trains at [100,250] on the SD-Turbo scale)
+    w_ldif: 1.0            # InvSR loss_coef.ldif (their exact value)
+    w_lfm: 2.0             # InvSR loss_coef.llpips slot — feature matching on
+                           # D head features stands in for their finetuned
+                           # latent-LPIPS (not downloadable offline)
+    w_ldis: 0.1            # InvSR loss_coef.ldis (adversarial = SMALLEST term)
+    dis_warmup: 3000       # their dis_init_iterations 10K/100K scaled to 30K
+    latent_bound: 10.0     # their _Latent_bound clamp on z0_pred
+                           # ---- legacy 'renoise' mode keys below ----
                            # Re-noising construction (see Coach._x0_losses):
                            #   fake_t = sqrt(ab)*x0_hat + sqrt(1-ab)*eps_new
                            #   real_t = same noise level on the reference
@@ -194,14 +252,30 @@ losses:
                            #    noise); gradient carries sqrt(ab) (free SNR
                            #    weighting). Replaces the t<200 gate, x0_clip=3,
                            #    patch decode and hand-set L1 weights.
-    l1_weight: 1.0         # x0-space L1 vs the CLEAN target, weighted ab_t
-                           # (==1 at t=0, ->0 at t=T; analytic, not a gate)
+    l1_weight: 1.0         # legacy 'renoise' key (unused in invsr mode)
+    llpips_enable: False   # v18.4: TRUE once vgg16_sdturbo_lpips.pth is
+                           # downloaded (https://huggingface.co/OAOA/InvSR)
+                           # -> replaces the numerically-dead FM substitute
+                           # (measured lfm~0.001-0.009, effectively no domain
+                           # pull) with InvSR's finetuned latent-LPIPS, their
+                           # MAIN loss term. Weights at ./weights/, module at
+                           # models/invsr_latent_lpips/ (copied from their zip).
+    llpips_ckpt: ./weights/vgg16_sdturbo_lpips.pth
     clip: 8.0              # NUMERIC guard for the VAE input range only
-    res_latent: 32         # decode at 32x32 latents (256px) — memory budget
-    d_real: photo          # the D's real distribution is ALWAYS photos:
-                           # real batch -> x_t (already photo-based);
-                           # synth batch -> re-noised src_img latents.
-                           # Evidence grading: photos > renders, always.
+    res_latent: 32         # v18: random latent CROP size (+4px decode ctx) —
+                           # NATIVE-frequency supervision at the same memory
+                           # budget (the old 64->32 latent downscale halved
+                           # texture frequencies AND fed the VAE off-manifold
+                           # latents)
+    d_real: paired_target  # v18 P1 fix: real side = the noised TARGET latents
+                           # on BOTH batches (pass2: noised photo x_t; synth:
+                           # noised paired target render) — view-aligned,
+                           # pixel-paired, same noise level; mirrors the orig
+                           # D pairs exactly (real batch L1177 real=img; synth
+                           # batch L530-536 real=target_img). The whole
+                           # distribution family (L1+FM+adv) additionally
+                           # carries the ab_t SNR weight (v18, min-SNR
+                           # principle; net eps_grad factor ab*sqrt(1-ab)).
   preserve:                # v15 (2026-08-31): blind high-freq SCORE preservation.
     weight: 1.0            # The ONLY new variable vs the v12 recipe. Teacher =
                            # the SAME frozen UNet, ZERO control injection, on the

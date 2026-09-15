@@ -216,6 +216,43 @@ class Coach:
         # render anchor — geometry anchored, EG3D texture band zero gradient)
         self.blind_struct_weight = float(getattr(
             getattr(opts.losses, 'real_pass1', None), 'blind_struct_weight', 0.0))
+        # v18 STRUCT arm: when False, the real batch runs pass2 ONLY — no
+        # pass1 forward and no pass1 supervision (the orig coach NEVER
+        # supervised pred_novel on real data; the anchor's blind region is
+        # fabricated evidence — renders — and teaching it is the suspected
+        # oil-paint/sandpaper saboteur). cond1 is still constructed because
+        # pass2's condition derives from it. Inference (validate/_sample_novel)
+        # is UNCHANGED — the novel-view pipeline still runs at eval time.
+        self.real_pass1_forward = bool(getattr(
+            getattr(opts.losses, 'real_pass1', None), 'forward', True))
+        # v18.6: pass1 timestep domain = the DEPLOYED inference domain. With
+        # SDEdit-300 inference the trajectory lives in t∈[0,300]; pass1
+        # training beyond that teaches prior-dominated generation that is
+        # never deployed (the vintage-oil-paint source). 0 = full range.
+        self.real_pass1_t_max = int(getattr(
+            getattr(opts.losses, 'real_pass1', None), 't_max', 0) or 0)
+        # v18.7: median cleanup of the supervision anchor (impulse noise from
+        # inverse-warp coverage gaps / sub-pixel misalignment). 0 = off.
+        self.anchor_median = int(getattr(
+            getattr(opts.losses, 'real_pass1', None), 'anchor_median', 0) or 0)
+        # v18.8 (W5): AnyDoor-style high-frequency conditioning channel.
+        # Sobel edge-weighted image of the texture reference (mirror photo),
+        # warped to the target view, concatenated into BrushNet conditioning
+        # (5ch → 8ch). Zero-initialized new channels = safe from-scratch.
+        self.hf_enable = bool(getattr(
+            getattr(opts, 'hf', None), 'enable', False))
+        self.hf_thresh = float(getattr(
+            getattr(opts, 'hf', None), 'thresh', 50.0)) / 255.0  # AnyDoor: 50 on 0-255
+        # v18.8 (W5): DreamBooth-style prior preservation. Every N steps,
+        # run one extra forward where condition=target=real photo (identity
+        # mapping), teaching BrushNet 'photo condition → photo output'.
+        self.prior_preserve_freq = int(getattr(
+            getattr(opts, 'prior_preserve', None), 'freq', 0) or 0)
+        # v18.6: inference starts from the noised ANCHOR at t_start (InvSR
+        # 'Partial noise Prediction'; user-verified domain fix 2026-09-13).
+        # 0 = legacy pure-noise 50-step chain.
+        _inf = getattr(opts, 'infer', None)
+        self.infer_t_start = int(getattr(_inf, 't_start', 0) or 0) if _inf is not None else 0
         # v10 condition-side softening (orig process_mask port; §8.26)
         _w = getattr(opts, 'warp', None)
         self.cond_erode_kernel = int(getattr(_w, 'cond_erode_kernel', 0))
@@ -263,6 +300,23 @@ class Coach:
                                 truncation=True, return_tensors='pt')
         with torch.no_grad():
             self.empty_prompt_embeds = text_encoder(text_inputs.input_ids.to(self.device))[0]
+        # v18.5: optional CONSTANT prompt (InvSR trains with a positive QUALITY
+        # prompt, not the empty string — trainer.py L44-47, L862/875; teacher ②
+        # also intended W+ tokens to align WITH text features). Default preset
+        # '' reproduces the historical empty-prompt behavior EXACTLY.
+        _pc = getattr(opts, 'prompt', None)
+        _preset = str(getattr(_pc, 'preset', '') or '') if _pc is not None else ''
+        _ptext = str(getattr(_pc, 'text', '') or '') if _pc is not None else ''
+        if _preset == 'invsr':
+            _ptext = ('Cinematic, high-contrast, photo-realistic, 8k, ultra HD, '
+                      'meticulous detailing, hyper sharpness, perfect without deformations')
+        if _ptext:
+            ti = tokenizer(_ptext, padding='max_length',
+                           max_length=tokenizer.model_max_length,
+                           truncation=True, return_tensors='pt')
+            with torch.no_grad():
+                self.empty_prompt_embeds = text_encoder(ti.input_ids.to(self.device))[0]
+            print(f'[v18.5] CONSTANT prompt ACTIVE (preset={_preset}): "{_ptext[:70]}..."')
         del tokenizer, text_encoder
         torch.cuda.empty_cache()
 
@@ -309,6 +363,9 @@ class Coach:
         set_requires_grad(self.brushnet, True)
         if bool(self.opts.brushnet.gradient_checkpointing):
             self.brushnet.enable_gradient_checkpointing()
+        # v18.8: expand BrushNet conditioning 5ch → 8ch (HF channel)
+        if self.hf_enable:
+            self._expand_brushnet_conditioning(extra_ch=3)
 
         # ---------------- W+ mapper ----------------
         if self.use_wplus:
@@ -369,13 +426,38 @@ class Coach:
         self.x0_l1_weight = float(_x0.l1_weight) if _x0 is not None and 'l1_weight' in _x0 else 1.0
         self.x0_clip = float(_x0.clip) if _x0 is not None and 'clip' in _x0 else 8.0
         self.x0_res_lat = int(_x0.res_latent) if _x0 is not None and 'res_latent' in _x0 else 32
+        # v18.3: InvSR-calibrated mode (CVPR'5 2412.09013). 'renoise' = the
+        # v18 wave-1 legacy path (kept verbatim for reproducibility);
+        # 'invsr' = latent-space low-t supervision: MSE + FM + small
+        # adversarial on the single-step x0 estimate, timestep-conditioned
+        # UNet discriminator, hinge loss, D warmup — see _x0_losses_invsr.
+        self.x0_mode = str(_x0.mode) if _x0 is not None and 'mode' in _x0 else 'renoise'
+        assert self.x0_mode in ('renoise', 'invsr'), self.x0_mode
+        self.x0_t_max = int(_x0.t_max) if _x0 is not None and 't_max' in _x0 else 300
+        self.x0_w_ldif = float(_x0.w_ldif) if _x0 is not None and 'w_ldif' in _x0 else 1.0
+        self.x0_w_lfm = float(_x0.w_lfm) if _x0 is not None and 'w_lfm' in _x0 else 2.0
+        self.x0_w_ldis = float(_x0.w_ldis) if _x0 is not None and 'w_ldis' in _x0 else 0.1
+        self.x0_dis_warmup = int(_x0.dis_warmup) if _x0 is not None and 'dis_warmup' in _x0 else 3000
+        self.x0_latent_bound = float(_x0.latent_bound) if _x0 is not None and 'latent_bound' in _x0 else 10.0
+        # v18.4: InvSR's finetuned latent-LPIPS (their MAIN loss term). Replaces
+        # the FM substitute once the weight file is downloaded. Built lazily in
+        # __init__ (see the discriminator block below) — frozen metric net.
+        self.x0_llpips_enable = bool(_x0.llpips_enable) if _x0 is not None and 'llpips_enable' in _x0 else False
+        self.x0_llpips_ckpt = str(_x0.llpips_ckpt) if _x0 is not None and 'llpips_ckpt' in _x0 \
+            else './weights/vgg16_sdturbo_lpips.pth'
+        self.llpips_loss = None
         if self.x0_enable:
-            need_fm = float(self.opts.losses.feature_matching.weight) > 1e-5 \
-                or float(self.opts.losses.adversarial.weight) > 1e-5
-            assert need_fm, 'losses.x0.enable=True needs feature_matching (or adversarial) weight > 0'
-            print('[v17] GATE-FREE x0 SUPERVISION ACTIVE: re-noised symmetric pairs '
-                  '(fake_t vs real_t at the same noise level); analytic ab_t '
-                  'weighting; NO timestep gate; D real = photos on BOTH batches.')
+            if self.x0_mode == 'invsr':
+                print('[v18.3] InvSR x0 SUPERVISION ACTIVE: latent-space MSE+FM+adv '
+                      f'on the single-step x0, t<={self.x0_t_max}, '
+                      f'w=ldif:{self.x0_w_ldif}/lfm:{self.x0_w_lfm}/ldis:{self.x0_w_ldis}')
+            else:
+                need_fm = float(self.opts.losses.feature_matching.weight) > 1e-5 \
+                    or float(self.opts.losses.adversarial.weight) > 1e-5
+                assert need_fm, 'losses.x0.enable=True needs feature_matching (or adversarial) weight > 0'
+                print('[v17] GATE-FREE x0 SUPERVISION ACTIVE: re-noised symmetric pairs '
+                      '(fake_t vs real_t at the same noise level); analytic ab_t '
+                      'weighting; NO timestep gate; D real = photos on BOTH batches.')
         if self.preserve_weight > 0:
             print(f'[v15] SCORE-PRESERVATION ACTIVE: weight={self.preserve_weight} | '
                   f'teacher = frozen UNet, zero control injection, '
@@ -403,6 +485,39 @@ class Coach:
                   f'r1 gp_coef={self.opts.losses.adversarial.gp_coef}')
         else:
             self.discriminator = None
+
+        # v18.3 InvSR mode: latent UNet discriminator (timestep-conditioned,
+        # projected-input, multi-scale heads — unet_discriminator.py, a
+        # faithful port). Optimizer per InvSR config: Adam lr_dis=5e-5,
+        # weight_decay_dis=1e-3 (sd-turbo-sr-ldis.yaml train section).
+        if self.x0_enable and self.x0_mode == 'invsr':
+            from models.saicinpainting.training.modules.unet_discriminator import \
+                UNetLatentDiscriminator
+            self.discriminator = UNetLatentDiscriminator(
+                in_channels=4, cross_attention_dim=768).to(self.device)
+            self.discriminator.train()
+            self.optimizer_d = torch.optim.Adam(
+                self.discriminator.parameters(), lr=5e-5, weight_decay=1e-3)
+            self._disc_queue_invsr = []
+            n_d = sum(p.numel() for p in self.discriminator.parameters())
+            print(f'[v18.3 InvSR] latent UNet-D {n_d:,} params | t_max={self.x0_t_max} | '
+                  f'w ldif:lfm:ldis = {self.x0_w_ldif}:{self.x0_w_lfm}:{self.x0_w_ldis} | '
+                  f'latent clamp ±{self.x0_latent_bound} | dis_warmup={self.x0_dis_warmup} '
+                  f'(their 10K/100K iters scaled to our 30K budget)')
+        # v18.4: finetuned latent-LPIPS (InvSR llpips slot, their MAIN term).
+        # Instantiated per their config: net=vgg16, latent=True, in_chans=4,
+        # lpips=True, pnet_tune=True, use_dropout=True, eval, FROZEN.
+        if self._invsr() and self.x0_llpips_enable:
+            from models.invsr_latent_lpips.lpips import LPIPS as _LatentLPIPS
+            self.llpips_loss = _LatentLPIPS(
+                pretrained=False, net='vgg16', lpips=True, spatial=False,
+                pnet_rand=False, pnet_tune=True, use_dropout=True,
+                eval_mode=True, latent=True, in_chans=4, verbose=False,
+                model_path=os.path.abspath(self.x0_llpips_ckpt)).to(self.device)
+            self.llpips_loss.eval()
+            set_requires_grad(self.llpips_loss, False)
+            print(f'[v18.4] InvSR finetuned latent-LPIPS ACTIVE '
+                  f'(w={self.x0_w_lfm}) <- {self.x0_llpips_ckpt}')
 
         # ---------------- warper ----------------
         self.warper = Warper()          # orig forward_warp (splatting), untouched
@@ -608,6 +723,16 @@ class Coach:
         print(f"  brushnet: init={self.brushnet_init} lr={o.brushnet.lr} 8bit={bool(o.brushnet.use_8bit_adam)} "
               f"grad_ckpt={bool(o.brushnet.gradient_checkpointing)}")
         print(f"  loss eps_weight       : {o.losses.eps_weight}")
+        print(f"  real pass1 FORWARD    : {self.real_pass1_forward} "
+              "(False = STRUCT arm: real batch trains pass2 only; inference unchanged)")
+        print(f"  real pass1 t-domain   : "
+              f"{'FULL [0,1000)' if not self.real_pass1_t_max else f'[0, {self.real_pass1_t_max}]'}"
+              f" | infer.t_start={self.infer_t_start} "
+              f"(0=pure-noise chain; >0=SDEdit from the noised anchor)")
+        if self._invsr():
+            print(f"  x0 InvSR mode         : t_max={self.x0_t_max} "
+                  f"w=ldif:{self.x0_w_ldif}/lfm:{self.x0_w_lfm}/ldis:{self.x0_w_ldis} "
+                  f"warmup={self.x0_dis_warmup} clamp=±{self.x0_latent_bound} (LATENT space)")
         print(f"  loss real_p1 anchor   : visible={o.losses.real_pass1.visible_weight} "
               f"(target=inv_warp) hole={o.losses.real_pass1.hole_weight} (target=y_hat_novel) "
               f"mirror_anchor={self.mirror_anchor} (hole real-photo coverage via inv_warp(x_mirror))")
@@ -620,7 +745,14 @@ class Coach:
         print(f"  timestep range        : [0, 1000) FULL RANGE (no low-t clamp; v3.1 lesson)")
         print(f"  smoke: check={self.smoke_check} fix_timestep={self.fix_timestep}")
         for label, p in [('sd', o.paths.sd), ('brushnet', o.paths.brushnet),
-                         ('wplus_stage_c', o.paths.wplus_stage_c if self.use_wplus else None),
+                         # v18: check wplus_stage_c ONLY when it is actually
+                         # loaded — s1_mapper/s2_qkv with init_from_stage_c=False
+                         # train the mapper from scratch (teacher ladder rung 1)
+                         # and must not depend on the remote-era file.
+                         ('wplus_stage_c', o.paths.wplus_stage_c
+                          if (self.use_wplus and (self.wplus_mode == 'frozen'
+                                                  or bool(o.wplus.init_from_stage_c)))
+                          else None),
                          ('train', o.paths.dataset.train), ('test', o.paths.dataset.test),
                          ('synth', o.paths.dataset.synth),
                          ('LaMa_PL', o.losses.pixel.weights_path),
@@ -773,26 +905,42 @@ class Coach:
 
     def _diffusion_forward(self, target_img, condition_img, mask, codes,
                            ref_images, ref_tags, t_override=None, train_wplus=False,
-                           mask_cond=None):
+                           mask_cond=None, t_range=None, hf_img=None):
         """One BrushNet+UNet epsilon forward. Returns everything the loss needs.
         v10: mask_cond (softened) drives the BrushNet condition channel; the
-        returned mask_latents stays RAW for supervision weights."""
+        returned mask_latents stays RAW for supervision weights.
+        v18.8: hf_img (B,3,H,W in [0,1], pixel space) is the AnyDoor-style
+        high-frequency texture map. When hf_enable, it is downsampled to
+        latent resolution and concatenated into BrushNet conditioning
+        (5ch → 8ch). Pass None for legacy 5ch behavior."""
         with torch.no_grad():
             target_latents = self._encode_image(target_img)
             cond_latents = self._encode_image(condition_img)
             m_brush = mask if mask_cond is None else mask_cond
             mask_latents = F.interpolate(m_brush, size=target_latents.shape[-2:], mode='nearest')
-            conditioning_latents = torch.cat([cond_latents, mask_latents], dim=1)  # 4+1 ch
+            if self.hf_enable and hf_img is not None:
+                # HF in pixel space → downsample to latent resolution
+                hf_lat = F.interpolate(hf_img, size=target_latents.shape[-2:],
+                                       mode='bilinear', align_corners=False)
+                conditioning_latents = torch.cat(
+                    [cond_latents, mask_latents, hf_lat], dim=1)  # 4+1+3 = 8ch
+            else:
+                conditioning_latents = torch.cat([cond_latents, mask_latents], dim=1)  # 4+1 = 5ch
         mask_latents = F.interpolate(mask, size=target_latents.shape[-2:], mode='nearest')
 
         bsz = target_latents.shape[0]
         noise = torch.randn_like(target_latents)
         if t_override is not None:
             timesteps = torch.full((bsz,), int(t_override), device=self.device, dtype=torch.long)
-        else:  # FULL range [0,1000) — low-t-only training drifts to haze (v3.1)
-            timesteps = torch.randint(
-                0, self.noise_scheduler.config.num_train_timesteps, (bsz,),
-                device=self.device).long()
+        else:  # FULL range [0,1000) — low-t-only training drifts to haze (v3.1).
+            # v18.6: t_range optionally restricts the domain (pass1 now trains
+            # ONLY in the deployed SDEdit domain t∈[0,real_pass1.t_max] — the
+            # InvSR pattern: their training timesteps [100..250] = their
+            # inference start domain; high-t pass1 training taught prior-
+            # dominated generation that inference never uses).
+            _hi = int(t_range) if t_range else \
+                int(self.noise_scheduler.config.num_train_timesteps)
+            timesteps = torch.randint(0, _hi, (bsz,), device=self.device).long()
         noisy_latents = self.noise_scheduler.add_noise(target_latents, noise, timesteps)
 
         wplus_features = self._wplus_tokens(codes, train_wplus)
@@ -1067,11 +1215,24 @@ class Coach:
                                         align_corners=False)
                 real_lat = ab.sqrt() * ref_lat + (1.0 - ab).sqrt() * torch.randn_like(ref_lat)
 
+        # v18: NATIVE-RESOLUTION patch decode (replaces the 64->32 latent
+        # downscale). First principles: interpolating latents down halves
+        # EVERY texture frequency before the VAE decode AND feeds the decoder
+        # an off-manifold latent; the pathology under test (blind-region
+        # high-freq content) lives at NATIVE latent spacing. A shared random
+        # latent crop (res_latent + 2*ctx, v16 memory precedent) keeps decoder
+        # activations at the same budget while supervising native-frequency
+        # pixels; both sides crop the SAME location (strictly paired);
+        # coverage is uniform in expectation over steps.
+        ctx = 4
+        L_ = int(x0_hat.shape[-1])
+        cs = min(self.x0_res_lat + 2 * ctx, L_)
+        top = int(torch.randint(0, L_ - cs + 1, (1,)).item())
+        left = int(torch.randint(0, L_ - cs + 1, (1,)).item())
+
         def dec(lat):
-            if lat.shape[-1] != self.x0_res_lat:
-                lat = F.interpolate(lat, size=(self.x0_res_lat, self.x0_res_lat),
-                                    mode='bilinear', align_corners=False)
-            return (self.vae.decode(lat / 0.18215).sample / 2 + 0.5).clamp(0, 1)
+            crop = lat[:, :, top:top + cs, left:left + cs]
+            return (self.vae.decode(crop / 0.18215).sample / 2 + 0.5).clamp(0, 1)
 
         fake_px = dec(fake_lat)
         with torch.no_grad():
@@ -1092,13 +1253,105 @@ class Coach:
 
         out['pred_x0_img'] = fake_px.detach()
         out['pred_x0_img_g'] = fake_px            # graph-carrying for G-side FM
-        gm = self._gan_fm_g_loss(out, real_px, tag)
+        # v18 SNR alignment: d(fake_lat)/d(eps_pred) = -sqrt(1-ab) — STRONGEST
+        # at high t where the pair carries no content signal. Multiplying the
+        # whole distribution family by ab makes the net eps_pred-gradient
+        # factor ab*sqrt(1-ab) (peaked mid-SNR, ->0 at both ends) — the
+        # min-SNR principle applied to auxiliary losses. L1 already carries ab.
+        gm = self._gan_fm_g_loss(out, real_px, tag, weight=float(ab.mean()))
         if gm is not None:
             total = total + gm[0]
             metrics.update(gm[1])
         return total, metrics
 
-    def _gan_fm_g_loss(self, out, real_img, tag):
+    def _invsr(self):
+        """v18.3 mode predicate: InvSR-calibrated latent distribution supervision.
+        (getattr-guarded: _print_effective_config runs BEFORE the x0 flags are
+        parsed in __init__ — the print only needs the safe default 'off'.)"""
+        return bool(getattr(self, 'x0_enable', False)) \
+            and getattr(self, 'x0_mode', '') == 'invsr'
+
+    def _hinge_d_loss_invsr(self, logits_real, logits_fake):
+        """InvSR hinge (trainer L1612+): 0.5*(relu(1-real)+relu(1+fake)) per
+        head, averaged over the multi-scale heads."""
+        loss = 0.0
+        for lr_, lf_ in zip(logits_real, logits_fake):
+            loss = loss + (0.5 * (F.relu(1.0 - lr_) + F.relu(1.0 + lf_))).mean()
+        return loss / len(logits_real)
+
+    def _x0_losses_invsr(self, out, tag):
+        """v18.3 InvSR-calibrated distribution supervision (CVPR'5 2412.09013,
+        trainer.py backward_step L1239-1312 adapted to this coach):
+
+          domain : t <= t_max — their timesteps [100,250]; our MEASURED
+                   validity boundary 300 (train_logs/diag_pair_domain.png:
+                   beyond it the pair degenerates to noise-vs-noise)
+          object : z0_hat = single-step x0 estimate (their z0_pred L1506-09),
+                   clamped to ±latent_bound (their _Latent_bound ±10)
+          losses : ldif = MSE(z0_hat, target_latents) x w_ldif      (L1263-71)
+                   lfm  = feature matching over D head features x w_lfm
+                          (stands in for their finetuned latent-LPIPS which
+                          is not downloadable offline; note orig WarpGAN's
+                          own third layer was FM x100 + adv x10 too)
+                   ldis = -mean(logits) over heads x w_ldis, applied only
+                          AFTER dis_warmup steps (their L1286 + L995-997)
+          target : out['target_latents'] — pass2: the real PHOTO latents;
+                   synth: the paired render latents (pixel-paired, same view)
+          D pairs: queued (tag, fake.detach, target.detach, t) -> hinge D step.
+
+        All in LATENT space — no VAE decode in the loss (their design; also
+        frees the decode memory that pushed wave-1 to 22.7 GiB).
+        """
+        metrics = {}
+        t = out['timesteps']
+        sel = t <= self.x0_t_max
+        zero = out['eps_pred'].new_zeros(())
+        if not bool(sel.any()):
+            metrics[f'{tag}_hit'] = 0.0
+            return zero, metrics
+        metrics[f'{tag}_hit'] = 1.0
+        metrics[f'{tag}_t'] = float(t[sel].float().mean())
+        ab = self.noise_scheduler.alphas_cumprod[t].view(-1, 1, 1, 1)
+        x0_hat = (out['noisy_latents'][sel] - (1.0 - ab[sel]).sqrt() * out['eps_pred'][sel]) \
+            / ab[sel].sqrt()
+        x0_hat = x0_hat.clamp(-self.x0_latent_bound, self.x0_latent_bound)
+        tgt = out['target_latents'][sel]
+        t_sel = t[sel]
+        prompt = self.empty_prompt_embeds.expand(x0_hat.shape[0], -1, -1)
+
+        ldif = F.mse_loss(x0_hat, tgt)
+        total = ldif * self.x0_w_ldif
+        metrics[f'{tag}_ldif'] = float(ldif)
+
+        set_requires_grad(self.discriminator, False)      # InvSR: D frozen at G step
+        fake_logits, fake_feats = self.discriminator(x0_hat, t_sel, prompt,
+                                                     return_features=True)
+        if self.global_step > self.x0_dis_warmup and self.x0_w_ldis > 0:
+            adv_g = sum(-lg.mean() for lg in fake_logits) / len(fake_logits)
+            total = total + adv_g * self.x0_w_ldis
+            metrics[f'{tag}_gen_adv'] = float(adv_g)
+        if self.x0_w_lfm > 0:
+            if self.llpips_loss is not None:
+                # v18.4: InvSR's finetuned latent-LPIPS in the llpips slot —
+                # a real perceptual-domain metric (the FM substitute measured
+                # 0.001-0.009, i.e. numerically dead, at 50K steps).
+                with torch.no_grad():
+                    pass  # metric is frozen; graph flows through z0_hat input
+                lfm = self.llpips_loss(x0_hat, tgt).view(-1).mean()
+            else:
+                with torch.no_grad():
+                    _, real_feats = self.discriminator(tgt, t_sel, prompt,
+                                                       return_features=True)
+                lfm = feature_matching_loss(fake_feats, real_feats)
+            total = total + lfm * self.x0_w_lfm
+            metrics[f'{tag}_lfm'] = float(lfm)
+
+        self._disc_queue_invsr.append(
+            (tag, x0_hat.detach().clamp(-self.x0_latent_bound, self.x0_latent_bound),
+             tgt.detach(), t_sel.detach()))
+        return total, metrics
+
+    def _gan_fm_g_loss(self, out, real_img, tag, weight=1.0):
         """G-side discriminator losses (orig coach L1169-1198 faithful port).
 
         fake = the SAME x0 single-step decode the identity layer rides on
@@ -1138,8 +1391,12 @@ class Coach:
                       f'feats {len(discr_fake_features)} layers @ '
                       f'{tuple(discr_fake_features[0].shape[-2:])}..'
                       f'{tuple(discr_fake_features[-1].shape[-2:])}')
-        self._disc_queue.append((fake.detach(), real.detach()))
-        return total, metrics
+        # v18: queue carries the TAG so the D step logs per-pair health
+        # (the pass2 pair and the synth pair were previously
+        # indistinguishable in metrics); the caller's SNR weight (ab) is
+        # applied HERE to the returned total.
+        self._disc_queue.append((tag, fake.detach(), real.detach()))
+        return total * float(weight), metrics
 
     def _discriminator_step(self):
         """D update on the queued detached pairs (orig coach L1215-1240:
@@ -1150,7 +1407,7 @@ class Coach:
         set_requires_grad(self.discriminator, True)
         self.optimizer_d.zero_grad(set_to_none=True)
         total, m = 0.0, {}
-        for fake, real in self._disc_queue:
+        for dtag, fake, real in self._disc_queue:
             real = real.clone().requires_grad_(True)   # R1 gradient penalty input
             self.adversarial_loss.pre_discriminator_step(
                 real_batch=real, fake_batch=fake,
@@ -1163,20 +1420,45 @@ class Coach:
                 discr_fake_pred=discr_fake_pred, mask=None)
             adv_discr_loss.backward()
             total += float(adv_discr_loss)
-            m = {k: float(v) for k, v in adv_metrics.items()}
+            # v18: PER-PAIR (per-batch-type) health — the v14 shortcut
+            # diagnostics (viewpoint / noise shortcuts) live exactly here: if
+            # the synth pair separates much faster than the pass2 pair, D is
+            # again keying on a nuisance axis instead of content/texture.
+            m.update({f'{dtag}_{k}': float(v) for k, v in adv_metrics.items()})
         self.optimizer_d.step()
         if self.smoke_check and not getattr(self, '_dstep_logged', False):
             self._dstep_logged = True
-            print(f'[v14 D-step FIRED] pairs={len(self._disc_queue)} '
-                  f'discr_adv={total:.4f} gp={m.get("discr_real_gp", 0):.6f} '
-                  f'real_out={m.get("discr_real_out", 0):.3f} '
-                  f'fake_out={m.get("discr_fake_out", 0):.3f}')
+            print(f'[v18 D-step FIRED] pairs={len(self._disc_queue)} '
+                  f'discr_adv={total:.4f} | ' +
+                  ' | '.join(f'{k}={v:.4f}' for k, v in m.items()))
         self._disc_queue = []
-        return total
+        return total, m
+
+    def _discriminator_step_invsr(self):
+        """InvSR D update (trainer L994-1025): hinge over every head on the
+        queued latent pairs; updates EVERY iteration (their
+        dis_update_freq=1; G sees ldis only after dis_warmup)."""
+        if not self._invsr() or not self._disc_queue_invsr:
+            return None
+        set_requires_grad(self.discriminator, True)
+        self.optimizer_d.zero_grad(set_to_none=True)
+        total, m = 0.0, {}
+        for dtag, fake, real, tt in self._disc_queue_invsr:
+            prompt = self.empty_prompt_embeds.expand(fake.shape[0], -1, -1)
+            logits_real, _ = self.discriminator(real, tt, prompt, return_features=True)
+            logits_fake, _ = self.discriminator(fake, tt, prompt, return_features=True)
+            loss = self._hinge_d_loss_invsr(logits_real, logits_fake)
+            loss.backward()
+            total += float(loss)
+            m[f'{dtag}_d_real'] = float(sum(l.mean() for l in logits_real) / len(logits_real))
+            m[f'{dtag}_d_fake'] = float(sum(l.mean() for l in logits_fake) / len(logits_fake))
+        self.optimizer_d.step()
+        self._disc_queue_invsr = []
+        return total, m
 
     def _gan_fm_grad_norms(self):
         """Stage-B stop-loss gauge: per-block |grad| sums for G and D."""
-        if not self.use_gan_fm:
+        if not (self.use_gan_fm or self._invsr()):
             return {}
         gn = sum(float(p.grad.abs().sum()) for p in self.brushnet.parameters()
                  if p.grad is not None)
@@ -1299,6 +1581,15 @@ class Coach:
             anchor = inv_warp * vis_eff \
                 + (inv_warp_m * hole_real if inv_warp_m is not None else 0) \
                 + y_hat_novel * blind
+            # v18.7 (user feedback 2026-09-14): SDE-path defects = ANCHOR
+            # defects (pinholes/沙沙, skin->hair bleed, near-boundary
+            # background noise). Single-pixel coverage gaps and sub-pixel
+            # misalignment in the inverse-warped evidence are IMPULSE noise —
+            # the textbook response is a median filter, applied to the
+            # supervision target ONLY (condition untouched). 0 = off.
+            if self.anchor_median > 0:
+                from kornia.filters import median_blur
+                anchor = median_blur(anchor, (self.anchor_median,) * 2)
             # condition: orig hybrid contract (EG3D fills the hole). v10: the
             # MIXING uses the softened mask (orig process_mask semantics) —
             # the seam the BrushNet sees is a ~4px smooth blend (erode3+blur21
@@ -1309,6 +1600,53 @@ class Coach:
         return dict(mask=mask, cond=cond, anchor=anchor, warp_img=warp_img,
                     vis_eff=vis_eff, hole_eff=hole_real, blind=blind,
                     inv_warp_m=inv_warp_m, mask_cond=mask_cond)
+
+    def _compute_hf_map(self, img):
+        """AnyDoor high-frequency map (datasets/data_utils.py sobel(), PyTorch
+        port). Input: [0,1] RGB (B,3,H,W). Output: [0,1] edge-weighted image
+        (B,3,H,W) — only edge-rich areas (skin pores, hair strands) retain
+        their content; smooth areas are zeroed. This is the 'detail texture'
+        conditioning stream, SEPARATE from identity (W+/DINOv2)."""
+        gray = img.mean(dim=1, keepdim=True)  # (B,1,H,W)
+        # Sobel k=3, OpenCV-equivalent kernels
+        kx = torch.tensor([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]],
+                          dtype=torch.float32, device=img.device).view(1, 1, 3, 3)
+        ky = torch.tensor([[-1, -2, -1], [0, 0, 0], [1, 2, 1]],
+                          dtype=torch.float32, device=img.device).view(1, 1, 3, 3)
+        gx = F.conv2d(gray, kx, padding=1).abs()
+        gy = F.conv2d(gray, ky, padding=1).abs()
+        # addWeighted(|Gx|, 0.5, |Gy|, 0.5) → then max across channels
+        # (input is already gray, so max is identity)
+        edge = 0.5 * gx + 0.5 * gy  # (B,1,H,W)
+        # Threshold (AnyDoor: thresh=50 on 0-255 → 50/255 on [0,1])
+        edge = torch.where(edge < self.hf_thresh,
+                           torch.zeros_like(edge), edge)
+        # Multiply with original: only edge-rich areas keep content
+        return img * edge  # (B,3,H,W)
+
+    def _expand_brushnet_conditioning(self, extra_ch=3):
+        """Surgically expand BrushNet's conv_in_condition from 5ch to (5+extra_ch)
+        conditioning input. Pretrained 5ch weights are PRESERVED; the new
+        channels are ZERO-initialized (ControlNet convention: new pathways
+        start inert, training learns to use them). This is done ONCE at
+        model-build time when hf_enable=True."""
+        old = self.brushnet.conv_in_condition  # Conv2d(4+5, C, 3, padding=1)
+        old_in = old.in_channels  # 9 (= 4 latent + 5 cond)
+        new_in = old_in + extra_ch  # 12 (= 4 latent + 8 cond)
+        new = torch.nn.Conv2d(
+            new_in, old.out_channels, old.kernel_size, old.stride,
+            old.padding, old.dilation, old.groups,
+            bias=old.bias is not None, padding_mode=old.padding_mode,
+            device=old.weight.device, dtype=old.weight.dtype)
+        with torch.no_grad():
+            new.weight[:, :old_in] = old.weight  # preserve pretrained
+            new.weight[:, old_in:] = 0.0          # zero-init new channels
+            if old.bias is not None:
+                new.bias.copy_(old.bias)
+        self.brushnet.conv_in_condition = new
+        print(f'[v18.8] BrushNet conv_in_condition expanded: '
+              f'{old_in} → {new_in} input channels '
+              f'(+{extra_ch} HF, zero-initialized)')
 
     def _forward_real(self, b, t_override=None):
         """Real batch, orig coach L207-305 semantics: pass1 novel + pass2 source."""
@@ -1331,110 +1669,132 @@ class Coach:
             if nv['inv_warp_m'] is not None:
                 panels['inv_warp_mirror'] = nv['inv_warp_m'].detach()
 
-        ref_images, ref_tags = self._ref_inputs_real(y_hat_novel, b.get('x_mirror'))
-        out1 = self._diffusion_forward(
-            target_img=anchor, condition_img=cond1, mask=mask, codes=codes,
-            ref_images=ref_images, ref_tags=ref_tags,
-            t_override=t_override, train_wplus=False,   # real update: W+ frozen
-            mask_cond=nv.get('mask_cond'))
-        if self.smoke_check and self.global_step <= 2:
-            self._v10_audit(mask, nv['mask_cond'], out1['mask_latents'])
-            if float(self.opts.losses.latent.weight) > 1e-5:
-                self._v13_identity_audit(x, codes)
-        p1 = self.opts.losses.real_pass1
-        if self.mirror_anchor:
-            # evidence CONTINUOUS field (v6): photo pixels (source OR mirror
-            # transfer) carry photo evidence; the blind residual has none.
-            eff_img = (vis_eff + hole_eff).clamp(0, 1)
-            # v12 audit, 3rd iteration: vis_eff contains the BINARY (1-mask)
-            # factor -> a 1px STEP at the hole boundary. Any 8x8 block
-            # average across a 1px step still yields adjacent latent weights
-            # differing by up to ~0.9 (frequency-band seam). Fix: widen the
-            # step into a ~1.5-latent transition band FIRST (13px box), then
-            # area-downsample (=block average).
-            k = 13
-            box = torch.ones(1, 1, k, k, device=eff_img.device,
-                             dtype=eff_img.dtype) / float(k * k)
-            eff_img = F.conv2d(F.pad(eff_img, (k // 2,) * 4, mode='replicate'), box)
-            eff_latents = F.interpolate(eff_img, size=out1['mask_latents'].shape[-2:],
-                                        mode='area')
-        else:
-            # full-review finding (2026-08-28): WITHOUT mirror_anchor there is
-            # no continuous evidence field — this branch derives weights from
-            # the BINARY mask, whose latent step would enter the dual-band
-            # weights unsnoothed. The combination is untested; forbid it.
-            assert self.blind_struct_weight <= 0, \
-                ('dual-band supervision (blind_struct_weight>0) requires '
-                 'losses.real_pass1.mirror_anchor=True: the non-mirror branch '
-                 'has no continuous evidence field (binary-mask weights would '
-                 'reintroduce the latent-domain seam v12 just fixed)')
-            eff_latents = 1.0 - out1['mask_latents']
-        if self.x0_enable:
-            # v17-prime: SINGLE full-band eps-MSE against the anchor (the
-            # anchor itself keeps its continuous evidence construction — that
-            # is DATA, not a loss gate). dual-band / sigma / 13px transition
-            # band are RETIRED: texture content is now the distribution
-            # supervision's job (D), geometry is the eps target's job.
-            loss_p1 = self._eps_mse(out1['eps_pred'], out1['noise']) \
-                * float(self.opts.losses.eps_weight)
-        elif self.blind_struct_weight > 0:
-            # v12: evidence-graded dual-band supervision. Photo evidence ->
-            # full band; blind -> LOW band only (target stays the FULL SHARP
-            # render anchor; only the error's low-frequency component is
-            # penalized -> geometry anchored, texture band zero gradient).
-            w_full = eff_latents * float(p1.visible_weight)
-            w_low = (1.0 - eff_latents) * self.blind_struct_weight
-            loss_p1 = self._eps_mse_dual_band(
-                out1['eps_pred'], out1['noise'], w_full, w_low) \
-                * float(self.opts.losses.eps_weight)
+        # v18 STRUCT: pass1 forward + supervision switchable. loss_p1=None
+        # tells the train loop to skip its backward (metrics['total'] guards).
+        loss_p1 = None
+        if self.real_pass1_forward:
+            ref_images, ref_tags = self._ref_inputs_real(y_hat_novel, b.get('x_mirror'))
+            # v18.8: HF texture conditioning (AnyDoor). HF of the MIRROR photo
+            # (the same-person texture source), forward-warped to the novel
+            # view — same warp as the mirror condition. Holes = zero (no info).
+            hf_img1 = None
+            if self.hf_enable and b.get('x_mirror') is not None:
+                with torch.no_grad():
+                    hf_mirror = self._compute_hf_map(b['x_mirror'])
+                    hf_warp, _, _ = self.warper.forward_warp(
+                        img1=hf_mirror, depth1=b['depth_mirror'],
+                        c1=b['c_mirror'], c2=c_novel)
+                    hf_img1 = hf_warp
+            out1 = self._diffusion_forward(
+                target_img=anchor, condition_img=cond1, mask=mask, codes=codes,
+                ref_images=ref_images, ref_tags=ref_tags,
+                t_override=t_override, train_wplus=False,   # real update: W+ frozen
+                mask_cond=nv.get('mask_cond'),
+                t_range=(self.real_pass1_t_max or None),     # v18.6 deployed domain
+                hf_img=hf_img1)
             if self.smoke_check and self.global_step <= 2:
-                self._v12_audit(out1, w_full, w_low)
-        else:
-            # v11-and-earlier path: single-band weighted eps-MSE
-            w_map = eff_latents * float(p1.visible_weight) \
-                + (1.0 - eff_latents) * float(p1.hole_weight)
-            loss_p1 = self._eps_mse(out1['eps_pred'], out1['noise'], w_map) \
-                * float(self.opts.losses.eps_weight)
-        # v15: blind high-frequency SCORE PRESERVATION — the control's HIGH
-        # band in the blind region must not deviate from the photo-prior
-        # teacher on the SAME noisy input. Low band is untouched: BrushNet
-        # keeps its geometry mandate (the v12 anchor stays in force).
-        if self.preserve_weight > 0 and out1.get('eps_teacher') is not None:
-            offset = out1['eps_pred'].float() - out1['eps_teacher'].float()
-            hp = offset - self._lowpass_eps(offset)
-            w_blind_p = (1.0 - eff_latents).clamp(0.0, 1.0)  # same continuous field (v12)
-            loss_pres = (hp.pow(2) * w_blind_p).sum() \
-                / (w_blind_p.sum() * hp.shape[1] + 1e-6)
-            loss_p1 = loss_p1 + loss_pres * self.preserve_weight
-            metrics['p1_preserve'] = float(loss_pres)
-            if self.smoke_check and self.global_step <= 2:
-                self._v15_audit(out1, offset, hp, w_blind_p, loss_pres)
+                self._v10_audit(mask, nv['mask_cond'], out1['mask_latents'])
+                if float(self.opts.losses.latent.weight) > 1e-5:
+                    self._v13_identity_audit(x, codes)
+            p1 = self.opts.losses.real_pass1
+            if self.mirror_anchor:
+                # evidence CONTINUOUS field (v6): photo pixels (source OR mirror
+                # transfer) carry photo evidence; the blind residual has none.
+                eff_img = (vis_eff + hole_eff).clamp(0, 1)
+                # v12 audit, 3rd iteration: vis_eff contains the BINARY (1-mask)
+                # factor -> a 1px STEP at the hole boundary. Any 8x8 block
+                # average across a 1px step still yields adjacent latent weights
+                # differing by up to ~0.9 (frequency-band seam). Fix: widen the
+                # step into a ~1.5-latent transition band FIRST (13px box), then
+                # area-downsample (=block average).
+                k = 13
+                box = torch.ones(1, 1, k, k, device=eff_img.device,
+                                 dtype=eff_img.dtype) / float(k * k)
+                eff_img = F.conv2d(F.pad(eff_img, (k // 2,) * 4, mode='replicate'), box)
+                eff_latents = F.interpolate(eff_img, size=out1['mask_latents'].shape[-2:],
+                                            mode='area')
+            else:
+                # full-review finding (2026-08-28): WITHOUT mirror_anchor there is
+                # no continuous evidence field — this branch derives weights from
+                # the BINARY mask, whose latent step would enter the dual-band
+                # weights unsnoothed. The combination is untested; forbid it.
+                assert self.blind_struct_weight <= 0, \
+                    ('dual-band supervision (blind_struct_weight>0) requires '
+                     'losses.real_pass1.mirror_anchor=True: the non-mirror branch '
+                     'has no continuous evidence field (binary-mask weights would '
+                     'reintroduce the latent-domain seam v12 just fixed)')
+                eff_latents = 1.0 - out1['mask_latents']
+            if self.x0_enable:
+                # v17-prime: SINGLE full-band eps-MSE against the anchor (the
+                # anchor itself keeps its continuous evidence construction — that
+                # is DATA, not a loss gate). dual-band / sigma / 13px transition
+                # band are RETIRED: texture content is now the distribution
+                # supervision's job (D), geometry is the eps target's job.
+                loss_p1 = self._eps_mse(out1['eps_pred'], out1['noise']) \
+                    * float(self.opts.losses.eps_weight)
+            elif self.blind_struct_weight > 0:
+                # v12: evidence-graded dual-band supervision. Photo evidence ->
+                # full band; blind -> LOW band only (target stays the FULL SHARP
+                # render anchor; only the error's low-frequency component is
+                # penalized -> geometry anchored, texture band zero gradient).
+                w_full = eff_latents * float(p1.visible_weight)
+                w_low = (1.0 - eff_latents) * self.blind_struct_weight
+                loss_p1 = self._eps_mse_dual_band(
+                    out1['eps_pred'], out1['noise'], w_full, w_low) \
+                    * float(self.opts.losses.eps_weight)
+                if self.smoke_check and self.global_step <= 2:
+                    self._v12_audit(out1, w_full, w_low)
+            else:
+                # v11-and-earlier path: single-band weighted eps-MSE
+                w_map = eff_latents * float(p1.visible_weight) \
+                    + (1.0 - eff_latents) * float(p1.hole_weight)
+                loss_p1 = self._eps_mse(out1['eps_pred'], out1['noise'], w_map) \
+                    * float(self.opts.losses.eps_weight)
+            # v15: blind high-frequency SCORE PRESERVATION — the control's HIGH
+            # band in the blind region must not deviate from the photo-prior
+            # teacher on the SAME noisy input. Low band is untouched: BrushNet
+            # keeps its geometry mandate (the v12 anchor stays in force).
+            if self.preserve_weight > 0 and out1.get('eps_teacher') is not None:
+                offset = out1['eps_pred'].float() - out1['eps_teacher'].float()
+                hp = offset - self._lowpass_eps(offset)
+                w_blind_p = (1.0 - eff_latents).clamp(0.0, 1.0)  # same continuous field (v12)
+                loss_pres = (hp.pow(2) * w_blind_p).sum() \
+                    / (w_blind_p.sum() * hp.shape[1] + 1e-6)
+                loss_p1 = loss_p1 + loss_pres * self.preserve_weight
+                metrics['p1_preserve'] = float(loss_pres)
+                if self.smoke_check and self.global_step <= 2:
+                    self._v15_audit(out1, offset, hp, w_blind_p, loss_pres)
 
-        # v14: G-side FM(/adv) on the x0 decode vs source photo (orig third
-        # layer; rides the SAME t<200 self-gated path as id/latent).
-        # pass1 has NO _low_t_losses (spec §5.3: eps-anchor only) — the orig
-        # D judged pred_novel directly, so the diffusion port must decode
-        # pass1's x0 for the SAME purpose. Decode ONLY (no pixel/id/latent
-        # added to pass1 — single-mandate, faithful to both).
-        if self.use_gan_fm and bool((out1['timesteps'] < self.pixel_max_t).any()):
-            x0_1 = self._predict_x0(out1['eps_pred'], out1['noisy_latents'],
-                                    out1['timesteps'])
-            sel1 = out1['timesteps'] < self.pixel_max_t
-            out1['pred_x0_img_g'] = self._decode_x0_to_pixel(
-                x0_1[sel1].clamp(-self.x0_clip, self.x0_clip), self.pixel_res)
-            out1['pred_x0_img'] = out1['pred_x0_img_g'].detach()
-            if 'pred_x0_img' not in panels:
-                panels['p1_pred_x0'] = out1['pred_x0_img']
-        # v14 G-side FM on the pass1 x0 decode — LEGACY path only. Under
-        # x0_enable the pass1 output gets NO distribution supervision by
-        # design: the novel view has no photo-distribution reference (the v14
-        # failure mode), quality transfers from pass2 through the shared net.
-        if not self.x0_enable:
-            gm1 = self._gan_fm_g_loss(out1, x, 'p1')
-            if gm1 is not None:
-                loss_p1 = loss_p1 + gm1[0]
-                metrics.update(gm1[1])
-        metrics['p1_eps'] = float(loss_p1)
+            # v14: G-side FM(/adv) on the x0 decode vs source photo (orig third
+            # layer; rides the SAME t<200 self-gated path as id/latent).
+            # pass1 has NO _low_t_losses (spec §5.3: eps-anchor only) — the orig
+            # D judged pred_novel directly, so the diffusion port must decode
+            # pass1's x0 for the SAME purpose. Decode ONLY (no pixel/id/latent
+            # added to pass1 — single-mandate, faithful to both).
+            if self.use_gan_fm and bool((out1['timesteps'] < self.pixel_max_t).any()):
+                x0_1 = self._predict_x0(out1['eps_pred'], out1['noisy_latents'],
+                                        out1['timesteps'])
+                sel1 = out1['timesteps'] < self.pixel_max_t
+                out1['pred_x0_img_g'] = self._decode_x0_to_pixel(
+                    x0_1[sel1].clamp(-self.x0_clip, self.x0_clip), self.pixel_res)
+                out1['pred_x0_img'] = out1['pred_x0_img_g'].detach()
+                if 'pred_x0_img' not in panels:
+                    panels['p1_pred_x0'] = out1['pred_x0_img']
+            # v14 G-side FM on the pass1 x0 decode — LEGACY path only. Under
+            # x0_enable the pass1 output gets NO distribution supervision by
+            # design: the novel view has no photo-distribution reference (the v14
+            # failure mode), quality transfers from pass2 through the shared net.
+            if not self.x0_enable:
+                gm1 = self._gan_fm_g_loss(out1, x, 'p1')
+                if gm1 is not None:
+                    loss_p1 = loss_p1 + gm1[0]
+                    metrics.update(gm1[1])
+            metrics['p1_eps'] = float(loss_p1)
+        else:
+            # v18 STRUCT: pass1 entirely unsupervised on real batches (orig
+            # semantics for pred_novel); blind-region content transfers from
+            # pass2/synth training through the shared network.
+            metrics['p1_skipped'] = 1.0
         metrics['p1_hole_frac'] = float(mask.mean())
         panels.update({'warp_img': nv['warp_img'].detach(), 'cond1': cond1.detach(),
                        'mask': mask.detach().expand_as(x), 'anchor': anchor.detach()})
@@ -1450,20 +1810,40 @@ class Coach:
         # v17-prime: teacher's rule ① — the pass2 reference bank is
         # warp_warp_img ("the twice-warped result") with y_hat as the extra
         # source. Photo pixels, aligned to the supervision viewpoint.
-        if self.x0_enable:
+        # v18 STRUCT: with pass1 disabled, the mirror PHOTO rides pass2's bank
+        # instead of y_hat — the orig kept its mirror condition channel in the
+        # SUPERVISED pass (coach L255-266); without this the mirror-retrieval
+        # pathway would only ever train on synth flipped RENDERS while
+        # inference feeds the mirror PHOTO. warp_warp_img already carries the
+        # inversion fill (its hole content IS y_hat_novel warped back), so the
+        # extra slot goes to the strongest evidence: the real photo mirror.
+        if self.x0_enable and not self.real_pass1_forward:
+            ref_images2, ref_tags2 = [warp_warp_img, b['x_mirror']], \
+                                     ['warp_warp_img', 'x_mirror']
+        elif self.x0_enable:
             ref_images2, ref_tags2 = [warp_warp_img, y_hat], ['warp_warp_img', 'y_hat']
         else:
             ref_images2, ref_tags2 = self._ref_inputs(y_hat, b.get('x_mirror'), 'y_hat')
+        # v18.8: HF for pass2 = HF of x (source view, already aligned; no warp)
+        hf_img2 = None
+        if self.hf_enable:
+            with torch.no_grad():
+                hf_img2 = self._compute_hf_map(x)
         out2 = self._diffusion_forward(
             target_img=x, condition_img=cond2, mask=mask_inv, codes=codes,
             ref_images=ref_images2, ref_tags=ref_tags2,
             t_override=t_override, train_wplus=False,
-            mask_cond=mask_inv_cond)
+            mask_cond=mask_inv_cond,
+            hf_img=hf_img2)
         loss_p2_eps = self._eps_mse(out2['eps_pred'], out2['noise']) \
             * float(self.opts.losses.eps_weight)
         if self.x0_enable:
             # v17-prime: gate-free x0 supervision replaces the t<200 pixel path
-            loss_p2_low, m_low = self._x0_losses(out2, x, None, 'p2')
+            # v18.3: invsr mode = InvSR-calibrated latent supervision
+            if self.x0_mode == 'invsr':
+                loss_p2_low, m_low = self._x0_losses_invsr(out2, 'p2')
+            else:
+                loss_p2_low, m_low = self._x0_losses(out2, x, None, 'p2')
         else:
             loss_p2_low, m_low = self._low_t_losses(out2, x, codes)
         metrics['p2_eps'] = float(loss_p2_eps)
@@ -1486,7 +1866,7 @@ class Coach:
             if gm2 is not None:
                 loss_p2 = loss_p2 + gm2[0]
                 metrics.update(gm2[1])
-        metrics['total'] = float(loss_p1 + loss_p2)
+        metrics['total'] = float((loss_p1 if loss_p1 is not None else 0.0) + loss_p2)
         metrics['p2_timestep'] = int(out2['timesteps'][0])
         # separate tensors: the train loop backwards them one at a time so the
         # two 512px graphs never coexist (peak-memory discipline)
@@ -1508,11 +1888,20 @@ class Coach:
         mask_cond = self._soften_cond_mask(mask)
         cond = warp_img * (1.0 - mask_cond) + y_hat_novel * mask_cond
         ref_images, ref_tags = self._ref_inputs(y_hat_novel, b.get('x_mirror'), 'target_hat')
+        # v18.8: HF for synth = HF of the source render, warped to target view
+        hf_img_s = None
+        if self.hf_enable:
+            with torch.no_grad():
+                hf_src = self._compute_hf_map(x)
+                hf_warp_s, _, _ = self.warper.forward_warp(
+                    img1=hf_src, depth1=depth, c1=c, c2=c_novel)
+                hf_img_s = hf_warp_s
         out = self._diffusion_forward(
             target_img=target, condition_img=cond, mask=mask, codes=codes,
             ref_images=ref_images, ref_tags=ref_tags,
             t_override=t_override, train_wplus=True,    # synth update: W+ may train
-            mask_cond=mask_cond)
+            mask_cond=mask_cond,
+            hf_img=hf_img_s)
         if self.synth_texture == 'full':
             loss_eps = self._eps_mse(out['eps_pred'], out['noise']) \
                 * float(self.opts.losses.eps_weight)
@@ -1522,12 +1911,17 @@ class Coach:
         # v16: synth pass keeps the paint-oil red line — its target is an EG3D
         # render; the photo-ref pixel backflow is REAL-pass2-only by design.
         if self.x0_enable:
-            # v17-prime: eps stays FULL-BAND vs the paired render (the sigma
-            # texture-band split is RETIRED — content supervision vs the
-            # render, texture from the D). The D's real distribution is the
-            # SOURCE PHOTO (evidence grading: photos > renders, always), fed
-            # as a re-noised photo so the pair stays noise-symmetric.
-            loss_low, m_low = self._x0_losses(out, target, b['x'], 'x0')
+            # v18 P1 FIX: eps stays FULL-BAND vs the paired render; the x0
+            # distribution pair is now VIEW-ALIGNED BY CONSTRUCTION —
+            # photo_ref=None makes real_t = out['noisy_latents'] (the noised
+            # TARGET latents): same view as fake (novel), pixel-paired, same
+            # noise level. This exactly mirrors the orig synth D pair (orig
+            # coach L530-536: real=target_img vs fake=pred_novel) and removes
+            # the v14-class viewpoint shortcut the photo_ref=b['x']
+            # construction carried (b['x'] is the SOURCE-view render while
+            # fake decodes the NOVEL view).
+            loss_low, m_low = self._x0_losses_invsr(out, 'x0') if self.x0_mode == 'invsr' \
+                else self._x0_losses(out, target, None, 'x0')
         else:
             loss_low, m_low = self._low_t_losses(
                 out, target, codes, allow_pixel=self.pixel_apply_synth)
@@ -1583,7 +1977,8 @@ class Coach:
             self.optimizer.zero_grad(set_to_none=True)
             loss_p1, loss_p2, m_real, panels_real = self._forward_real(
                 b_real, t_override=self.fix_timestep)
-            loss_p1.backward()
+            if loss_p1 is not None:   # v18 STRUCT: pass1 may be disabled
+                loss_p1.backward()
             loss_p2.backward()
             self._zero_wplus_grads()
             self.optimizer.step()
@@ -1591,11 +1986,20 @@ class Coach:
             # coach L405-448: every G step is followed by a D step; ours only
             # when the t<200 gate produced a clean x0 pair — G and D update at
             # the SAME gating frequency, so the game stays symmetric)
-            d_total = self._discriminator_step()
+            d_res = self._discriminator_step()
             metrics = {f'real_{k}': v for k, v in m_real.items()}
-            if d_total is not None:
+            if d_res is not None:
+                d_total, d_m = d_res
                 metrics['discr_adv'] = d_total
+                metrics.update(d_m)      # v18: per-batch-type D health
                 metrics.update(self._gan_fm_grad_norms())
+            # v18.3: InvSR-mode D update on the latent pairs
+            if self._invsr():
+                d2 = self._discriminator_step_invsr()
+                if d2 is not None:
+                    metrics['discr_adv'] = d2[0]
+                    metrics.update(d2[1])
+                    metrics.update(self._gan_fm_grad_norms())
 
             # ---------------- synth update (1:1, orig coach L489-560) ----------
             if self.use_synth:
@@ -1613,6 +2017,30 @@ class Coach:
                 loss_synth.backward()
                 self.optimizer.step()
                 metrics.update({f'synth_{k}': v for k, v in m_synth.items()})
+
+            # ---------------- v18.8: prior preservation (DreamBooth) ---------
+            # Every N steps: one extra forward where condition=target=real
+            # photo (identity mapping). Teaches BrushNet 'photo condition →
+            # photo output', preventing the render-heavy fine-tuning from
+            # eroding SD's photographic prior.
+            if (self.prior_preserve_freq > 0
+                    and self.global_step % self.prior_preserve_freq == 0):
+                self.optimizer.zero_grad(set_to_none=True)
+                _x = b_real['x']
+                with torch.no_grad():
+                    hf_pp = self._compute_hf_map(_x) if self.hf_enable else None
+                out_pp = self._diffusion_forward(
+                    target_img=_x, condition_img=_x,
+                    mask=torch.zeros(1, 1, _x.shape[-2], _x.shape[-1],
+                                     device=_x.device),
+                    codes=b_real['codes'],
+                    ref_images=[], ref_tags=[],
+                    train_wplus=False,
+                    hf_img=hf_pp)
+                loss_pp = self._eps_mse(out_pp['eps_pred'], out_pp['noise'])
+                loss_pp.backward()
+                self.optimizer.step()
+                metrics['prior_preserve'] = float(loss_pp)
 
             # ---------------- logging ----------------
             if self.global_step % int(self.opts.log.board_interval) == 0:
@@ -1666,6 +2094,11 @@ class Coach:
         print('\n' + '-' * 78)
         print('[v10 REAL-DATA AUDIT — condition-side softening]')
         fails = []
+        # torch 2.8 compat fix (2026-09-09, env bring-up): Tensor.detach() now
+        # ALWAYS returns a new object (older torch returned self for grad-free
+        # tensors), so the off-state IDENTITY check must compare the original
+        # tensors, not the detached copies. Intent unchanged: mask_cond must be
+        # the very same tensor object as the raw mask when softening is off.
         raw, soft = mask_raw.detach(), mask_cond.detach()
 
         def chk(name, ok, extra=''):
@@ -1674,7 +2107,8 @@ class Coach:
                 fails.append(name)
 
         if not self.cond_soften:
-            chk('soften OFF: mask_cond IS raw mask (old behavior)', soft is raw)
+            chk('soften OFF: mask_cond IS raw mask (old behavior)',
+                mask_cond is mask_raw)
             print('-' * 78)
             if fails:
                 raise AssertionError(f'v10 AUDIT FAILED: {fails}')
@@ -1853,7 +2287,25 @@ class Coach:
               f"hole@{float(self.opts.losses.real_pass1.hole_weight)} (orig spec §5.3)")
 
         # v14: GAN/FM third layer really active (config-aware)
-        if self.use_gan_fm:
+        if self._invsr():
+            for k in ('real_p2_ldif', 'synth_x0_ldif'):
+                v = metrics.get(k, 0.0)
+                if forced_low_t:
+                    chk_nonzero(k, v)
+                else:
+                    print(f'  [info] {k:26s} = {v:.6f} '
+                          f'(stochastic t<={self.x0_t_max} domain; fix_timestep=100 forces it)')
+            if forced_low_t:
+                chk_nonzero('discr_adv (invsr D step)', metrics.get('discr_adv', 0.0))
+            loaded_d = self.discriminator is not None
+            n_d = sum(p.numel() for p in self.discriminator.parameters()) \
+                if loaded_d else 0
+            print(f"  [{'PASS' if loaded_d else 'FAIL'}] v18.3 InvSR latent UNet-D "
+                  f"loaded ({n_d:,} params), t_max={self.x0_t_max}, "
+                  f"warmup={self.x0_dis_warmup}")
+            if not loaded_d:
+                failures.append('invsr_discriminator')
+        elif self.use_gan_fm:
             # v17-prime: under x0_enable the pass1 output has NO distribution
             # supervision BY DESIGN (novel view has no photo reference);
             # audit p2 + synth only.
@@ -1904,8 +2356,14 @@ class Coach:
             elif forced_low_t:
                 failures.append('v16_photo_ref_not_fired')
 
-        ok_mem = peak_gb < 22.0
-        print(f"  [{'PASS' if ok_mem else 'FAIL'}] peak GPU memory = {peak_gb:.2f} GiB (<22)")
+        # v18: budget line realigned to the LOCAL hardware (ta13, RTX 3090,
+        # 24 GiB). The old <22 line was a remote-era constant; measured peaks
+        # on this machine: v17-prime 40-step 22.67 GiB, v18w1 arms 22.65-22.69
+        # GiB (patch-decode x0 path = same decode size as the old resize
+        # path). 23.5 leaves ~1.8 GiB allocator headroom below the 24G card
+        # limit — this is also the PREREG_V18W1 §3 R-c stop line.
+        ok_mem = peak_gb < 23.5
+        print(f"  [{'PASS' if ok_mem else 'FAIL'}] peak GPU memory = {peak_gb:.2f} GiB (<23.5 on 24G card)")
         if not ok_mem:
             failures.append('peak_memory')
         print('=' * 78)
@@ -2086,8 +2544,10 @@ class Coach:
             'w_mapper': self.w_mapper.state_dict() if self.w_mapper is not None else None,
             'attention_processors': processors,
             'optimizer': self.optimizer.state_dict(),
-            'discriminator': self.discriminator.state_dict() if self.use_gan_fm else None,
-            'optimizer_d': self.optimizer_d.state_dict() if self.use_gan_fm else None,
+            'discriminator': self.discriminator.state_dict()
+                if (self.use_gan_fm or self._invsr()) else None,
+            'optimizer_d': self.optimizer_d.state_dict()
+                if (self.use_gan_fm or self._invsr()) else None,
         }
 
     def checkpoint_me(self, metrics):
@@ -2165,11 +2625,26 @@ class Coach:
 
     @torch.no_grad()
     def _sample_novel(self, condition_img, mask, codes, ref_images, ref_tags,
-                      num_steps=50, seed=42, mask_cond=None):
+                      num_steps=50, seed=42, mask_cond=None, anchor_img=None,
+                      t_start=None, hf_img=None):
+        """v18.6: t_start>0 (default self.infer_t_start) switches to SDEdit /
+        InvSR partial-noise inference — start from the NOISED ANCHOR at
+        t_start and run a manual DDIM (eta=0) ladder down to 0. The anchor is
+        exactly what pass1 eps-training noises (train/inference contract);
+        the trajectory never enters the prior-dominated high-t regime
+        (user-verified domain fix, 2026-09-13). t_start=0 = legacy chain.
+        v18.8: hf_img adds the AnyDoor HF channel to BrushNet conditioning."""
+        if t_start is None:
+            t_start = self.infer_t_start
         cond_latents = self.vae.encode(condition_img * 2.0 - 1.0).latent_dist.mode() * 0.18215
         m_brush = mask if mask_cond is None else mask_cond   # v10: BrushNet channel softened
         mask_latents = F.interpolate(m_brush, size=cond_latents.shape[-2:], mode='nearest')
-        conditioning = torch.cat([cond_latents, mask_latents], dim=1)
+        if self.hf_enable and hf_img is not None:
+            hf_lat = F.interpolate(hf_img, size=cond_latents.shape[-2:],
+                                   mode='bilinear', align_corners=False)
+            conditioning = torch.cat([cond_latents, mask_latents, hf_lat], dim=1)
+        else:
+            conditioning = torch.cat([cond_latents, mask_latents], dim=1)
         bsz = cond_latents.shape[0]
 
         scheduler = DDIMScheduler.from_config(self.noise_scheduler.config)
@@ -2178,8 +2653,18 @@ class Coach:
         # latents mirror the IMAGE latent shape (4ch): BrushNet internally
         # concats [sample, brushnet_cond] before conv_in_condition, so a 5ch
         # init would corrupt the channel count (found by the valcheck run).
-        latents = torch.randn(cond_latents.shape, generator=generator,
-                              device=self.device) * scheduler.init_noise_sigma
+        noise = torch.randn(cond_latents.shape, generator=generator,
+                            device=self.device)
+        if int(t_start) > 0 and anchor_img is not None:
+            anchor_lat = self.vae.encode(
+                anchor_img * 2.0 - 1.0).latent_dist.mode() * 0.18215
+            latents = scheduler.add_noise(
+                anchor_lat, noise, torch.tensor([int(t_start)], device=self.device))
+            ts_list = sorted(set(np.linspace(int(t_start), 0, num_steps)
+                                 .round().astype(int).tolist()), reverse=True)
+        else:
+            latents = noise * scheduler.init_noise_sigma
+            ts_list = None
 
         wplus_features = self._wplus_tokens(codes, False)
         ref_feat, ref_feat_extra = self._extract_reference_features(ref_images, ref_tags)
@@ -2192,18 +2677,40 @@ class Coach:
                 cross_attention_kwargs['reference_features_extra'] = ref_feat_extra
         prompt = self.empty_prompt_embeds.expand(bsz, -1, -1)
 
-        for t in scheduler.timesteps:
-            down_res, mid_res, up_res = self.brushnet(
-                latents, t, encoder_hidden_states=prompt,
-                brushnet_cond=conditioning, return_dict=False)
-            eps = self.denoising_unet(
-                sample=latents, timestep=t, encoder_hidden_states=prompt,
-                down_block_add_samples=[s for s in down_res],
-                mid_block_add_sample=mid_res,
-                up_block_add_samples=[s for s in up_res],
-                cross_attention_kwargs=cross_attention_kwargs,
-                return_dict=False)[0]
-            latents = scheduler.step(eps, t, latents).prev_sample
+        if ts_list is None:
+            for t in scheduler.timesteps:
+                down_res, mid_res, up_res = self.brushnet(
+                    latents, t, encoder_hidden_states=prompt,
+                    brushnet_cond=conditioning, return_dict=False)
+                eps = self.denoising_unet(
+                    sample=latents, timestep=t, encoder_hidden_states=prompt,
+                    down_block_add_samples=[s for s in down_res],
+                    mid_block_add_sample=mid_res,
+                    up_block_add_samples=[s for s in up_res],
+                    cross_attention_kwargs=cross_attention_kwargs,
+                    return_dict=False)[0]
+                latents = scheduler.step(eps, t, latents).prev_sample
+        else:
+            # manual DDIM (eta=0) over the custom ladder — same update the
+            # scheduler applies, with a step size matched to the t_start domain
+            ac = scheduler.alphas_cumprod
+            for i, t in enumerate(ts_list):
+                tt = torch.tensor(t, device=self.device)
+                down_res, mid_res, up_res = self.brushnet(
+                    latents, tt, encoder_hidden_states=prompt,
+                    brushnet_cond=conditioning, return_dict=False)
+                eps = self.denoising_unet(
+                    sample=latents, timestep=tt, encoder_hidden_states=prompt,
+                    down_block_add_samples=[s for s in down_res],
+                    mid_block_add_sample=mid_res,
+                    up_block_add_samples=[s for s in up_res],
+                    cross_attention_kwargs=cross_attention_kwargs,
+                    return_dict=False)[0]
+                ab = ac[t]
+                ab_prev = ac[ts_list[i + 1]] if i + 1 < len(ts_list) \
+                    else torch.ones_like(ab)
+                x0 = (latents - (1.0 - ab).sqrt() * eps) / ab.sqrt()
+                latents = ab_prev.sqrt() * x0 + (1.0 - ab_prev).sqrt() * eps
 
         return (self.vae.decode(latents / 0.18215).sample / 2 + 0.5).clamp(0, 1)
 
@@ -2223,8 +2730,18 @@ class Coach:
         mask, cond, anchor = nv['mask'], nv['cond'], nv['anchor']
 
         ref_images, ref_tags = self._ref_inputs_real(y_hat_novel, b.get('x_mirror'))
+        # v18.8: HF conditioning at inference = same as training pass1
+        hf_val = None
+        if self.hf_enable and b.get('x_mirror') is not None:
+            with torch.no_grad():
+                hf_mirror = self._compute_hf_map(b['x_mirror'])
+                hf_warp, _, _ = self.warper.forward_warp(
+                    img1=hf_mirror, depth1=b['depth_mirror'],
+                    c1=b['c_mirror'], c2=c_novel)
+                hf_val = hf_warp
         gen = self._sample_novel(cond, mask, codes, ref_images, ref_tags,
-                                 mask_cond=nv.get('mask_cond'))
+                                 mask_cond=nv.get('mask_cond'),
+                                 anchor_img=anchor, hf_img=hf_val)
 
         l1 = (gen - anchor).abs().mean(dim=1, keepdim=True)
         metrics = {
