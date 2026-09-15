@@ -9598,3 +9598,23 @@
 [gpu] 0, 14472 MiB, 100 %
 [gpu] 1, 14468 MiB, 100 %
 [gpu] 2, 14568 MiB, 100 %
+===== 2026-09-15 10:07:26 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=9 tb=0 step 91250
+[w3p] real_p2_ldif=0.0164
+[w3p] real_p2_lfm=0.0016
+[w3p] real_p2_gen_adv=-0.0029
+[w3p] synth_x0_ldif=0.0677
+[w3p] discr_adv=0.9736
+[w3p] g_grad_abs=115.8866
+[w3p] val_novel_full=0.0604
+[gpu] 0, 14472 MiB, 100 %
+[gpu] 1, 14470 MiB, 97 %
+[gpu] 2, 14568 MiB, 100 %
