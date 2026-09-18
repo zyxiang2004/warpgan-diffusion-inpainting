@@ -1,4 +1,26 @@
 
+# -*- coding: utf-8 -*-
+"""LatentLPIPS — perceptual distance in SD latent space.
+
+【源 / Provenance】Faithful port of Diffusion2GAN's LatentLPIPS
+(Kang et al., "Diffusion2GAN: Bridging Diffusion and GANs for
+Fast and High-Quality Image Generation", ICLR 2024), as used by
+InvSR (CVPR 2025, arXiv 2412.09013) for its latent perceptual loss.
+
+  * reference implementation: InvSR repo /lpips (originally from
+    Diffusion2GAN `src/latent_lpip`), VGG16 backbone adapted to act on
+    4x64x64 SD latents;
+  * checkpoint: weights/vgg16_sdturbo_lpips.pth — InvSR's finetuned
+    VGG16-on-latents weights (their release; not the pixel-space
+    torchvision VGG16);
+  * consumed ONLY via Coach._x0_losses_invsr (training/coach_inpainting_
+    diffusion.py, lfm slot) in the W6 arms (llpips_enable=True);
+    W3-P recipe runs without it (llpips_enable absent = False).
+
+Historical note (PROJECT_STATUS §5): the FM substitute measured
+0.001-0.009 at 50K steps (numerically dead) — this port is what
+replaced it (v18.4).
+"""
 from __future__ import absolute_import
 
 import torch

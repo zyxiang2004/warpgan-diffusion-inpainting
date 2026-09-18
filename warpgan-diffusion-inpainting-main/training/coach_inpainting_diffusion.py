@@ -2560,10 +2560,16 @@ class Coach:
                           weights_only=False)
         self.global_step = ckpt['global_step']
         self.brushnet.load_state_dict(ckpt['brushnet'], strict=True)
-        if self.use_gan_fm and ckpt.get('discriminator') is not None:
+        if (self.use_gan_fm or self._invsr()) and ckpt.get('discriminator') is not None:
+            # v19 fix: the save side (L2547-50) already includes D + optimizer_d
+            # under `_invsr()`, but this load gate only checked use_gan_fm — so
+            # InvSR-mode resumes (W3-P 90K) silently restarted the 106M UNet-D
+            # from random init (save/load asymmetry, found while explaining the
+            # GPU0/1-vs-GPU2 memory gap: warmup-gated D allocation).
             self.discriminator.load_state_dict(ckpt['discriminator'], strict=True)
             self.optimizer_d.load_state_dict(ckpt['optimizer_d'])
-            print('[resume] v14 discriminator + optimizer_d restored')
+            print('[resume] v19 discriminator + optimizer_d restored '
+                  '(use_gan_fm or invsr)')
         if self.w_mapper is not None and ckpt.get('w_mapper') is not None:
             self.w_mapper.load_state_dict(ckpt['w_mapper'], strict=True)
         for name, proc in self.denoising_unet.attn_processors.items():
