@@ -1,0 +1,5 @@
+[anchor-preview] 000004 hole=0.37 done
+[anchor-preview] 000550 hole=0.24 done
+[anchor-preview] 001418 hole=0.29 done
+full  -> train_logs/anchor_cleanup_full.png  (cols: photo|render|mask|anchor_raw|med3|med5)
+crops -> train_logs/anchor_cleanup_crops.png  (2x hole zoom: anchor_raw|med3|med5)

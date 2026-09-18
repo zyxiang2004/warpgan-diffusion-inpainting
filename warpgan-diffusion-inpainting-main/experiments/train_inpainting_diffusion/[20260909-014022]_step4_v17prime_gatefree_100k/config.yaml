@@ -1,0 +1,115 @@
+device: cuda:0
+exp_dir: ./experiments/train_inpainting_diffusion/[20260909-014022]_step4_v17prime_gatefree_100k
+checkpoint_path: null
+max_steps: 100000
+paths:
+  sd: ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  brushnet: ./pretrained_models/brushnet
+  wplus_stage_c: /data/xzy/warpgan20260803/20260803/experiments/_wplus_identity_pretrain/checkpoints/iteration_50000.pt
+  dataset:
+    train: ./data/FFHQ-EG3D_all_static_rebalanced
+    test: ./data/celeba-hq_1000_static_rebalanced
+    synth: ./data/SynthData100000_rebalanced
+data:
+  batch_size: 1
+  workers: 4
+  test_batch_size: 2
+  test_workers: 2
+  rebalanced: false
+  add_LPFF: false
+  synth:
+    able: true
+    zplus: false
+    batch_size: ${data.batch_size}
+gan:
+  device: ${device}
+  eg3d_type: plus_r
+  encoder_type: goae
+  psp:
+    n_styles: 14
+  goae:
+    mlp_layer: 2
+    cfg: ./configs/swinv2.yaml
+  state_dict_key: psp_state_dict
+  checkpoint_path: ./pretrained_models/inversion/gan_encoder.pt
+warp:
+  warp_ori_train: true
+  warp_ori_val: true
+  warp_pred: false
+  hybrid: true
+  cond_erode_kernel: 3
+  cond_gaussian_blur_kernel: 21
+wplus:
+  mode: frozen
+  gate_value: 3.0
+  init_from_stage_c: true
+reference:
+  use: true
+  use_mirror: true
+  real_primary: mirror
+  gate_init: 0.5
+  lr: 5.0e-06
+  local_window_k: 0
+  local_gate_init: 0.25
+brushnet:
+  init: pretrained
+  lr: 1.0e-05
+  use_8bit_adam: true
+  gradient_checkpointing: true
+losses:
+  eps_weight: 1.0
+  synth_texture: full
+  synth_lowpass_sigma: 2.0
+  real_pass1:
+    visible_weight: 1.0
+    hole_weight: 0
+    blind_struct_weight: 0
+    mirror_anchor: true
+  pixel:
+    max_timestep: 200
+    x0_clip: 3.0
+    resolution: 256
+    patch_latent: 32
+    apply_to_synth: false
+    l1_weight: 0
+    resnet_pl_weight: 0
+    id_weight: 0
+    weights_path: ./pretrained_models/LaMa_perceptual_loss_models
+  latent:
+    weight: 0
+  lpips:
+    weight: 0
+  adversarial:
+    weight: 0
+    kind: r1
+    gp_coef: 0.001
+    mask_as_fake_target: false
+    allow_scale_mask: true
+  feature_matching:
+    weight: 10
+  x0:
+    enable: true
+    l1_weight: 1.0
+    clip: 8.0
+    res_latent: 32
+    d_real: photo
+  preserve:
+    weight: 0
+    teacher_wplus: true
+  discriminator:
+    kind: pix2pixhd_nlayer
+    input_nc: 3
+    ndf: 64
+    n_layers: 4
+  optimizers:
+    discriminator:
+      lr: 0.0001
+log:
+  image_interval: 500
+  board_interval: 50
+  val_interval: 1000
+  save_interval: 10000
+  use_wandb: false
+smoke:
+  check: false
+  fix_timestep: null

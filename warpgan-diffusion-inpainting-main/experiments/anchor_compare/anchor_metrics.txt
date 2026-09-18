@@ -1,0 +1,34 @@
+panel row: x | y_hat_novel | mask(white=hole) | anchor | FFC | v16 | v12
+aF/aH/aV = L1 vs anchor full/hole/visible; rH = L1 vs render (hole);
+lapH/lapV = laplacian energy in hole/visible (texture proxy)
+
+000004_v1 h=0.37 | FFC aF/aH/aV=0.074/0.107/0.055 rH=0.054 lapH=0.018 lapV=0.075 | v16 aF/aH/aV=0.064/0.067/0.063 rH=0.061 lapH=0.063 lapV=0.074 | v12 aF/aH/aV=0.064/0.070/0.061 rH=0.063 lapH=0.057 lapV=0.069 | REFlap aH/rH/pV=0.061/0.011/0.068
+000004_v2 h=0.57 | FFC aF/aH/aV=0.082/0.095/0.066 rH=0.036 lapH=0.018 lapV=0.062 | v16 aF/aH/aV=0.093/0.106/0.076 rH=0.076 lapH=0.060 lapV=0.075 | v12 aF/aH/aV=0.095/0.110/0.076 rH=0.085 lapH=0.060 lapV=0.074 | REFlap aH/rH/pV=0.053/0.012/0.080
+000004_v3 h=0.22 | FFC aF/aH/aV=0.042/0.026/0.047 rH=0.027 lapH=0.006 lapV=0.072 | v16 aF/aH/aV=0.043/0.041/0.044 rH=0.040 lapH=0.038 lapV=0.074 | v12 aF/aH/aV=0.044/0.055/0.040 rH=0.055 lapH=0.053 lapV=0.059 | REFlap aH/rH/pV=0.010/0.003/0.061
+000009_v1 h=0.09 | FFC aF/aH/aV=0.026/0.048/0.023 rH=0.037 lapH=0.012 lapV=0.033 | v16 aF/aH/aV=0.025/0.029/0.025 rH=0.025 lapH=0.028 lapV=0.028 | v12 aF/aH/aV=0.025/0.032/0.024 rH=0.026 lapH=0.026 lapV=0.027 | REFlap aH/rH/pV=0.036/0.011/0.023
+000009_v2 h=0.03 | FFC aF/aH/aV=0.023/0.079/0.021 rH=0.055 lapH=0.008 lapV=0.033 | v16 aF/aH/aV=0.026/0.075/0.025 rH=0.050 lapH=0.011 lapV=0.025 | v12 aF/aH/aV=0.028/0.078/0.026 rH=0.055 lapH=0.012 lapV=0.026 | REFlap aH/rH/pV=0.033/0.009/0.023
+000009_v3 h=0.54 | FFC aF/aH/aV=0.070/0.054/0.089 rH=0.044 lapH=0.016 lapV=0.028 | v16 aF/aH/aV=0.071/0.060/0.085 rH=0.050 lapH=0.038 lapV=0.053 | v12 aF/aH/aV=0.064/0.053/0.077 rH=0.043 lapH=0.034 lapV=0.048 | REFlap aH/rH/pV=0.034/0.013/0.025
+000014_v1 h=0.34 | FFC aF/aH/aV=0.071/0.156/0.028 rH=0.039 lapH=0.009 lapV=0.018 | v16 aF/aH/aV=0.073/0.140/0.038 rH=0.064 lapH=0.029 lapV=0.028 | v12 aF/aH/aV=0.071/0.137/0.037 rH=0.073 lapH=0.030 lapV=0.026 | REFlap aH/rH/pV=0.047/0.007/0.013
+000014_v2 h=0.04 | FFC aF/aH/aV=0.021/0.090/0.018 rH=0.074 lapH=0.005 lapV=0.017 | v16 aF/aH/aV=0.029/0.087/0.026 rH=0.069 lapH=0.009 lapV=0.020 | v12 aF/aH/aV=0.036/0.082/0.034 rH=0.065 lapH=0.008 lapV=0.019 | REFlap aH/rH/pV=0.009/0.004/0.012
+000014_v3 h=0.38 | FFC aF/aH/aV=0.038/0.044/0.035 rH=0.043 lapH=0.006 lapV=0.018 | v16 aF/aH/aV=0.036/0.044/0.031 rH=0.043 lapH=0.014 lapV=0.023 | v12 aF/aH/aV=0.026/0.021/0.029 rH=0.020 lapH=0.015 lapV=0.026 | REFlap aH/rH/pV=0.012/0.005/0.014
+006032_v1 h=0.07 | FFC aF/aH/aV=0.022/0.047/0.021 rH=0.038 lapH=0.006 lapV=0.030 | v16 aF/aH/aV=0.040/0.093/0.037 rH=0.092 lapH=0.028 lapV=0.030 | v12 aF/aH/aV=0.035/0.096/0.030 rH=0.095 lapH=0.016 lapV=0.027 | REFlap aH/rH/pV=0.018/0.008/0.021
+006032_v2 h=0.04 | FFC aF/aH/aV=0.023/0.051/0.022 rH=0.036 lapH=0.007 lapV=0.030 | v16 aF/aH/aV=0.033/0.053/0.032 rH=0.049 lapH=0.038 lapV=0.031 | v12 aF/aH/aV=0.027/0.055/0.026 rH=0.050 lapH=0.035 lapV=0.025 | REFlap aH/rH/pV=0.041/0.008/0.020
+006032_v3 h=0.03 | FFC aF/aH/aV=0.022/0.055/0.021 rH=0.041 lapH=0.008 lapV=0.029 | v16 aF/aH/aV=0.036/0.054/0.035 rH=0.054 lapH=0.027 lapV=0.025 | v12 aF/aH/aV=0.029/0.056/0.028 rH=0.055 lapH=0.026 lapV=0.022 | REFlap aH/rH/pV=0.039/0.008/0.020
+000550_v1 h=0.24 | FFC aF/aH/aV=0.043/0.073/0.034 rH=0.070 lapH=0.015 lapV=0.034 | v16 aF/aH/aV=0.068/0.128/0.050 rH=0.124 lapH=0.049 lapV=0.042 | v12 aF/aH/aV=0.074/0.169/0.044 rH=0.165 lapH=0.050 lapV=0.038 | REFlap aH/rH/pV=0.028/0.009/0.026
+000550_v2 h=0.15 | FFC aF/aH/aV=0.043/0.077/0.037 rH=0.070 lapH=0.008 lapV=0.036 | v16 aF/aH/aV=0.036/0.046/0.034 rH=0.042 lapH=0.020 lapV=0.030 | v12 aF/aH/aV=0.038/0.058/0.034 rH=0.056 lapH=0.021 lapV=0.025 | REFlap aH/rH/pV=0.020/0.006/0.028
+000550_v3 h=0.24 | FFC aF/aH/aV=0.042/0.074/0.032 rH=0.070 lapH=0.015 lapV=0.033 | v16 aF/aH/aV=0.064/0.102/0.051 rH=0.097 lapH=0.049 lapV=0.046 | v12 aF/aH/aV=0.066/0.130/0.045 rH=0.125 lapH=0.044 lapV=0.038 | REFlap aH/rH/pV=0.029/0.009/0.027
+002776_v1 h=0.19 | FFC aF/aH/aV=0.023/0.026/0.023 rH=0.025 lapH=0.006 lapV=0.025 | v16 aF/aH/aV=0.042/0.098/0.029 rH=0.098 lapH=0.012 lapV=0.022 | v12 aF/aH/aV=0.028/0.055/0.021 rH=0.054 lapH=0.016 lapV=0.020 | REFlap aH/rH/pV=0.006/0.004/0.018
+002776_v2 h=0.19 | FFC aF/aH/aV=0.026/0.035/0.023 rH=0.027 lapH=0.006 lapV=0.023 | v16 aF/aH/aV=0.042/0.074/0.035 rH=0.068 lapH=0.012 lapV=0.022 | v12 aF/aH/aV=0.036/0.062/0.030 rH=0.057 lapH=0.011 lapV=0.023 | REFlap aH/rH/pV=0.022/0.005/0.018
+002776_v3 h=0.35 | FFC aF/aH/aV=0.026/0.024/0.028 rH=0.023 lapH=0.006 lapV=0.026 | v16 aF/aH/aV=0.070/0.126/0.040 rH=0.125 lapH=0.017 lapV=0.030 | v12 aF/aH/aV=0.092/0.175/0.049 rH=0.174 lapH=0.019 lapV=0.025 | REFlap aH/rH/pV=0.006/0.005/0.021
+001418_v1 h=0.29 | FFC aF/aH/aV=0.088/0.200/0.041 rH=0.080 lapH=0.015 lapV=0.042 | v16 aF/aH/aV=0.086/0.174/0.049 rH=0.082 lapH=0.025 lapV=0.039 | v12 aF/aH/aV=0.090/0.165/0.059 rH=0.099 lapH=0.017 lapV=0.035 | REFlap aH/rH/pV=0.050/0.010/0.032
+001418_v2 h=0.49 | FFC aF/aH/aV=0.057/0.062/0.053 rH=0.056 lapH=0.019 lapV=0.047 | v16 aF/aH/aV=0.083/0.093/0.072 rH=0.087 lapH=0.025 lapV=0.047 | v12 aF/aH/aV=0.086/0.097/0.075 rH=0.091 lapH=0.019 lapV=0.038 | REFlap aH/rH/pV=0.023/0.014/0.034
+001418_v3 h=0.19 | FFC aF/aH/aV=0.058/0.111/0.045 rH=0.111 lapH=0.012 lapV=0.043 | v16 aF/aH/aV=0.051/0.069/0.047 rH=0.069 lapH=0.032 lapV=0.044 | v12 aF/aH/aV=0.053/0.088/0.044 rH=0.088 lapH=0.033 lapV=0.039 | REFlap aH/rH/pV=0.016/0.008/0.032
+003634_v1 h=0.43 | FFC aF/aH/aV=0.048/0.072/0.029 rH=0.042 lapH=0.009 lapV=0.023 | v16 aF/aH/aV=0.088/0.126/0.059 rH=0.102 lapH=0.032 lapV=0.033 | v12 aF/aH/aV=0.077/0.107/0.055 rH=0.086 lapH=0.016 lapV=0.025 | REFlap aH/rH/pV=0.041/0.009/0.026
+003634_v2 h=0.27 | FFC aF/aH/aV=0.037/0.066/0.026 rH=0.043 lapH=0.008 lapV=0.024 | v16 aF/aH/aV=0.064/0.104/0.049 rH=0.092 lapH=0.016 lapV=0.026 | v12 aF/aH/aV=0.070/0.113/0.054 rH=0.107 lapH=0.015 lapV=0.021 | REFlap aH/rH/pV=0.043/0.008/0.023
+003634_v3 h=0.68 | FFC aF/aH/aV=0.080/0.093/0.052 rH=0.038 lapH=0.011 lapV=0.020 | v16 aF/aH/aV=0.078/0.087/0.060 rH=0.053 lapH=0.035 lapV=0.048 | v12 aF/aH/aV=0.074/0.081/0.059 rH=0.048 lapH=0.030 lapV=0.042 | REFlap aH/rH/pV=0.037/0.009/0.026
+
+mean over all cases:
+  FFC: anchorL1 full/hole/vis=0.0452/0.0735/0.0362 | renderL1 hole=0.0492 | lap hole=0.0104 vis=0.0341
+  v16: anchorL1 full/hole/vis=0.0559/0.0866/0.0456 | renderL1 hole=0.0714 | lap hole=0.0293 vis=0.0381
+  v12: anchorL1 full/hole/vis=0.0553/0.0894/0.0441 | renderL1 hole=0.0765 | lap hole=0.0275 vis=0.0340
+  REF: anchor_hole_lap=0.0296 render_hole_lap=0.0081 photo_vis_lap=0.0287

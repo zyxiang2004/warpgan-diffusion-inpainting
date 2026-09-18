@@ -1,0 +1,5 @@
+panels: x | y_hat_novel | cond | mask | anchor | R_RefNet_mirror | B_UNet-bank_mirror
+
+000014_v1: hole R(RefNet)=0.1718  B(UNet-bank)=0.1691  |R-B| mean pixel diff=0.0076
+000004_v2: hole R(RefNet)=0.1886  B(UNet-bank)=0.1859  |R-B| mean pixel diff=0.0163
+000009_v3: hole R(RefNet)=0.0830  B(UNet-bank)=0.0796  |R-B| mean pixel diff=0.0071

@@ -1,0 +1,137 @@
+[scan] 002088 mean_hole=0.192
+[scan] 006254 mean_hole=0.430
+[scan] 000949 mean_hole=0.457
+[scan] 002628 mean_hole=0.306
+[scan] 004386 mean_hole=0.198
+[scan] 000291 mean_hole=0.227
+[scan] 000468 mean_hole=0.378
+[scan] 005599 mean_hole=0.290
+[scan] 003634 mean_hole=0.457
+[scan] 000586 mean_hole=0.223
+[scan] 002404 mean_hole=0.406
+[scan] 003952 mean_hole=0.439
+[scan] 000399 mean_hole=0.220
+[scan] 006032 mean_hole=0.047
+[scan] 003354 mean_hole=0.157
+[scan] 001418 mean_hole=0.326
+[scan] 000221 mean_hole=0.301
+[scan] 000540 mean_hole=0.215
+[scan] 002868 mean_hole=0.178
+[scan] 002776 mean_hole=0.240
+[scan] 000445 mean_hole=0.242
+[scan] 001543 mean_hole=0.271
+[scan] 000550 mean_hole=0.208
+[scan] 003718 mean_hole=0.235
+[cases] ids=['000004', '000009', '000014', '006032', '000550', '002776', '001418', '003634'] views=[1, 2, 3]
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/torchmetrics/utilities/imports.py:21: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import DistributionNotFound, get_distribution
+2026-09-09 00:08:23.222674: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+Use FFCStyleResNetGenerator!
+input_nc: 7
+Use Style: style_res
+[FFC] loaded; missing=0 unexpected=0
+[v16] building coach from ./experiments/train_inpainting_diffusion/[20260903-032126]_step3_v16_photoref_50k/checkpoints/iteration_0049999.pt
+W0909 00:08:24.563595 659743 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0909 00:08:24.563595 659743 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+W0909 00:08:24.652940 659743 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0909 00:08:24.652940 659743 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+[compat] patched models/goae WindowAttention.forward (torch>=2.6 CPU-bound clamp fix; numerically identical)
+==============================================================================
+[EFFECTIVE CONFIG — verify line by line before trusting any run]
+  exp_dir               : /data/xzy/warpgan20260803/20260803/warpgan_orig/WarpGAN-main/experiments/train_inpainting_diffusion/[20260903-032126]_step3_v16_photoref_50k
+  max_steps             : 50000
+  device                : cuda:0
+  synth/real 1:1        : use_synth=True
+  batch_size (real/synth): 1 / 1
+  warp: 512=True hybrid=True warp_pred=False mask=raw_splatting (NO erode/blur)
+  warp cond soften     : erode=3px blur_k=21 (v10: CONDITION-side only, supervision keeps raw mask; orig port)
+  wplus: mode=frozen gate=fixed tanh(3.0) stage_c_init=True
+  reference: use=True use_mirror=True gate_init=0.5 lr=5e-06
+  reference real_primary : mirror (user plan: real photo = PRIMARY bank source, render -> extra)
+  reference LOCAL       : window=0 gate_init=0.25 (v11 texture-band retrieval from PRIMARY (real-photo) source; activates the formerly-dead reference_local_scale)
+  real pass1 dual-band  : visible/mirror FULL-band x1.0 + blind LOW-band x1.0 (v12: target=FULL SHARP render, only low-freq error penalized; hole_weight=0.0 ignored when dual-band active; 0=off -> single-band v11 path)
+  loss synth_texture     : zero (sigma=2.0 latent px; user plan: structure-only supervision, texture band = 0)
+  brushnet: init=pretrained lr=1e-05 8bit=True grad_ckpt=True
+  loss eps_weight       : 1.0
+  loss real_p1 anchor   : visible=1.0 (target=inv_warp) hole=0 (target=y_hat_novel) mirror_anchor=True (hole real-photo coverage via inv_warp(x_mirror))
+  loss pixel (t<200)   : L1*2.0 PL*0 ID*0 x0_clip=3.0 res=256
+  loss latent closure   : *0 (orig L1195-1200)
+  loss lpips/gan/fm     : 0 / 0 / 0  (orig GAN/FM 10/100 -> default 0)
+  timestep range        : [0, 1000) FULL RANGE (no low-t clamp; v3.1 lesson)
+  smoke: check=False fix_timestep=None
+  path [OK ] sd            : ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  path [OK ] brushnet      : ./pretrained_models/brushnet
+  path [OK ] wplus_stage_c : /data/xzy/warpgan20260803/20260803/experiments/_wplus_identity_pretrain/checkpoints/iteration_50000.pt
+  path [OK ] train         : ./data/FFHQ-EG3D_all_static_rebalanced
+  path [OK ] test          : ./data/celeba-hq_1000_static_rebalanced
+  path [OK ] synth         : ./data/SynthData100000_rebalanced
+  path [OK ] LaMa_PL       : ./pretrained_models/LaMa_perceptual_loss_models
+  path [OK ] gan_encoder   : ./pretrained_models/inversion/gan_encoder.pt
+==============================================================================
+[BrushNet] init: official pretrained inpainting checkpoint
+[W+] loaded Stage-C mapper weights: /data/xzy/warpgan20260803/20260803/experiments/_wplus_identity_pretrain/checkpoints/iteration_50000.pt
+[params] bank-retrieval adapters trainable: 37,183,696 | W+ QKV (s2) trainable: 0 | W+ mapper trainable: 0 | mirror: own K/V 24,780,800 + softmax competition (16 gauged layers) | RefNet DELETED (860M saved, bank=main-UNet self-read)
+[optim] 8-bit AdamW (bitsandbytes)
+Synth dataset: ./data/SynthData100000_rebalanced -> 100000 samples
+Real train dataset: ./data/FFHQ-EG3D_all_static_rebalanced -> 139914 samples
+Test dataset: ./data/celeba-hq_1000_static_rebalanced -> 1000 samples
+[resume] step 49999 from /data/xzy/warpgan20260803/20260803/warpgan_orig/WarpGAN-main/experiments/train_inpainting_diffusion/[20260903-032126]_step3_v16_photoref_50k/checkpoints/iteration_0049999.pt
+[v16] loaded (mirror=True, step=49999)
+[v16] done, freed
+[v12] building coach from ./experiments/train_inpainting_diffusion/[20260828-205831]_step3_v12_dualband_50k/checkpoints/iteration_0049999.pt
+==============================================================================
+[EFFECTIVE CONFIG — verify line by line before trusting any run]
+  exp_dir               : /data/xzy/warpgan20260803/20260803/warpgan_orig/WarpGAN-main/experiments/train_inpainting_diffusion/[20260828-205831]_step3_v12_dualband_50k
+  max_steps             : 50000
+  device                : cuda:0
+  synth/real 1:1        : use_synth=True
+  batch_size (real/synth): 1 / 1
+  warp: 512=True hybrid=True warp_pred=False mask=raw_splatting (NO erode/blur)
+  warp cond soften     : erode=3px blur_k=21 (v10: CONDITION-side only, supervision keeps raw mask; orig port)
+  wplus: mode=frozen gate=fixed tanh(3.0) stage_c_init=True
+  reference: use=True use_mirror=True gate_init=0.5 lr=5e-06
+  reference real_primary : mirror (user plan: real photo = PRIMARY bank source, render -> extra)
+  reference LOCAL       : window=0 gate_init=0.25 (v11 texture-band retrieval from PRIMARY (real-photo) source; activates the formerly-dead reference_local_scale)
+  real pass1 dual-band  : visible/mirror FULL-band x1.0 + blind LOW-band x1.0 (v12: target=FULL SHARP render, only low-freq error penalized; hole_weight=0.0 ignored when dual-band active; 0=off -> single-band v11 path)
+  loss synth_texture     : zero (sigma=2.0 latent px; user plan: structure-only supervision, texture band = 0)
+  brushnet: init=pretrained lr=1e-05 8bit=True grad_ckpt=True
+  loss eps_weight       : 1.0
+  loss real_p1 anchor   : visible=1.0 (target=inv_warp) hole=0 (target=y_hat_novel) mirror_anchor=True (hole real-photo coverage via inv_warp(x_mirror))
+  loss pixel (t<200)   : L1*0 PL*0 ID*0 x0_clip=3.0 res=256
+  loss latent closure   : *0 (orig L1195-1200)
+  loss lpips/gan/fm     : 0 / 0 / 0  (orig GAN/FM 10/100 -> default 0)
+  timestep range        : [0, 1000) FULL RANGE (no low-t clamp; v3.1 lesson)
+  smoke: check=False fix_timestep=None
+  path [OK ] sd            : ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  path [OK ] brushnet      : ./pretrained_models/brushnet
+  path [OK ] wplus_stage_c : /data/xzy/warpgan20260803/20260803/experiments/_wplus_identity_pretrain/checkpoints/iteration_50000.pt
+  path [OK ] train         : ./data/FFHQ-EG3D_all_static_rebalanced
+  path [OK ] test          : ./data/celeba-hq_1000_static_rebalanced
+  path [OK ] synth         : ./data/SynthData100000_rebalanced
+  path [OK ] LaMa_PL       : ./pretrained_models/LaMa_perceptual_loss_models
+  path [OK ] gan_encoder   : ./pretrained_models/inversion/gan_encoder.pt
+==============================================================================
+[BrushNet] init: official pretrained inpainting checkpoint
+[W+] loaded Stage-C mapper weights: /data/xzy/warpgan20260803/20260803/experiments/_wplus_identity_pretrain/checkpoints/iteration_50000.pt
+[params] bank-retrieval adapters trainable: 37,183,696 | W+ QKV (s2) trainable: 0 | W+ mapper trainable: 0 | mirror: own K/V 24,780,800 + softmax competition (16 gauged layers) | RefNet DELETED (860M saved, bank=main-UNet self-read)
+[optim] 8-bit AdamW (bitsandbytes)
+Synth dataset: ./data/SynthData100000_rebalanced -> 100000 samples
+Real train dataset: ./data/FFHQ-EG3D_all_static_rebalanced -> 139914 samples
+Test dataset: ./data/celeba-hq_1000_static_rebalanced -> 1000 samples
+[resume] step 49999 from /data/xzy/warpgan20260803/20260803/warpgan_orig/WarpGAN-main/experiments/train_inpainting_diffusion/[20260828-205831]_step3_v12_dualband_50k/checkpoints/iteration_0049999.pt
+[v12] loaded (mirror=True, step=49999)
+[v12] done, freed
+Setting up PyTorch plugin "bias_act_plugin"... W0909 00:14:52.932111 659743 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0909 00:14:52.932111 659743 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+Done.
+Setting up PyTorch plugin "upfirdn2d_plugin"... W0909 00:14:53.260401 659743 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0909 00:14:53.260401 659743 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+Done.
+[metrics] table written
+
+mean over all cases:
+  FFC: anchorL1 full/hole/vis=0.0452/0.0735/0.0362 | renderL1 hole=0.0492 | lap hole=0.0104 vis=0.0341
+  v16: anchorL1 full/hole/vis=0.0559/0.0866/0.0456 | renderL1 hole=0.0714 | lap hole=0.0293 vis=0.0381
+  v12: anchorL1 full/hole/vis=0.0553/0.0894/0.0441 | renderL1 hole=0.0765 | lap hole=0.0275 vis=0.0340
+  REF: anchor_hole_lap=0.0296 render_hole_lap=0.0081 photo_vis_lap=0.0287
+[done] all outputs -> ./experiments/anchor_compare

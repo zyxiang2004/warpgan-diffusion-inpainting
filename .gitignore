@@ -1,6 +1,13 @@
 # ===== Training outputs (257GB: checkpoints / val images / tb events) =====
 # These stay on the training server only — re-generate by resuming training.
-warpgan-diffusion-inpainting-main/experiments/
+# (2026-09-18: the blanket dir-exclusion below BLOCKED main/.gitignore's
+#  fine-grained text-record negations — a parent-dir exclusion cannot be
+#  re-included from a deeper .gitignore. Delegated to main/.gitignore now:
+#  experiments/** minus *.json/*.txt/*.log/*.md/*.csv/*.yaml/*.yml .)
+# warpgan-diffusion-inpainting-main/experiments/
+
+# ===== Bundle info sidecar files (server-local, created next to bundles) =====
+BUNDLE_INFO_*.txt
 
 # ===== Archives (redundant copies) =====
 *.zip

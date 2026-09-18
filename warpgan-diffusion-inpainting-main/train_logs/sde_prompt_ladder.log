@@ -1,0 +1,78 @@
+[ladder] coach from ./experiments/train_inpainting_diffusion/[20260911-143749]_v18w3_w3p_30k/checkpoints/iteration_0029999.pt
+2026-09-13 02:34:00.947104: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-09-13 02:34:00.951587: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda-12.2/lib64:/usr/local/cuda-12.2/lib64:/usr/local/cuda-12.2/lib64
+2026-09-13 02:34:00.951609: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/sklearn/utils/fixes.py:28: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version  # type: ignore
+W0913 02:34:05.592441 182113 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0913 02:34:05.592441 182113 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+W0913 02:34:36.377497 182113 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0913 02:34:36.377497 182113 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+It is recommended to provide `attention_head_dim` when calling `get_down_block`. Defaulting `attention_head_dim` to 16.
+It is recommended to provide `attention_head_dim` when calling `get_down_block`. Defaulting `attention_head_dim` to 16.
+It is recommended to provide `attention_head_dim` when calling `get_down_block`. Defaulting `attention_head_dim` to 32.
+It is recommended to provide `attention_head_dim` when calling `get_up_block`. Defaulting `attention_head_dim` to 32.
+It is recommended to provide `attention_head_dim` when calling `get_up_block`. Defaulting `attention_head_dim` to 16.
+It is recommended to provide `attention_head_dim` when calling `get_up_block`. Defaulting `attention_head_dim` to 16.
+[compat] patched models/goae WindowAttention.forward (torch>=2.6 CPU-bound clamp fix; numerically identical)
+==============================================================================
+[EFFECTIVE CONFIG — verify line by line before trusting any run]
+  exp_dir               : /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260911-143749]_v18w3_w3p_30k
+  max_steps             : 30000
+  device                : cuda:0
+  synth/real 1:1        : use_synth=True
+  batch_size (real/synth): 1 / 1
+  warp: 512=True hybrid=True warp_pred=False mask=raw_splatting (NO erode/blur)
+  warp cond soften     : erode=3px blur_k=21 (v10: CONDITION-side only, supervision keeps raw mask; orig port)
+  wplus: mode=s1_mapper gate=fixed tanh(3.0) stage_c_init=False
+  reference: use=True use_mirror=True gate_init=0.5 lr=5e-06
+  reference real_primary : mirror (user plan: real photo = PRIMARY bank source, render -> extra)
+  reference LOCAL       : window=0 gate_init=0.25 (v11 texture-band retrieval from PRIMARY (real-photo) source; activates the formerly-dead reference_local_scale)
+  real pass1 dual-band  : visible/mirror FULL-band x1.0 + blind LOW-band x0.0 (v12: target=FULL SHARP render, only low-freq error penalized; hole_weight=0.0 ignored when dual-band active; 0=off -> single-band v11 path)
+  loss synth_texture     : full (sigma=2.0 latent px; user plan: structure-only supervision, texture band = 0)
+  brushnet: init=pretrained lr=1e-05 8bit=True grad_ckpt=True
+  loss eps_weight       : 1.0
+  real pass1 FORWARD    : True (False = STRUCT arm: real batch trains pass2 only; inference unchanged)
+  loss real_p1 anchor   : visible=1.0 (target=inv_warp) hole=0 (target=y_hat_novel) mirror_anchor=True (hole real-photo coverage via inv_warp(x_mirror))
+  loss pixel (t<200)   : L1*0 PL*0 ID*0 x0_clip=3.0 res=256
+  loss latent closure   : *0 (orig L1195-1200)
+  loss lpips/gan/fm     : 0 / 0 / 0  (orig GAN/FM 10/100 -> default 0)
+  timestep range        : [0, 1000) FULL RANGE (no low-t clamp; v3.1 lesson)
+  smoke: check=False fix_timestep=None
+  path [OK ] sd            : ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  path [OK ] brushnet      : ./pretrained_models/brushnet
+  path [OK ] train         : ./data/FFHQ-EG3D_all_static_rebalanced
+  path [OK ] test          : ./data/celeba-hq_1000_static_rebalanced
+  path [OK ] synth         : ./data/SynthData100000_rebalanced
+  path [OK ] LaMa_PL       : ./pretrained_models/LaMa_perceptual_loss_models
+  path [OK ] gan_encoder   : ./pretrained_models/inversion/gan_encoder.pt
+==============================================================================
+[BrushNet] init: official pretrained inpainting checkpoint
+[v18.3] InvSR x0 SUPERVISION ACTIVE: latent-space MSE+FM+adv on the single-step x0, t<=300, w=ldif:1.0/lfm:2.0/ldis:0.1
+[v18.3 InvSR] latent UNet-D 106,176,612 params | t_max=300 | w ldif:lfm:ldis = 1.0:2.0:0.1 | latent clamp ±10.0 | dis_warmup=3000 (their 10K/100K iters scaled to our 30K budget)
+[params] bank-retrieval adapters trainable: 37,183,696 | W+ QKV (s2) trainable: 0 | W+ mapper trainable: 1,967,616 | mirror: own K/V 24,780,800 + softmax competition (16 gauged layers) | RefNet DELETED (860M saved, bank=main-UNet self-read)
+[optim] 8-bit AdamW (bitsandbytes)
+Synth dataset: ./data/SynthData100000_rebalanced -> 100000 samples
+Real train dataset: ./data/FFHQ-EG3D_all_static_rebalanced -> 139914 samples
+Test dataset: ./data/celeba-hq_1000_static_rebalanced -> 1000 samples
+[resume] step 29999 from /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260911-143749]_v18w3_w3p_30k/checkpoints/iteration_0029999.pt
+[ladder] 000004 ddim50_empty: L1_vs_anchor=0.1021
+[ladder] 000004 ddim50_pos: L1_vs_anchor=0.1001
+[ladder] 000004 ddim50_cfg7: L1_vs_anchor=0.0996
+[ladder] 000004 sde300_empty: L1_vs_anchor=0.0465
+[ladder] 000004 sde300_pos: L1_vs_anchor=0.0466
+[ladder] 000004 sde300_cfg7: L1_vs_anchor=0.0470
+[ladder] 000550 ddim50_empty: L1_vs_anchor=0.0775
+[ladder] 000550 ddim50_pos: L1_vs_anchor=0.0744
+[ladder] 000550 ddim50_cfg7: L1_vs_anchor=0.0779
+[ladder] 000550 sde300_empty: L1_vs_anchor=0.0267
+[ladder] 000550 sde300_pos: L1_vs_anchor=0.0266
+[ladder] 000550 sde300_cfg7: L1_vs_anchor=0.0267
+[ladder] 001418 ddim50_empty: L1_vs_anchor=0.1110
+[ladder] 001418 ddim50_pos: L1_vs_anchor=0.1109
+[ladder] 001418 ddim50_cfg7: L1_vs_anchor=0.1170
+[ladder] 001418 sde300_empty: L1_vs_anchor=0.0497
+[ladder] 001418 sde300_pos: L1_vs_anchor=0.0497
+[ladder] 001418 sde300_cfg7: L1_vs_anchor=0.0503
+columns: photo | anchor | ddim50_empty | ddim50_pos | ddim50_cfg7 | sde300_empty | sde300_pos | sde300_cfg7
+saved -> train_logs/sde_prompt_ladder.png
