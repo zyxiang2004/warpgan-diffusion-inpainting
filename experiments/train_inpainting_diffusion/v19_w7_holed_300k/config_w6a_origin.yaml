@@ -9,9 +9,9 @@ hf:
   thresh: 50.0
 prior_preserve:
   freq: 0
-exp_dir: /data/xzy/warpgan20260803/20260803/warpgan_orig/WarpGAN-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k
-checkpoint_path: /data/xzy/warpgan20260803/20260803/warpgan_orig/WarpGAN-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/checkpoints/iteration_0149999.pt
-max_steps: 300000
+exp_dir: /data/xzy/warpgan20260803/20260803/warpgan_orig/WarpGAN-main/experiments/train_inpainting_diffusion/[20260915-111722]_v19_w6a_100k
+checkpoint_path: null
+max_steps: 100000
 paths:
   sd: ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
   brushnet: ./pretrained_models/brushnet
@@ -106,13 +106,9 @@ losses:
     t_max: 300
     w_ldif: 1.0
     w_lfm: 2.0
-    w_ldis: 0.1
+    w_ldis: 1.0
     dis_warmup: 3000
     latent_bound: 10.0
-    hole_d:
-      enable: true
-      weight: 0.1
-      warmup: 2000
     l1_weight: 1.0
     llpips_enable: true
     llpips_ckpt: ./weights/vgg16_sdturbo_lpips.pth
