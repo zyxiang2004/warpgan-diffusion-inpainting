@@ -458,14 +458,14 @@ run_train_anydoor.py 仅 ControlNet 式扩散损失），patch D 仅存在于论
 **⑤ DMDX（备用）**：分布级对抗匹配（ADM），若成对 D 后仍振荡再上。
 
 **W7 据此修订（从"发明"降级为"复原+适配"，三段式）**：
-- W7a：fake=pass1 x̂0 decode 后经现成 inverse_warp 回原视角的洞区内容
-  （inv_valid 门控），real=x 原视角照片——原版 pred_inv_warp D 分支的
-  扩散版复原，成对监督；
-- W7b：原提案保留（fake=pass1 x̂0 洞区 crop，real=照片 patch，无配对）
-  ——对应原版 novel 分支；与 W7a A/B（预注册风险：warp 重采样可能削弱
-  高频约束）；
-- W7c：synth_x0 的 real 渲染→照片（回到原版行为，修红线 #3）。
-- 保持 t≤300、D 预热、×0.1 起步；新增成本≈每步 1 次 VAE decode。
+- ~~W7a~~ / ~~W7b~~ / ~~W7c~~ → 实施时再收敛，见 §7.12/§7.13。
+- **§7.11 勘误（2026-09-18 实施时发现）**：原版 synth 分支 D 的 real 是
+  `src_img`（**渲染**，static coach L554-558），不是照片——盘上
+  SynthData100000 四个 PNG 哈希各异且 config L112 注明"synthetic
+  identities have no real photo"。因此我们的 synth pair（real=渲染）本就
+  与原版一致，**W7c（改 synth real）撤销**——改它才是无参照的臆造。
+  原版 D 的照片 real 只存在于 real-batch 分支（novel/inv_warp），修复
+  范围收敛为 W7b 单点。
 
 ### 7.12 W7a/b 争点收敛（2026-09-18）：c 非路线、b 定主、a 由预实验门控
 
@@ -490,6 +490,33 @@ run_train_anydoor.py 仅 ControlNet 式扩散损失），patch D 仅存在于论
    a 弃；不可分 → a 作为 b 的补充分支，原版本就双分支）。
    队列基础设施 a/b 共用，代码代价近零；训练只跑单主路径，不做训练期
    A/B。
+
+### 7.13 W7 实施（2026-09-18，用户指令：停 W3-P、备份、基于原版修复、续训）
+
+用户决策链：停 W3-P（释放 GPU2，终值 174950 步，170K ckpt 在盘）→
+基线提交 `40c69df` + tag `v19-w6-baseline` → W7b 实施 → W6-B@80K 续训。
+
+**基底选择 W6-B（自行决定，理由）**：① 用户校准两臂效果差不多，但
+tex≥9 GOOD 数 24 vs 15、大洞样本 tex 驻留 12-13 vs 11-12，W6-B 略优；
+② adv×0.1 = InvSR 校准剂量，叠加新 D 信号时总对抗压力不超参照；
+③ W6-B 仍在 GPU1 运行 → 同血统直接对照（80K 分叉点起 W7 vs W6-B）。
+
+**实施（全部有参照，零臆造）**：
+- `configs/train_inpainting_diffusion.yaml` losses.x0.hole_d
+  {enable:False 默认（保护 W6 双臂重启路径）, weight:0.1, warmup:2000}；
+- coach `__init__` L442-452 读选项（缺省全关）+ pass1 块 L1803-1853：
+  fake = pass1 x̂0 × 软洞掩码（13px box→area，v12 配方），real = 同一
+  掩码 × 照片 latent（.mode() 编码，与 target latent 同约定）；两侧掩码
+  相同 → D 只能靠洞区纹理统计判别；G 侧仅 adv（无 ldif/llpips——新视角
+  vs 源视角禁止回归靶），D-only 预热 2000 步（从首个配对起算，resume
+  感知）；t≤300 沿用；synth pair 原样保留（即原版行为）。
+- `scripts/v19_w7_holed.sh`（GPU2，W6-B 全配方 + hole_d 三覆盖）；
+- ckpt 拷贝续训：W6-B iteration_0079999.pt（5.57GB）→
+  `v19_w7_holed_300k/checkpoints/`（避免与运行中 W6-B 同目录冲突），
+  附 config_w6b_origin.yaml 出处。
+- 判据（预注册）：烟雾=[W7] 打印 + holeD_hit=1 + holeD_d_real/fake 非
+  零 + 0 Traceback + 显存<23.5GB；疗效=同样本 val 序列 tex 振荡幅度
+  收窄（对照 W6-B 同期），speck 向 tier-A 收敛，洞区 blotch 下降。
 
 ### 7.10 用户校准结果（2026-09-18 晚，82+15 张校准集裁决）
 

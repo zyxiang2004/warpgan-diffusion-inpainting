@@ -243,6 +243,23 @@ losses:
     w_ldis: 0.1            # InvSR loss_coef.ldis (adversarial = SMALLEST term)
     dis_warmup: 3000       # their dis_init_iterations 10K/100K scaled to 30K
     latent_bound: 10.0     # their _Latent_bound clamp on z0_pred
+    hole_d:                # W7 (2026-09-18): pass1 hole photo-statistics D pair
+                           # — diffusion-port restoration of the ORIG WarpGAN
+                           # real-batch novel-branch D (static coach L415-420:
+                           # fake=pred_novel, real=PHOTO x). Latent version:
+                           # fake = pass1 x0_hat masked to the hole (soft 13px
+                           # box mask, v12 recipe), real = the SAME mask on clean
+                           # PHOTO latents (.mode() encode) — identical masks on
+                           # both sides so D can only key on hole texture stats
+                           # (the §7.7 layer-2/3 unconstrained dimension). G side
+                           # adv-only. The orig synth D pair (real=RENDER, static
+                           # coach L554-558 'image': src_img) is kept AS-IS —
+                           # that IS original behavior (synthetic identities have
+                           # no photo; verified on disk: SynthData100000 dirs).
+      enable: False
+      weight: 0.1          # G-adv dose for the hole pair (InvSR ldis scale)
+      warmup: 2000         # D-only head start counted from FIRST hole pair
+                           # (resume-aware: 0 = relative to run start, not step 0)
                            # ---- legacy 'renoise' mode keys below ----
                            # Re-noising construction (see Coach._x0_losses):
                            #   fake_t = sqrt(ab)*x0_hat + sqrt(1-ab)*eps_new

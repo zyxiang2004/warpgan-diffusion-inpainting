@@ -439,6 +439,17 @@ class Coach:
         self.x0_w_ldis = float(_x0.w_ldis) if _x0 is not None and 'w_ldis' in _x0 else 0.1
         self.x0_dis_warmup = int(_x0.dis_warmup) if _x0 is not None and 'dis_warmup' in _x0 else 3000
         self.x0_latent_bound = float(_x0.latent_bound) if _x0 is not None and 'latent_bound' in _x0 else 10.0
+        # W7 (2026-09-18): pass1 hole photo-statistics D pair (orig real-batch
+        # novel branch, static coach L415-420). See yaml losses.x0.hole_d.
+        _hole_d = _x0.get('hole_d', None) if _x0 is not None else None
+        self.hole_d_enable = bool(_hole_d.get('enable', False)) if _hole_d is not None else False
+        self.hole_d_weight = float(_hole_d.get('weight', 0.1)) if _hole_d is not None else 0.1
+        self.hole_d_warmup = int(_hole_d.get('warmup', 2000)) if _hole_d is not None else 2000
+        self._hole_d_start = None      # set at the FIRST queued hole pair
+        if self.hole_d_enable:
+            print(f'[W7] hole photo-stat D ACTIVE: weight={self.hole_d_weight} '
+                  f'd_warmup=+{self.hole_d_warmup} steps from first pair '
+                  f'(orig real-batch novel branch, real=photo)')
         # v18.4: InvSR's finetuned latent-LPIPS (their MAIN loss term). Replaces
         # the FM substitute once the weight file is downloaded. Built lazily in
         # __init__ (see the discriminator block below) — frozen metric net.
@@ -1789,6 +1800,57 @@ class Coach:
                 if gm1 is not None:
                     loss_p1 = loss_p1 + gm1[0]
                     metrics.update(gm1[1])
+            # ============ W7 (2026-09-18): pass1 hole photo-statistics D ========
+            # Restores the ORIG WarpGAN real-batch novel-branch D pair (static
+            # coach L415-420: fake=pred_novel, real=PHOTO x) into the latent
+            # InvSR-D. fake = x0_hat masked to the hole; real = the SAME soft
+            # mask on clean PHOTO latents (deterministic .mode() encode — the
+            # exact convention of _write_bank/target latents). Identical masks
+            # on both sides -> D cannot key on the visible region or on mask
+            # edges; only the hole texture statistics remain discriminative,
+            # which is precisely the §7.7 layer-2/3 unconstrained dimension.
+            # G side: adv ONLY — no ldif/llpips on this pair (novel-view fake
+            # vs source-view real forbids any regression target; geometry
+            # stays with the eps-MSE anchor). The synth D pair (real=render,
+            # static coach L554-558) is intentionally untouched.
+            if self.hole_d_enable and self._invsr():
+                t1 = out1['timesteps']
+                selh = t1 <= self.x0_t_max
+                if bool(selh.any()):
+                    if self._hole_d_start is None:
+                        self._hole_d_start = self.global_step
+                    ab1 = self.noise_scheduler.alphas_cumprod[t1].view(-1, 1, 1, 1)
+                    x0h = (out1['noisy_latents'] - (1.0 - ab1).sqrt() * out1['eps_pred']) \
+                        / ab1.sqrt()
+                    x0h = x0h[selh].clamp(-self.x0_latent_bound, self.x0_latent_bound)
+                    # soft hole mask in latent space (v12 recipe: 13px box ->
+                    # area downsample; removes the 1px-step latent seam)
+                    k = 13
+                    box = torch.ones(1, 1, k, k, device=mask.device,
+                                     dtype=mask.dtype) / float(k * k)
+                    m_soft = F.conv2d(F.pad(mask, (k // 2,) * 4, mode='replicate'), box)
+                    m_lat = F.interpolate(m_soft, size=out1['mask_latents'].shape[-2:],
+                                          mode='area')[selh]
+                    fake_h = x0h * m_lat
+                    with torch.no_grad():
+                        photo_z = self.vae.encode(
+                            x[selh] * 2.0 - 1.0).latent_dist.mode() * 0.18215
+                    real_h = photo_z * m_lat
+                    set_requires_grad(self.discriminator, False)  # D frozen at G step
+                    prompt_h = self.empty_prompt_embeds.expand(x0h.shape[0], -1, -1)
+                    logits_h, _ = self.discriminator(fake_h, t1[selh], prompt_h,
+                                                     return_features=True)
+                    if ((self.global_step - self._hole_d_start) > self.hole_d_warmup
+                            and self.hole_d_weight > 0):
+                        adv_h = sum(-lg.mean() for lg in logits_h) / len(logits_h)
+                        loss_p1 = loss_p1 + adv_h * self.hole_d_weight
+                        metrics['holeD_gen_adv'] = float(adv_h)
+                    self._disc_queue_invsr.append(
+                        ('holeD', fake_h.detach(), real_h.detach(), t1[selh].detach()))
+                    metrics['holeD_hit'] = 1.0
+                    metrics['holeD_t'] = float(t1[selh].float().mean())
+                else:
+                    metrics['holeD_hit'] = 0.0
             metrics['p1_eps'] = float(loss_p1)
         else:
             # v18 STRUCT: pass1 entirely unsupervised on real batches (orig
