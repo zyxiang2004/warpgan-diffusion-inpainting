@@ -1,0 +1,276 @@
+2026-09-13 02:21:42.174455: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-09-13 02:21:42.178953: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda-12.2/lib64:/usr/local/cuda-12.2/lib64:/usr/local/cuda-12.2/lib64
+2026-09-13 02:21:42.178981: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/sklearn/utils/fixes.py:28: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version  # type: ignore
+W0913 02:21:47.998805 180781 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0913 02:21:47.998805 180781 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+W0913 02:22:17.021214 180781 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0913 02:22:17.021214 180781 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+[compat] patched models/goae WindowAttention.forward (torch>=2.6 CPU-bound clamp fix; numerically identical)
+device: cuda:0
+exp_dir: /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260913-022246]_smoke_v18w4_p2
+checkpoint_path: null
+max_steps: 30
+paths:
+  sd: ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  brushnet: ./pretrained_models/brushnet
+  wplus_stage_c: /data/xzy/warpgan20260803/20260803/experiments/_wplus_identity_pretrain/checkpoints/iteration_50000.pt
+  dataset:
+    train: ./data/FFHQ-EG3D_all_static_rebalanced
+    test: ./data/celeba-hq_1000_static_rebalanced
+    synth: ./data/SynthData100000_rebalanced
+data:
+  batch_size: 1
+  workers: 4
+  test_batch_size: 2
+  test_workers: 2
+  rebalanced: false
+  add_LPFF: false
+  synth:
+    able: true
+    zplus: false
+    batch_size: ${data.batch_size}
+gan:
+  device: ${device}
+  eg3d_type: plus_r
+  encoder_type: goae
+  psp:
+    n_styles: 14
+  goae:
+    mlp_layer: 2
+    cfg: ./configs/swinv2.yaml
+  state_dict_key: psp_state_dict
+  checkpoint_path: ./pretrained_models/inversion/gan_encoder.pt
+warp:
+  warp_ori_train: true
+  warp_ori_val: true
+  warp_pred: false
+  hybrid: true
+  cond_erode_kernel: 3
+  cond_gaussian_blur_kernel: 21
+wplus:
+  mode: s1_mapper
+  gate_value: 3.0
+  init_from_stage_c: false
+reference:
+  use: true
+  use_mirror: true
+  real_primary: mirror
+  gate_init: 0.5
+  lr: 5.0e-06
+  local_window_k: 0
+  local_gate_init: 0.25
+brushnet:
+  init: pretrained
+  lr: 1.0e-05
+  use_8bit_adam: true
+  gradient_checkpointing: true
+losses:
+  eps_weight: 1.0
+  synth_texture: full
+  synth_lowpass_sigma: 2.0
+  real_pass1:
+    forward: true
+    visible_weight: 1.0
+    hole_weight: 0
+    blind_struct_weight: 0
+    mirror_anchor: true
+  pixel:
+    max_timestep: 200
+    x0_clip: 3.0
+    resolution: 256
+    patch_latent: 32
+    apply_to_synth: false
+    l1_weight: 0
+    resnet_pl_weight: 0
+    id_weight: 0
+    weights_path: ./pretrained_models/LaMa_perceptual_loss_models
+  latent:
+    weight: 0
+  lpips:
+    weight: 0
+  adversarial:
+    weight: 0
+    kind: r1
+    gp_coef: 0.001
+    mask_as_fake_target: false
+    allow_scale_mask: true
+  feature_matching:
+    weight: 0
+  x0:
+    enable: true
+    mode: invsr
+    t_max: 300
+    w_ldif: 1.0
+    w_lfm: 2.0
+    w_ldis: 0.1
+    dis_warmup: 3000
+    latent_bound: 10.0
+    l1_weight: 1.0
+    llpips_enable: true
+    llpips_ckpt: ./weights/vgg16_sdturbo_lpips.pth
+    clip: 8.0
+    res_latent: 32
+    d_real: paired_target
+  preserve:
+    weight: 0
+    teacher_wplus: true
+  discriminator:
+    kind: pix2pixhd_nlayer
+    input_nc: 3
+    ndf: 64
+    n_layers: 4
+  optimizers:
+    discriminator:
+      lr: 0.0001
+log:
+  image_interval: 10
+  board_interval: 50
+  val_interval: 100
+  save_interval: 100000
+  use_wandb: false
+smoke:
+  check: true
+  fix_timestep: 100
+
+==============================================================================
+[EFFECTIVE CONFIG — verify line by line before trusting any run]
+  exp_dir               : /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260913-022246]_smoke_v18w4_p2
+  max_steps             : 30
+  device                : cuda:0
+  synth/real 1:1        : use_synth=True
+  batch_size (real/synth): 1 / 1
+  warp: 512=True hybrid=True warp_pred=False mask=raw_splatting (NO erode/blur)
+  warp cond soften     : erode=3px blur_k=21 (v10: CONDITION-side only, supervision keeps raw mask; orig port)
+  wplus: mode=s1_mapper gate=fixed tanh(3.0) stage_c_init=False
+  reference: use=True use_mirror=True gate_init=0.5 lr=5e-06
+  reference real_primary : mirror (user plan: real photo = PRIMARY bank source, render -> extra)
+  reference LOCAL       : window=0 gate_init=0.25 (v11 texture-band retrieval from PRIMARY (real-photo) source; activates the formerly-dead reference_local_scale)
+  real pass1 dual-band  : visible/mirror FULL-band x1.0 + blind LOW-band x0.0 (v12: target=FULL SHARP render, only low-freq error penalized; hole_weight=0.0 ignored when dual-band active; 0=off -> single-band v11 path)
+  loss synth_texture     : full (sigma=2.0 latent px; user plan: structure-only supervision, texture band = 0)
+  brushnet: init=pretrained lr=1e-05 8bit=True grad_ckpt=True
+  loss eps_weight       : 1.0
+  real pass1 FORWARD    : True (False = STRUCT arm: real batch trains pass2 only; inference unchanged)
+  loss real_p1 anchor   : visible=1.0 (target=inv_warp) hole=0 (target=y_hat_novel) mirror_anchor=True (hole real-photo coverage via inv_warp(x_mirror))
+  loss pixel (t<200)   : L1*0 PL*0 ID*0 x0_clip=3.0 res=256
+  loss latent closure   : *0 (orig L1195-1200)
+  loss lpips/gan/fm     : 0 / 0 / 0  (orig GAN/FM 10/100 -> default 0)
+  timestep range        : [0, 1000) FULL RANGE (no low-t clamp; v3.1 lesson)
+  smoke: check=True fix_timestep=100
+  path [OK ] sd            : ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  path [OK ] brushnet      : ./pretrained_models/brushnet
+  path [OK ] train         : ./data/FFHQ-EG3D_all_static_rebalanced
+  path [OK ] test          : ./data/celeba-hq_1000_static_rebalanced
+  path [OK ] synth         : ./data/SynthData100000_rebalanced
+  path [OK ] LaMa_PL       : ./pretrained_models/LaMa_perceptual_loss_models
+  path [OK ] gan_encoder   : ./pretrained_models/inversion/gan_encoder.pt
+==============================================================================
+[BrushNet] init: official pretrained inpainting checkpoint
+[v18.3] InvSR x0 SUPERVISION ACTIVE: latent-space MSE+FM+adv on the single-step x0, t<=300, w=ldif:1.0/lfm:2.0/ldis:0.1
+[v18.3 InvSR] latent UNet-D 106,176,612 params | t_max=300 | w ldif:lfm:ldis = 1.0:2.0:0.1 | latent clamp ±10.0 | dis_warmup=3000 (their 10K/100K iters scaled to our 30K budget)
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=VGG16_Weights.IMAGENET1K_V1`. You can also use `weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Downloading: "https://download.pytorch.org/models/vgg16-397923af.pth" to /home/xzy/.cache/torch/hub/checkpoints/vgg16-397923af.pth
+  0%|          | 0.00/528M [00:00<?, ?B/s]  0%|          | 128k/528M [00:00<40:25, 228kB/s]  0%|          | 256k/528M [00:00<26:49, 344kB/s]  0%|          | 384k/528M [00:00<19:29, 473kB/s]  0%|          | 512k/528M [00:01<14:49, 622kB/s]  0%|          | 768k/528M [00:01<09:38, 955kB/s]  0%|          | 1.00M/528M [00:01<07:07, 1.29MB/s]  0%|          | 1.38M/528M [00:01<05:00, 1.83MB/s]  0%|          | 1.88M/528M [00:01<03:32, 2.59MB/s]  0%|          | 2.50M/528M [00:01<02:35, 3.54MB/s]  1%|          | 3.38M/528M [00:01<01:53, 4.86MB/s]  1%|          | 4.50M/528M [00:01<01:22, 6.62MB/s]  1%|          | 6.00M/528M [00:01<01:01, 8.88MB/s]  1%|▏         | 7.00M/528M [00:02<00:59, 9.22MB/s]  2%|▏         | 8.25M/528M [00:02<00:53, 10.3MB/s]  2%|▏         | 9.50M/528M [00:02<00:50, 10.8MB/s]  2%|▏         | 10.6M/528M [00:02<00:49, 11.0MB/s]  2%|▏         | 12.0M/528M [00:02<00:45, 11.9MB/s]  3%|▎         | 13.2M/528M [00:02<00:47, 11.4MB/s]  3%|▎         | 14.6M/528M [00:02<00:44, 12.2MB/s]  3%|▎         | 15.9M/528M [00:02<00:45, 11.7MB/s]  3%|▎         | 17.1M/528M [00:02<00:44, 12.0MB/s]  3%|▎         | 18.4M/528M [00:03<00:43, 12.2MB/s]  4%|▎         | 19.6M/528M [00:03<00:44, 11.9MB/s]  4%|▍         | 20.9M/528M [00:03<00:43, 12.2MB/s]  4%|▍         | 22.1M/528M [00:03<00:44, 11.9MB/s]  4%|▍         | 23.4M/528M [00:03<00:44, 12.0MB/s]  5%|▍         | 24.6M/528M [00:03<00:43, 12.2MB/s]  5%|▍         | 25.9M/528M [00:03<00:43, 12.1MB/s]  5%|▌         | 27.2M/528M [00:03<00:41, 12.6MB/s]  5%|▌         | 28.5M/528M [00:03<00:43, 12.0MB/s]  6%|▌         | 29.8M/528M [00:04<00:42, 12.2MB/s]  6%|▌         | 31.0M/528M [00:04<00:42, 12.2MB/s]  6%|▌         | 32.2M/528M [00:04<00:43, 12.0MB/s]  6%|▋         | 33.5M/528M [00:04<00:42, 12.3MB/s]  7%|▋         | 34.8M/528M [00:04<00:42, 12.1MB/s]  7%|▋         | 36.1M/528M [00:04<00:41, 12.5MB/s]  7%|▋         | 37.4M/528M [00:04<00:42, 12.0MB/s]  7%|▋         | 38.6M/528M [00:04<00:42, 12.2MB/s]  8%|▊         | 39.9M/528M [00:04<00:42, 12.1MB/s]  8%|▊         | 41.1M/528M [00:05<00:41, 12.2MB/s]  8%|▊         | 42.4M/528M [00:05<00:41, 12.4MB/s]  8%|▊         | 43.6M/528M [00:05<00:42, 12.0MB/s]  9%|▊         | 44.9M/528M [00:05<00:41, 12.3MB/s]  9%|▊         | 46.1M/528M [00:05<00:42, 11.9MB/s]  9%|▉         | 47.4M/528M [00:05<00:41, 12.1MB/s]  9%|▉         | 48.6M/528M [00:05<00:40, 12.3MB/s]  9%|▉         | 49.9M/528M [00:05<00:41, 12.1MB/s] 10%|▉         | 51.2M/528M [00:05<00:39, 12.6MB/s] 10%|▉         | 52.5M/528M [00:06<00:41, 12.0MB/s] 10%|█         | 53.8M/528M [00:06<00:40, 12.2MB/s] 10%|█         | 55.0M/528M [00:06<00:41, 12.1MB/s] 11%|█         | 56.2M/528M [00:06<00:40, 12.1MB/s] 11%|█         | 57.5M/528M [00:06<00:40, 12.3MB/s] 11%|█         | 58.8M/528M [00:06<00:40, 12.0MB/s] 11%|█▏        | 60.0M/528M [00:06<00:39, 12.3MB/s] 12%|█▏        | 61.2M/528M [00:06<00:41, 11.8MB/s] 12%|█▏        | 62.6M/528M [00:06<00:39, 12.2MB/s] 12%|█▏        | 63.9M/528M [00:06<00:39, 12.2MB/s] 12%|█▏        | 65.1M/528M [00:07<00:39, 12.3MB/s] 13%|█▎        | 66.4M/528M [00:07<00:39, 12.2MB/s] 13%|█▎        | 67.6M/528M [00:07<00:40, 12.0MB/s] 13%|█▎        | 68.9M/528M [00:07<00:39, 12.2MB/s] 13%|█▎        | 70.1M/528M [00:07<00:40, 11.8MB/s] 14%|█▎        | 71.5M/528M [00:07<00:39, 12.2MB/s] 14%|█▍        | 72.8M/528M [00:07<00:38, 12.3MB/s] 14%|█▍        | 74.0M/528M [00:07<00:39, 12.2MB/s] 14%|█▍        | 75.4M/528M [00:07<00:38, 12.3MB/s] 15%|█▍        | 76.6M/528M [00:08<00:39, 12.1MB/s] 15%|█▍        | 77.9M/528M [00:08<00:38, 12.2MB/s] 15%|█▍        | 79.1M/528M [00:08<00:39, 11.8MB/s] 15%|█▌        | 80.4M/528M [00:08<00:38, 12.1MB/s] 15%|█▌        | 81.8M/528M [00:08<00:38, 12.3MB/s] 16%|█▌        | 83.0M/528M [00:08<00:38, 12.3MB/s] 16%|█▌        | 84.4M/528M [00:08<00:37, 12.4MB/s] 16%|█▌        | 85.6M/528M [00:08<00:39, 11.9MB/s] 16%|█▋        | 87.0M/528M [00:08<00:37, 12.3MB/s] 17%|█▋        | 88.2M/528M [00:09<00:39, 11.6MB/s] 17%|█▋        | 89.6M/528M [00:09<00:37, 12.3MB/s] 17%|█▋        | 90.9M/528M [00:09<00:36, 12.4MB/s] 17%|█▋        | 92.1M/528M [00:09<00:37, 12.2MB/s] 18%|█▊        | 93.5M/528M [00:09<00:36, 12.5MB/s] 18%|█▊        | 94.8M/528M [00:09<00:38, 11.8MB/s] 18%|█▊        | 96.1M/528M [00:09<00:36, 12.5MB/s] 18%|█▊        | 97.4M/528M [00:09<00:38, 11.6MB/s] 19%|█▊        | 98.8M/528M [00:10<00:37, 12.1MB/s] 19%|█▉        | 100M/528M [00:10<00:36, 12.3MB/s]  19%|█▉        | 101M/528M [00:10<00:36, 12.2MB/s] 19%|█▉        | 103M/528M [00:10<00:35, 12.6MB/s] 20%|█▉        | 104M/528M [00:10<00:37, 11.9MB/s] 20%|█▉        | 105M/528M [00:10<00:35, 12.3MB/s] 20%|██        | 106M/528M [00:10<00:37, 11.7MB/s] 20%|██        | 108M/528M [00:10<00:36, 12.2MB/s] 21%|██        | 109M/528M [00:10<00:37, 11.7MB/s] 21%|██        | 110M/528M [00:11<00:36, 12.1MB/s] 21%|██        | 112M/528M [00:11<00:34, 12.7MB/s] 21%|██▏       | 113M/528M [00:11<00:35, 12.2MB/s] 22%|██▏       | 114M/528M [00:11<00:34, 12.4MB/s] 22%|██▏       | 116M/528M [00:11<00:36, 11.9MB/s] 22%|██▏       | 117M/528M [00:11<00:35, 12.3MB/s] 22%|██▏       | 118M/528M [00:11<00:36, 11.7MB/s] 23%|██▎       | 120M/528M [00:11<00:35, 12.2MB/s] 23%|██▎       | 121M/528M [00:11<00:34, 12.5MB/s] 23%|██▎       | 122M/528M [00:12<00:34, 12.2MB/s] 23%|██▎       | 124M/528M [00:12<00:33, 12.6MB/s] 24%|██▎       | 125M/528M [00:12<00:35, 12.0MB/s] 24%|██▍       | 126M/528M [00:12<00:33, 12.4MB/s] 24%|██▍       | 128M/528M [00:12<00:35, 11.8MB/s] 24%|██▍       | 129M/528M [00:12<00:34, 12.1MB/s] 25%|██▍       | 130M/528M [00:12<00:34, 12.2MB/s] 25%|██▍       | 131M/528M [00:12<00:34, 12.2MB/s] 25%|██▌       | 133M/528M [00:12<00:32, 12.6MB/s] 25%|██▌       | 134M/528M [00:13<00:34, 11.9MB/s] 26%|██▌       | 135M/528M [00:13<00:33, 12.4MB/s] 26%|██▌       | 136M/528M [00:13<00:35, 11.7MB/s] 26%|██▌       | 138M/528M [00:13<00:33, 12.3MB/s] 26%|██▋       | 139M/528M [00:13<00:34, 11.7MB/s] 27%|██▋       | 140M/528M [00:13<00:33, 12.2MB/s] 27%|██▋       | 142M/528M [00:13<00:32, 12.4MB/s] 27%|██▋       | 143M/528M [00:13<00:33, 12.2MB/s] 27%|██▋       | 145M/528M [00:13<00:31, 12.7MB/s] 28%|██▊       | 146M/528M [00:14<00:33, 11.9MB/s] 28%|██▊       | 147M/528M [00:14<00:32, 12.4MB/s] 28%|██▊       | 148M/528M [00:14<00:33, 11.8MB/s] 28%|██▊       | 150M/528M [00:14<00:32, 12.3MB/s] 29%|██▊       | 151M/528M [00:14<00:33, 11.7MB/s] 29%|██▉       | 152M/528M [00:14<00:32, 12.2MB/s] 29%|██▉       | 154M/528M [00:14<00:30, 12.8MB/s] 29%|██▉       | 155M/528M [00:14<00:32, 12.0MB/s] 30%|██▉       | 156M/528M [00:14<00:31, 12.6MB/s] 30%|██▉       | 158M/528M [00:15<00:32, 11.8MB/s] 30%|███       | 159M/528M [00:15<00:31, 12.1MB/s] 30%|███       | 160M/528M [00:15<00:32, 11.8MB/s] 31%|███       | 162M/528M [00:15<00:31, 12.3MB/s] 31%|███       | 163M/528M [00:15<00:31, 12.3MB/s] 31%|███       | 164M/528M [00:15<00:31, 12.2MB/s] 31%|███▏      | 166M/528M [00:15<00:31, 12.2MB/s] 32%|███▏      | 167M/528M [00:15<00:31, 12.0MB/s] 32%|███▏      | 168M/528M [00:15<00:31, 12.1MB/s] 32%|███▏      | 169M/528M [00:16<00:31, 11.9MB/s] 32%|███▏      | 171M/528M [00:16<00:30, 12.4MB/s] 33%|███▎      | 172M/528M [00:16<00:30, 12.3MB/s] 33%|███▎      | 173M/528M [00:16<00:30, 12.3MB/s] 33%|███▎      | 174M/528M [00:16<00:30, 12.2MB/s] 33%|███▎      | 176M/528M [00:16<00:30, 12.0MB/s] 34%|███▎      | 177M/528M [00:16<00:30, 12.1MB/s] 34%|███▍      | 178M/528M [00:16<00:30, 11.9MB/s] 34%|███▍      | 180M/528M [00:16<00:29, 12.4MB/s] 34%|███▍      | 181M/528M [00:17<00:29, 12.2MB/s] 35%|███▍      | 182M/528M [00:17<01:11, 5.07MB/s] 35%|███▍      | 184M/528M [00:17<00:58, 6.14MB/s] 35%|███▌      | 185M/528M [00:17<00:50, 7.17MB/s] 35%|███▌      | 186M/528M [00:18<00:43, 8.20MB/s] 35%|███▌      | 187M/528M [00:18<00:39, 9.00MB/s] 36%|███▌      | 188M/528M [00:18<00:36, 9.77MB/s] 36%|███▌      | 190M/528M [00:18<00:34, 10.4MB/s] 36%|███▌      | 191M/528M [00:18<00:32, 10.9MB/s] 36%|███▋      | 192M/528M [00:18<00:31, 11.3MB/s] 37%|███▋      | 194M/528M [00:18<00:30, 11.4MB/s] 37%|███▋      | 195M/528M [00:18<00:29, 11.7MB/s] 37%|███▋      | 196M/528M [00:18<00:29, 11.7MB/s] 37%|███▋      | 197M/528M [00:19<00:29, 11.9MB/s] 38%|███▊      | 198M/528M [00:19<00:28, 12.1MB/s] 38%|███▊      | 200M/528M [00:19<00:28, 12.0MB/s] 38%|███▊      | 201M/528M [00:19<00:28, 12.1MB/s] 38%|███▊      | 202M/528M [00:19<00:28, 12.1MB/s] 39%|███▊      | 204M/528M [00:19<00:28, 12.1MB/s] 39%|███▉      | 205M/528M [00:19<00:28, 12.1MB/s] 39%|███▉      | 206M/528M [00:19<00:27, 12.2MB/s] 39%|███▉      | 207M/528M [00:19<00:27, 12.1MB/s] 40%|███▉      | 208M/528M [00:19<00:27, 12.2MB/s] 40%|███▉      | 210M/528M [00:20<00:27, 12.3MB/s] 40%|███▉      | 211M/528M [00:20<00:27, 12.1MB/s] 40%|████      | 212M/528M [00:20<00:27, 12.2MB/s] 40%|████      | 214M/528M [00:20<00:26, 12.2MB/s] 41%|████      | 215M/528M [00:20<00:27, 12.1MB/s] 41%|████      | 216M/528M [00:20<00:26, 12.2MB/s] 41%|████      | 217M/528M [00:20<00:26, 12.1MB/s] 41%|████▏     | 218M/528M [00:20<00:26, 12.1MB/s] 42%|████▏     | 220M/528M [00:20<00:26, 12.1MB/s] 42%|████▏     | 221M/528M [00:21<00:26, 12.3MB/s] 42%|████▏     | 222M/528M [00:21<00:26, 12.1MB/s] 42%|████▏     | 224M/528M [00:21<00:26, 12.2MB/s] 43%|████▎     | 225M/528M [00:21<00:26, 12.2MB/s] 43%|████▎     | 226M/528M [00:21<00:26, 12.2MB/s] 43%|████▎     | 227M/528M [00:21<00:25, 12.3MB/s] 43%|████▎     | 228M/528M [00:21<00:25, 12.2MB/s] 44%|████▎     | 230M/528M [00:21<00:25, 12.1MB/s] 44%|████▍     | 231M/528M [00:21<00:25, 12.2MB/s] 44%|████▍     | 232M/528M [00:22<00:25, 12.1MB/s] 44%|████▍     | 234M/528M [00:22<00:25, 12.1MB/s] 44%|████▍     | 235M/528M [00:22<00:25, 12.1MB/s] 45%|████▍     | 236M/528M [00:22<00:25, 12.2MB/s] 45%|████▍     | 237M/528M [00:22<00:25, 11.9MB/s] 45%|████▌     | 239M/528M [00:22<00:24, 12.3MB/s] 45%|████▌     | 240M/528M [00:22<00:24, 12.3MB/s] 46%|████▌     | 241M/528M [00:22<00:24, 12.2MB/s] 46%|████▌     | 242M/528M [00:22<00:24, 12.1MB/s] 46%|████▌     | 244M/528M [00:23<00:24, 12.1MB/s] 46%|████▋     | 245M/528M [00:23<00:24, 12.3MB/s] 47%|████▋     | 246M/528M [00:23<00:24, 11.9MB/s] 47%|████▋     | 248M/528M [00:23<00:23, 12.3MB/s] 47%|████▋     | 249M/528M [00:23<00:23, 12.3MB/s] 47%|████▋     | 250M/528M [00:23<00:23, 12.3MB/s] 48%|████▊     | 251M/528M [00:23<00:23, 12.3MB/s] 48%|████▊     | 252M/528M [00:23<00:23, 12.0MB/s] 48%|████▊     | 254M/528M [00:23<00:23, 12.2MB/s] 48%|████▊     | 255M/528M [00:23<00:23, 12.3MB/s] 49%|████▊     | 256M/528M [00:24<00:23, 12.1MB/s] 49%|████▉     | 258M/528M [00:24<00:24, 11.7MB/s] 49%|████▉     | 259M/528M [00:24<00:22, 12.3MB/s] 49%|████▉     | 260M/528M [00:24<00:23, 12.0MB/s] 50%|████▉     | 261M/528M [00:24<00:23, 12.1MB/s] 50%|████▉     | 263M/528M [00:24<00:23, 11.8MB/s] 50%|█████     | 264M/528M [00:24<00:22, 12.3MB/s] 50%|█████     | 265M/528M [00:24<00:22, 12.4MB/s] 50%|█████     | 266M/528M [00:24<00:23, 11.9MB/s] 51%|█████     | 268M/528M [00:25<00:21, 12.5MB/s] 51%|█████     | 269M/528M [00:25<00:22, 12.0MB/s] 51%|█████     | 270M/528M [00:25<00:22, 12.2MB/s] 51%|█████▏    | 272M/528M [00:25<00:22, 11.8MB/s] 52%|█████▏    | 273M/528M [00:25<00:21, 12.3MB/s] 52%|█████▏    | 274M/528M [00:25<00:21, 12.4MB/s] 52%|█████▏    | 276M/528M [00:25<00:22, 12.0MB/s] 52%|█████▏    | 277M/528M [00:25<00:21, 12.5MB/s] 53%|█████▎    | 278M/528M [00:25<00:21, 11.9MB/s] 53%|█████▎    | 279M/528M [00:26<00:21, 12.2MB/s] 53%|█████▎    | 281M/528M [00:26<00:22, 11.8MB/s] 53%|█████▎    | 282M/528M [00:26<00:20, 12.4MB/s] 54%|█████▎    | 283M/528M [00:26<00:20, 12.4MB/s] 54%|█████▍    | 284M/528M [00:26<00:21, 11.9MB/s] 54%|█████▍    | 286M/528M [00:26<00:20, 12.5MB/s] 54%|█████▍    | 287M/528M [00:26<00:21, 11.9MB/s] 55%|█████▍    | 288M/528M [00:26<00:20, 12.3MB/s] 55%|█████▍    | 290M/528M [00:27<00:21, 11.9MB/s] 55%|█████▌    | 291M/528M [00:27<00:20, 12.2MB/s] 55%|█████▌    | 292M/528M [00:27<00:20, 12.1MB/s] 56%|█████▌    | 294M/528M [00:27<00:20, 12.1MB/s] 56%|█████▌    | 295M/528M [00:27<00:19, 12.5MB/s] 56%|█████▌    | 296M/528M [00:27<00:20, 12.0MB/s] 56%|█████▋    | 298M/528M [00:27<00:19, 12.4MB/s] 57%|█████▋    | 299M/528M [00:27<00:20, 11.8MB/s] 57%|█████▋    | 300M/528M [00:27<00:19, 12.3MB/s] 57%|█████▋    | 302M/528M [00:28<00:19, 12.0MB/s] 57%|█████▋    | 303M/528M [00:28<00:19, 12.3MB/s] 58%|█████▊    | 304M/528M [00:28<00:18, 12.6MB/s] 58%|█████▊    | 305M/528M [00:28<00:19, 12.0MB/s] 58%|█████▊    | 307M/528M [00:28<00:18, 12.5MB/s] 58%|█████▊    | 308M/528M [00:28<00:20, 11.4MB/s] 59%|█████▊    | 310M/528M [00:28<00:18, 12.5MB/s] 59%|█████▉    | 311M/528M [00:28<00:19, 11.6MB/s] 59%|█████▉    | 312M/528M [00:28<00:18, 12.4MB/s] 59%|█████▉    | 314M/528M [00:29<00:18, 12.2MB/s] 60%|█████▉    | 315M/528M [00:29<00:18, 12.0MB/s] 60%|█████▉    | 316M/528M [00:29<00:17, 12.7MB/s] 60%|██████    | 318M/528M [00:29<00:18, 11.8MB/s] 60%|██████    | 319M/528M [00:29<00:17, 12.7MB/s] 61%|██████    | 320M/528M [00:29<00:18, 11.6MB/s] 61%|██████    | 322M/528M [00:29<00:17, 12.7MB/s] 61%|██████    | 323M/528M [00:29<00:18, 11.5MB/s] 61%|██████▏   | 324M/528M [00:29<00:16, 12.5MB/s] 62%|██████▏   | 326M/528M [00:30<00:18, 11.6MB/s] 62%|██████▏   | 327M/528M [00:30<00:16, 12.5MB/s] 62%|██████▏   | 328M/528M [00:30<00:16, 12.3MB/s] 62%|██████▏   | 330M/528M [00:30<00:17, 12.0MB/s] 63%|██████▎   | 331M/528M [00:30<00:16, 12.8MB/s] 63%|██████▎   | 332M/528M [00:30<00:17, 11.8MB/s] 63%|██████▎   | 334M/528M [00:30<00:15, 12.7MB/s] 64%|██████▎   | 335M/528M [00:30<00:17, 11.6MB/s] 64%|██████▍   | 337M/528M [00:31<00:15, 12.6MB/s] 64%|██████▍   | 338M/528M [00:31<00:17, 11.6MB/s] 64%|██████▍   | 340M/528M [00:31<00:15, 12.5MB/s] 65%|██████▍   | 341M/528M [00:31<00:16, 11.6MB/s] 65%|██████▍   | 342M/528M [00:31<00:15, 12.3MB/s] 65%|██████▌   | 344M/528M [00:31<00:15, 12.4MB/s] 65%|██████▌   | 345M/528M [00:31<00:16, 11.9MB/s] 66%|██████▌   | 346M/528M [00:31<00:14, 12.9MB/s] 66%|██████▌   | 348M/528M [00:31<00:15, 11.8MB/s] 66%|██████▌   | 349M/528M [00:32<00:14, 12.6MB/s] 66%|██████▋   | 350M/528M [00:32<00:15, 11.7MB/s] 67%|██████▋   | 352M/528M [00:32<00:14, 12.5MB/s] 67%|██████▋   | 353M/528M [00:32<00:15, 11.7MB/s] 67%|██████▋   | 354M/528M [00:32<00:14, 12.4MB/s] 67%|██████▋   | 356M/528M [00:32<00:15, 11.9MB/s] 68%|██████▊   | 357M/528M [00:32<00:15, 11.9MB/s] 68%|██████▊   | 358M/528M [00:32<00:14, 12.5MB/s] 68%|██████▊   | 360M/528M [00:33<00:14, 12.1MB/s] 68%|██████▊   | 361M/528M [00:33<00:13, 12.6MB/s] 69%|██████▊   | 362M/528M [00:33<00:14, 11.8MB/s] 69%|██████▉   | 364M/528M [00:33<00:13, 12.4MB/s] 69%|██████▉   | 365M/528M [00:33<00:14, 11.7MB/s] 69%|██████▉   | 366M/528M [00:33<00:13, 12.3MB/s] 70%|██████▉   | 368M/528M [00:33<00:13, 12.4MB/s] 70%|██████▉   | 369M/528M [00:33<00:14, 11.9MB/s] 70%|███████   | 370M/528M [00:33<00:12, 12.8MB/s] 70%|███████   | 372M/528M [00:34<00:13, 11.9MB/s] 71%|███████   | 373M/528M [00:34<00:13, 12.5MB/s] 71%|███████   | 374M/528M [00:34<00:13, 11.8MB/s] 71%|███████   | 376M/528M [00:34<00:13, 12.3MB/s] 71%|███████▏  | 377M/528M [00:34<00:13, 11.8MB/s] 72%|███████▏  | 378M/528M [00:34<00:12, 12.1MB/s] 72%|███████▏  | 379M/528M [00:34<00:12, 12.6MB/s] 72%|███████▏  | 381M/528M [00:34<00:12, 12.2MB/s] 72%|███████▏  | 382M/528M [00:34<00:12, 12.6MB/s] 73%|███████▎  | 383M/528M [00:35<00:12, 11.9MB/s] 73%|███████▎  | 384M/528M [00:35<00:12, 12.2MB/s] 73%|███████▎  | 386M/528M [00:35<00:12, 11.8MB/s] 73%|███████▎  | 387M/528M [00:35<00:12, 12.1MB/s] 74%|███████▎  | 388M/528M [00:35<00:11, 12.6MB/s] 74%|███████▍  | 390M/528M [00:35<00:11, 12.1MB/s] 74%|███████▍  | 391M/528M [00:35<00:11, 12.5MB/s] 74%|███████▍  | 392M/528M [00:35<00:11, 11.9MB/s] 75%|███████▍  | 394M/528M [00:35<00:11, 12.0MB/s] 75%|███████▍  | 395M/528M [00:36<00:11, 11.8MB/s] 75%|███████▌  | 396M/528M [00:36<00:11, 11.8MB/s] 75%|███████▌  | 398M/528M [00:36<00:11, 12.1MB/s] 76%|███████▌  | 399M/528M [00:36<00:11, 12.3MB/s] 76%|███████▌  | 400M/528M [00:36<00:10, 12.6MB/s] 76%|███████▌  | 401M/528M [00:36<00:10, 12.2MB/s] 76%|███████▋  | 403M/528M [00:36<00:10, 12.2MB/s] 77%|███████▋  | 404M/528M [00:36<00:10, 11.9MB/s] 77%|███████▋  | 405M/528M [00:36<00:10, 11.9MB/s] 77%|███████▋  | 406M/528M [00:37<00:10, 12.0MB/s] 77%|███████▋  | 408M/528M [00:37<00:10, 12.3MB/s] 78%|███████▊  | 409M/528M [00:37<00:09, 12.6MB/s] 78%|███████▊  | 410M/528M [00:37<00:10, 12.2MB/s] 78%|███████▊  | 412M/528M [00:37<00:10, 12.1MB/s] 78%|███████▊  | 413M/528M [00:37<00:10, 11.9MB/s] 78%|███████▊  | 414M/528M [00:37<00:09, 11.9MB/s] 79%|███████▊  | 416M/528M [00:37<00:09, 12.1MB/s] 79%|███████▉  | 417M/528M [00:37<00:09, 12.3MB/s] 79%|███████▉  | 418M/528M [00:38<00:09, 12.2MB/s] 79%|███████▉  | 419M/528M [00:38<00:09, 12.2MB/s] 80%|███████▉  | 420M/528M [00:38<00:09, 12.2MB/s] 80%|███████▉  | 422M/528M [00:38<00:09, 12.1MB/s] 80%|████████  | 423M/528M [00:38<00:09, 11.9MB/s] 80%|████████  | 424M/528M [00:38<00:08, 12.4MB/s] 81%|████████  | 426M/528M [00:38<00:08, 12.4MB/s] 81%|████████  | 427M/528M [00:38<00:08, 12.1MB/s] 81%|████████  | 428M/528M [00:38<00:08, 12.0MB/s] 81%|████████▏ | 429M/528M [00:39<00:08, 12.2MB/s] 82%|████████▏ | 431M/528M [00:39<00:08, 12.1MB/s] 82%|████████▏ | 432M/528M [00:39<00:08, 11.7MB/s] 82%|████████▏ | 433M/528M [00:39<00:07, 12.5MB/s] 82%|████████▏ | 434M/528M [00:39<00:07, 12.4MB/s] 83%|████████▎ | 436M/528M [00:39<00:07, 12.2MB/s] 83%|████████▎ | 437M/528M [00:39<00:07, 12.0MB/s] 83%|████████▎ | 438M/528M [00:39<00:07, 11.9MB/s] 83%|████████▎ | 440M/528M [00:39<00:07, 12.3MB/s] 84%|████████▎ | 441M/528M [00:40<00:07, 11.8MB/s] 84%|████████▍ | 442M/528M [00:40<00:07, 12.5MB/s] 84%|████████▍ | 444M/528M [00:40<00:07, 12.4MB/s] 84%|████████▍ | 445M/528M [00:40<00:07, 12.2MB/s] 85%|████████▍ | 446M/528M [00:40<00:07, 12.0MB/s] 85%|████████▍ | 447M/528M [00:40<00:07, 11.9MB/s] 85%|████████▍ | 449M/528M [00:40<00:06, 12.3MB/s] 85%|████████▌ | 450M/528M [00:40<00:06, 11.9MB/s] 85%|████████▌ | 451M/528M [00:40<00:06, 12.5MB/s] 86%|████████▌ | 452M/528M [00:41<00:06, 12.4MB/s] 86%|████████▌ | 454M/528M [00:41<00:06, 12.2MB/s] 86%|████████▌ | 455M/528M [00:41<00:06, 12.0MB/s] 86%|████████▋ | 456M/528M [00:41<00:06, 11.9MB/s] 87%|████████▋ | 458M/528M [00:41<00:05, 12.4MB/s] 87%|████████▋ | 459M/528M [00:41<00:06, 11.9MB/s] 87%|████████▋ | 460M/528M [00:41<00:05, 12.4MB/s] 87%|████████▋ | 462M/528M [00:41<00:05, 12.4MB/s] 88%|████████▊ | 463M/528M [00:41<00:05, 12.2MB/s] 88%|████████▊ | 464M/528M [00:42<00:05, 12.1MB/s] 88%|████████▊ | 465M/528M [00:42<00:05, 11.5MB/s] 88%|████████▊ | 467M/528M [00:42<00:05, 12.4MB/s] 89%|████████▊ | 468M/528M [00:42<00:05, 12.0MB/s] 89%|████████▉ | 469M/528M [00:42<00:04, 12.3MB/s] 89%|████████▉ | 470M/528M [00:42<00:04, 12.5MB/s] 89%|████████▉ | 472M/528M [00:42<00:04, 11.9MB/s] 90%|████████▉ | 473M/528M [00:42<00:04, 12.3MB/s] 90%|████████▉ | 474M/528M [00:42<00:04, 11.7MB/s] 90%|█████████ | 476M/528M [00:43<00:04, 12.4MB/s] 90%|█████████ | 477M/528M [00:43<00:04, 11.7MB/s] 91%|█████████ | 479M/528M [00:43<00:04, 12.7MB/s] 91%|█████████ | 480M/528M [00:43<00:04, 12.1MB/s] 91%|█████████ | 481M/528M [00:43<00:03, 12.3MB/s] 91%|█████████▏| 482M/528M [00:43<00:03, 12.4MB/s] 92%|█████████▏| 484M/528M [00:43<00:03, 11.9MB/s] 92%|█████████▏| 485M/528M [00:43<00:03, 12.3MB/s] 92%|█████████▏| 486M/528M [00:43<00:03, 11.7MB/s] 92%|█████████▏| 488M/528M [00:44<00:03, 12.5MB/s] 93%|█████████▎| 489M/528M [00:44<00:03, 12.1MB/s] 93%|█████████▎| 490M/528M [00:44<00:03, 12.3MB/s] 93%|█████████▎| 492M/528M [00:44<00:03, 12.5MB/s] 93%|█████████▎| 493M/528M [00:44<00:03, 11.9MB/s] 94%|█████████▎| 494M/528M [00:44<00:02, 12.3MB/s] 94%|█████████▍| 495M/528M [00:44<00:02, 11.7MB/s] 94%|█████████▍| 497M/528M [00:44<00:02, 12.4MB/s] 94%|█████████▍| 498M/528M [00:44<00:02, 11.7MB/s] 95%|█████████▍| 500M/528M [00:45<00:02, 12.6MB/s] 95%|█████████▍| 501M/528M [00:45<00:02, 12.1MB/s] 95%|█████████▌| 502M/528M [00:45<00:02, 12.3MB/s] 95%|█████████▌| 503M/528M [00:45<00:02, 12.5MB/s] 96%|█████████▌| 505M/528M [00:45<00:02, 11.8MB/s] 96%|█████████▌| 506M/528M [00:45<00:01, 12.2MB/s] 96%|█████████▌| 507M/528M [00:45<00:01, 11.8MB/s] 96%|█████████▋| 509M/528M [00:45<00:01, 12.6MB/s] 97%|█████████▋| 510M/528M [00:45<00:01, 12.1MB/s] 97%|█████████▋| 511M/528M [00:46<00:01, 12.3MB/s] 97%|█████████▋| 513M/528M [00:46<00:01, 12.6MB/s] 97%|█████████▋| 514M/528M [00:46<00:01, 11.8MB/s] 98%|█████████▊| 515M/528M [00:46<00:01, 12.4MB/s] 98%|█████████▊| 516M/528M [00:46<00:01, 11.8MB/s] 98%|█████████▊| 518M/528M [00:46<00:00, 12.4MB/s] 98%|█████████▊| 519M/528M [00:46<00:00, 11.7MB/s] 99%|█████████▊| 521M/528M [00:46<00:00, 12.5MB/s] 99%|█████████▉| 522M/528M [00:47<00:00, 12.2MB/s] 99%|█████████▉| 523M/528M [00:47<00:00, 12.1MB/s] 99%|█████████▉| 524M/528M [00:47<00:00, 12.6MB/s]100%|█████████▉| 526M/528M [00:47<00:00, 12.0MB/s]100%|█████████▉| 527M/528M [00:47<00:00, 12.3MB/s]100%|██████████| 528M/528M [00:47<00:00, 11.6MB/s]
+[v18.4] InvSR finetuned latent-LPIPS ACTIVE (w=2.0) <- ./weights/vgg16_sdturbo_lpips.pth
+[params] bank-retrieval adapters trainable: 37,183,696 | W+ QKV (s2) trainable: 0 | W+ mapper trainable: 1,967,616 | mirror: own K/V 24,780,800 + softmax competition (16 gauged layers) | RefNet DELETED (860M saved, bank=main-UNet self-read)
+[optim] 8-bit AdamW (bitsandbytes)
+Synth dataset: ./data/SynthData100000_rebalanced -> 100000 samples
+Real train dataset: ./data/FFHQ-EG3D_all_static_rebalanced -> 139914 samples
+Test dataset: ./data/celeba-hq_1000_static_rebalanced -> 1000 samples
+Start diffusion-port training (orig semantics, BrushNet+SD1.5).
+[bank input check] source=x_mirror shape=(1, 3, 512, 512) mean=0.3228 std=0.3125 finite=True
+[bank input check] source=y_hat_novel shape=(1, 3, 512, 512) mean=0.3133 std=0.2578 finite=True
+
+------------------------------------------------------------------------------
+[v10 REAL-DATA AUDIT — condition-side softening]
+  [PASS] output range [0,1]                           min=0.0000 max=1.0000
+  [info] hole mean growth = 0.0222 (raw 0.1609 bin 0.1609 soft 0.1831; fragmentation-dependent, orig-equivalent by the check below)
+  [PASS] vs ORIG ops on real tensor (kornia+tv, max diff < 1e-4) max_diff=2.98e-07
+  [PASS] transition band exists (soft, not re-binarized) band_frac=0.04722 band_px/img=12379
+  [PASS] no knife edge: max per-px jump <= 0.45 (orig ~0.38) max_jump=0.380
+  [PASS] supervision mask_latents == interp(RAW mask) 
+  [PASS] BrushNet channel != supervision at boundary (split real) max|soft-raw|@latent=1.000
+  [PASS] off-state identity on real tensor            
+------------------------------------------------------------------------------
+v10 AUDIT PASSED — theory verified on real pipeline tensors.
+/home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/./training/coach_inpainting_diffusion.py:1655: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  metrics['p1_eps'] = float(loss_p1)
+[bank input check] source=warp_warp_img shape=(1, 3, 512, 512) mean=0.2433 std=0.2649 finite=True
+[bank input check] source=y_hat shape=(1, 3, 512, 512) mean=0.3224 std=0.2883 finite=True
+[bank input check] source=target_hat shape=(1, 3, 512, 512) mean=0.3807 std=0.2304 finite=True
+[bank input check] source=x_mirror shape=(1, 3, 512, 512) mean=0.4024 std=0.2549 finite=True
+[step 0] real_p1_mirror_hole_cov=0.0702 real_p1_eps=0.3713 real_p1_hole_frac=0.1609 real_p2_eps=0.4191 real_p2_hit=1.0000 real_p2_t=100.0000 real_p2_ldif=0.0496 real_p2_lfm=0.0025 real_total=0.8449 discr_adv=0.9988 p2_d_real=-0.0116 p2_d_fake=-0.0147 g_grad_abs=9789.7879 d_grad_abs=2692.9558 synth_eps=0.4791 synth_eps_raw=0.4791 synth_x0_hit=1.0000 synth_x0_t=100.0000 synth_x0_ldif=0.0567 synth_x0_lfm=0.0034 synth_total=0.5426
+[images] real: anchor | cond1 | cond2 | inv_warp_mirror | mask | mask_inv | warp_img | warp_warp_img | x | y_hat | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260913-022246]_smoke_v18w4_p2/logs/images/train/real_step0000000.png
+[images] synth: cond | mask | target | warp_img | x | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260913-022246]_smoke_v18w4_p2/logs/images/train/synth_step0000000.png
+[bank input check] source=x_mirror shape=(1, 3, 512, 512) mean=0.4327 std=0.2166 finite=True
+[bank input check] source=y_hat_novel shape=(1, 3, 512, 512) mean=0.4238 std=0.1960 finite=True
+
+------------------------------------------------------------------------------
+[v10 REAL-DATA AUDIT — condition-side softening]
+  [PASS] output range [0,1]                           min=0.0000 max=1.0000
+  [info] hole mean growth = 0.0484 (raw 0.2225 bin 0.2225 soft 0.2709; fragmentation-dependent, orig-equivalent by the check below)
+  [PASS] vs ORIG ops on real tensor (kornia+tv, max diff < 1e-4) max_diff=3.58e-07
+  [PASS] transition band exists (soft, not re-binarized) band_frac=0.07328 band_px/img=19210
+  [PASS] no knife edge: max per-px jump <= 0.45 (orig ~0.38) max_jump=0.380
+  [PASS] supervision mask_latents == interp(RAW mask) 
+  [PASS] BrushNet channel != supervision at boundary (split real) max|soft-raw|@latent=1.000
+  [PASS] off-state identity on real tensor            
+------------------------------------------------------------------------------
+v10 AUDIT PASSED — theory verified on real pipeline tensors.
+[bank input check] source=warp_warp_img shape=(1, 3, 512, 512) mean=0.3508 std=0.2578 finite=True
+[bank input check] source=y_hat shape=(1, 3, 512, 512) mean=0.4235 std=0.2024 finite=True
+[bank input check] source=target_hat shape=(1, 3, 512, 512) mean=0.4727 std=0.2063 finite=True
+[bank input check] source=x_mirror shape=(1, 3, 512, 512) mean=0.4248 std=0.2297 finite=True
+[bank input check] source=x_mirror shape=(1, 3, 512, 512) mean=0.5335 std=0.2773 finite=True
+[bank input check] source=y_hat_novel shape=(1, 3, 512, 512) mean=0.5502 std=0.2151 finite=True
+
+------------------------------------------------------------------------------
+[v10 REAL-DATA AUDIT — condition-side softening]
+  [PASS] output range [0,1]                           min=0.0000 max=1.0000
+  [info] hole mean growth = 0.0869 (raw 0.5174 bin 0.5174 soft 0.6043; fragmentation-dependent, orig-equivalent by the check below)
+  [PASS] vs ORIG ops on real tensor (kornia+tv, max diff < 1e-4) max_diff=2.98e-07
+  [PASS] transition band exists (soft, not re-binarized) band_frac=0.08638 band_px/img=22644
+  [PASS] no knife edge: max per-px jump <= 0.45 (orig ~0.38) max_jump=0.380
+  [PASS] supervision mask_latents == interp(RAW mask) 
+  [PASS] BrushNet channel != supervision at boundary (split real) max|soft-raw|@latent=1.000
+  [PASS] off-state identity on real tensor            
+------------------------------------------------------------------------------
+v10 AUDIT PASSED — theory verified on real pipeline tensors.
+[bank input check] source=warp_warp_img shape=(1, 3, 512, 512) mean=0.2779 std=0.2948 finite=True
+[bank input check] source=y_hat shape=(1, 3, 512, 512) mean=0.5355 std=0.2647 finite=True
+[bank input check] source=target_hat shape=(1, 3, 512, 512) mean=0.5501 std=0.2074 finite=True
+[bank input check] source=x_mirror shape=(1, 3, 512, 512) mean=0.5603 std=0.2377 finite=True
+[images] real: anchor | cond1 | cond2 | inv_warp_mirror | mask | mask_inv | warp_img | warp_warp_img | x | y_hat | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260913-022246]_smoke_v18w4_p2/logs/images/train/real_step0000010.png
+[images] synth: cond | mask | target | warp_img | x | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260913-022246]_smoke_v18w4_p2/logs/images/train/synth_step0000010.png
+[images] real: anchor | cond1 | cond2 | inv_warp_mirror | mask | mask_inv | warp_img | warp_warp_img | x | y_hat | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260913-022246]_smoke_v18w4_p2/logs/images/train/real_step0000020.png
+[images] synth: cond | mask | target | warp_img | x | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260913-022246]_smoke_v18w4_p2/logs/images/train/synth_step0000020.png
+[ckpt] saved /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260913-022246]_smoke_v18w4_p2/checkpoints/iteration_0000029.pt
+[done] peak GPU memory: 23.11 GiB (budget <22 GiB on 24GB card)
+
+==============================================================================
+[SMOKE AUDIT — Step 0 checks (spec §8)]
+  [PASS] real_p1_eps                = 0.25849610567092896
+  [PASS] real_p2_eps                = 0.44980815052986145
+  [PASS] synth_eps                  = 0.41945940256118774
+  [info] real_p2_pixel_l1           = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] real_p2_pixel_pl           = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] real_p2_pixel_id           = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] real_p2_latent             = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] synth_pixel_l1             = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] synth_pixel_pl             = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] synth_pixel_id             = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] synth_latent               = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] v13 identity layer OFF (latent=0, id=0)
+  [PASS] v13: dual-band low-anchor OFF (blind_struct_weight=0.0) -> weighted eps path visible@1.0 + hole@0.0 (orig spec §5.3)
+  [PASS] real_p2_ldif               = 0.0532073974609375
+  [PASS] synth_x0_ldif              = 0.049617473036050797
+  [PASS] discr_adv (invsr D step)   = 1.9374994039535522
+  [PASS] v18.3 InvSR latent UNet-D loaded (106,176,612 params), t_max=300, warmup=3000
+  [PASS] peak GPU memory = 23.11 GiB (<23.5 on 24G card)
+==============================================================================
+SMOKE AUDIT PASSED — all Step-0 criteria met.

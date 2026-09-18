@@ -168,5 +168,19 @@ experiments/**
 !experiments/**/*.yaml
 !experiments/**/*.yml
 
+# --- v19 GitHub-sync additions (2026-09-18, "nothing missing" package) ---
+# 1. Training logs ARE project records: un-ignore them (the global `*.log`
+#    boilerplate rule above silently excluded train_logs/*.log — the primary
+#    quantitative evidence of every wave).
+!train_logs/*.log
+# 2. git bundles (export artifacts) never belong in the repo itself.
+*.bundle
+# 3. User-calibration images are local-only (158MB), but its MANIFEST (the
+#    full 172-panel metric table = §7.9/7.10 evidence) is project record.
+#    NOTE: `dir/**` (not `dir/`) so the negation below can re-include.
+user_calibration_*/**
+!user_calibration_20260918/MANIFEST.md
 
-
+# --- local-machine additions (2026-09-18 sync from full bundle) ---
+BUNDLE_INFO_*.txt
+new/

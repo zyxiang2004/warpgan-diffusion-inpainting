@@ -1,0 +1,261 @@
+2026-09-10 02:39:30.450598: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-09-10 02:39:30.455351: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda-12.2/lib64:/usr/local/cuda-12.2/lib64:/usr/local/cuda-12.2/lib64
+2026-09-10 02:39:30.455371: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/sklearn/utils/fixes.py:28: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version  # type: ignore
+W0910 02:39:36.222413 244073 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0910 02:39:36.222413 244073 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+W0910 02:39:36.478359 244073 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0910 02:39:36.478359 244073 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+[compat] patched models/goae WindowAttention.forward (torch>=2.6 CPU-bound clamp fix; numerically identical)
+device: cuda:0
+exp_dir: /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260910-023937]_smoke_v18w1_full
+checkpoint_path: null
+max_steps: 30
+paths:
+  sd: ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  brushnet: ./pretrained_models/brushnet
+  wplus_stage_c: /data/xzy/warpgan20260803/20260803/experiments/_wplus_identity_pretrain/checkpoints/iteration_50000.pt
+  dataset:
+    train: ./data/FFHQ-EG3D_all_static_rebalanced
+    test: ./data/celeba-hq_1000_static_rebalanced
+    synth: ./data/SynthData100000_rebalanced
+data:
+  batch_size: 1
+  workers: 4
+  test_batch_size: 2
+  test_workers: 2
+  rebalanced: false
+  add_LPFF: false
+  synth:
+    able: true
+    zplus: false
+    batch_size: ${data.batch_size}
+gan:
+  device: ${device}
+  eg3d_type: plus_r
+  encoder_type: goae
+  psp:
+    n_styles: 14
+  goae:
+    mlp_layer: 2
+    cfg: ./configs/swinv2.yaml
+  state_dict_key: psp_state_dict
+  checkpoint_path: ./pretrained_models/inversion/gan_encoder.pt
+warp:
+  warp_ori_train: true
+  warp_ori_val: true
+  warp_pred: false
+  hybrid: true
+  cond_erode_kernel: 3
+  cond_gaussian_blur_kernel: 21
+wplus:
+  mode: s1_mapper
+  gate_value: 3.0
+  init_from_stage_c: false
+reference:
+  use: true
+  use_mirror: true
+  real_primary: mirror
+  gate_init: 0.5
+  lr: 5.0e-06
+  local_window_k: 0
+  local_gate_init: 0.25
+brushnet:
+  init: pretrained
+  lr: 1.0e-05
+  use_8bit_adam: true
+  gradient_checkpointing: true
+losses:
+  eps_weight: 1.0
+  synth_texture: full
+  synth_lowpass_sigma: 2.0
+  real_pass1:
+    forward: true
+    visible_weight: 1.0
+    hole_weight: 0
+    blind_struct_weight: 0
+    mirror_anchor: true
+  pixel:
+    max_timestep: 200
+    x0_clip: 3.0
+    resolution: 256
+    patch_latent: 32
+    apply_to_synth: false
+    l1_weight: 0
+    resnet_pl_weight: 0
+    id_weight: 0
+    weights_path: ./pretrained_models/LaMa_perceptual_loss_models
+  latent:
+    weight: 0
+  lpips:
+    weight: 0
+  adversarial:
+    weight: 10
+    kind: r1
+    gp_coef: 0.001
+    mask_as_fake_target: false
+    allow_scale_mask: true
+  feature_matching:
+    weight: 100
+  x0:
+    enable: true
+    l1_weight: 1.0
+    clip: 8.0
+    res_latent: 32
+    d_real: paired_target
+  preserve:
+    weight: 0
+    teacher_wplus: true
+  discriminator:
+    kind: pix2pixhd_nlayer
+    input_nc: 3
+    ndf: 64
+    n_layers: 4
+  optimizers:
+    discriminator:
+      lr: 0.0001
+log:
+  image_interval: 10
+  board_interval: 50
+  val_interval: 20
+  save_interval: 10000
+  use_wandb: false
+smoke:
+  check: true
+  fix_timestep: null
+
+==============================================================================
+[EFFECTIVE CONFIG — verify line by line before trusting any run]
+  exp_dir               : /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260910-023937]_smoke_v18w1_full
+  max_steps             : 30
+  device                : cuda:0
+  synth/real 1:1        : use_synth=True
+  batch_size (real/synth): 1 / 1
+  warp: 512=True hybrid=True warp_pred=False mask=raw_splatting (NO erode/blur)
+  warp cond soften     : erode=3px blur_k=21 (v10: CONDITION-side only, supervision keeps raw mask; orig port)
+  wplus: mode=s1_mapper gate=fixed tanh(3.0) stage_c_init=False
+  reference: use=True use_mirror=True gate_init=0.5 lr=5e-06
+  reference real_primary : mirror (user plan: real photo = PRIMARY bank source, render -> extra)
+  reference LOCAL       : window=0 gate_init=0.25 (v11 texture-band retrieval from PRIMARY (real-photo) source; activates the formerly-dead reference_local_scale)
+  real pass1 dual-band  : visible/mirror FULL-band x1.0 + blind LOW-band x0.0 (v12: target=FULL SHARP render, only low-freq error penalized; hole_weight=0.0 ignored when dual-band active; 0=off -> single-band v11 path)
+  loss synth_texture     : full (sigma=2.0 latent px; user plan: structure-only supervision, texture band = 0)
+  brushnet: init=pretrained lr=1e-05 8bit=True grad_ckpt=True
+  loss eps_weight       : 1.0
+  real pass1 FORWARD    : True (False = STRUCT arm: real batch trains pass2 only; inference unchanged)
+  loss real_p1 anchor   : visible=1.0 (target=inv_warp) hole=0 (target=y_hat_novel) mirror_anchor=True (hole real-photo coverage via inv_warp(x_mirror))
+  loss pixel (t<200)   : L1*0 PL*0 ID*0 x0_clip=3.0 res=256
+  loss latent closure   : *0 (orig L1195-1200)
+  loss lpips/gan/fm     : 0 / 10 / 100  (orig GAN/FM 10/100 -> default 0)
+  timestep range        : [0, 1000) FULL RANGE (no low-t clamp; v3.1 lesson)
+  smoke: check=True fix_timestep=None
+  path [OK ] sd            : ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  path [OK ] brushnet      : ./pretrained_models/brushnet
+  path [OK ] train         : ./data/FFHQ-EG3D_all_static_rebalanced
+  path [OK ] test          : ./data/celeba-hq_1000_static_rebalanced
+  path [OK ] synth         : ./data/SynthData100000_rebalanced
+  path [OK ] LaMa_PL       : ./pretrained_models/LaMa_perceptual_loss_models
+  path [OK ] gan_encoder   : ./pretrained_models/inversion/gan_encoder.pt
+==============================================================================
+[BrushNet] init: official pretrained inpainting checkpoint
+[v17] GATE-FREE x0 SUPERVISION ACTIVE: re-noised symmetric pairs (fake_t vs real_t at the same noise level); analytic ab_t weighting; NO timestep gate; D real = photos on BOTH batches.
+[v14] GAN/FM ACTIVE: NLayer D params=6,962,369 | fm_weight=100.0 (orig 100) | g_adv_weight=10.0 (orig 10; 0=FM-first) | r1 gp_coef=0.001
+[params] bank-retrieval adapters trainable: 37,183,696 | W+ QKV (s2) trainable: 0 | W+ mapper trainable: 1,967,616 | mirror: own K/V 24,780,800 + softmax competition (16 gauged layers) | RefNet DELETED (860M saved, bank=main-UNet self-read)
+[optim] 8-bit AdamW (bitsandbytes)
+Synth dataset: ./data/SynthData100000_rebalanced -> 100000 samples
+Real train dataset: ./data/FFHQ-EG3D_all_static_rebalanced -> 139914 samples
+Test dataset: ./data/celeba-hq_1000_static_rebalanced -> 1000 samples
+Start diffusion-port training (orig semantics, BrushNet+SD1.5).
+[bank input check] source=x_mirror shape=(1, 3, 512, 512) mean=0.4758 std=0.2505 finite=True
+[bank input check] source=y_hat_novel shape=(1, 3, 512, 512) mean=0.4492 std=0.2228 finite=True
+
+------------------------------------------------------------------------------
+[v10 REAL-DATA AUDIT — condition-side softening]
+  [PASS] output range [0,1]                           min=0.0000 max=1.0000
+  [info] hole mean growth = 0.0971 (raw 0.3208 bin 0.3208 soft 0.4179; fragmentation-dependent, orig-equivalent by the check below)
+  [PASS] vs ORIG ops on real tensor (kornia+tv, max diff < 1e-4) max_diff=2.98e-07
+  [PASS] transition band exists (soft, not re-binarized) band_frac=0.09307 band_px/img=24399
+  [PASS] no knife edge: max per-px jump <= 0.45 (orig ~0.38) max_jump=0.380
+  [PASS] supervision mask_latents == interp(RAW mask) 
+  [PASS] BrushNet channel != supervision at boundary (split real) max|soft-raw|@latent=1.000
+  [PASS] off-state identity on real tensor            
+------------------------------------------------------------------------------
+v10 AUDIT PASSED — theory verified on real pipeline tensors.
+/home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/./training/coach_inpainting_diffusion.py:1484: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  metrics['p1_eps'] = float(loss_p1)
+[bank input check] source=warp_warp_img shape=(1, 3, 512, 512) mean=0.3425 std=0.3063 finite=True
+[bank input check] source=y_hat shape=(1, 3, 512, 512) mean=0.4730 std=0.2345 finite=True
+[v14 G-side FM FIRED, real data] p2_gen_fm=0.62245 (x100.0) | D preds real -0.143 / fake -0.144 | feats 5 layers @ (161, 161)..(22, 22)
+[v18 D-step FIRED] pairs=1 discr_adv=1.6282 | p2_discr_real_out=-0.1435 | p2_discr_fake_out=-0.1445 | p2_discr_real_gp=0.2074
+[bank input check] source=target_hat shape=(1, 3, 512, 512) mean=0.3556 std=0.1951 finite=True
+[bank input check] source=x_mirror shape=(1, 3, 512, 512) mean=0.3637 std=0.2014 finite=True
+[step 0] real_p1_mirror_hole_cov=0.2733 real_p1_eps=0.0582 real_p1_hole_frac=0.3208 real_p2_eps=0.0419 real_p2_x0_l1=0.3763 real_p2_x0_abw=0.1095 real_p2_gen_adv=7.8210 real_p2_gen_fm=0.6224 real_total=7.8121 discr_adv=1.6282 p2_discr_real_out=-0.1435 p2_discr_fake_out=-0.1445 p2_discr_real_gp=0.2074 g_grad_abs=11209.1342 d_grad_abs=3271.3665 synth_eps=0.1027 synth_eps_raw=0.1027 synth_x0_x0_l1=0.3156 synth_x0_x0_abw=0.2354 synth_x0_gen_adv=7.1659 synth_x0_gen_fm=0.5906 synth_total=15.7641
+[images] real: anchor | cond1 | cond2 | inv_warp_mirror | mask | mask_inv | p2_pred_x0 | warp_img | warp_warp_img | x | y_hat | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260910-023937]_smoke_v18w1_full/logs/images/train/real_step0000000.png
+[images] synth: cond | mask | pred_x0 | target | warp_img | x | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260910-023937]_smoke_v18w1_full/logs/images/train/synth_step0000000.png
+[bank input check] source=x_mirror shape=(1, 3, 512, 512) mean=0.4776 std=0.2103 finite=True
+[bank input check] source=y_hat_novel shape=(1, 3, 512, 512) mean=0.4485 std=0.1694 finite=True
+
+------------------------------------------------------------------------------
+[v10 REAL-DATA AUDIT — condition-side softening]
+  [PASS] output range [0,1]                           min=0.0000 max=1.0000
+  [info] hole mean growth = 0.1047 (raw 0.2178 bin 0.2178 soft 0.3225; fragmentation-dependent, orig-equivalent by the check below)
+  [PASS] vs ORIG ops on real tensor (kornia+tv, max diff < 1e-4) max_diff=2.98e-07
+  [PASS] transition band exists (soft, not re-binarized) band_frac=0.13470 band_px/img=35310
+  [PASS] no knife edge: max per-px jump <= 0.45 (orig ~0.38) max_jump=0.380
+  [PASS] supervision mask_latents == interp(RAW mask) 
+  [PASS] BrushNet channel != supervision at boundary (split real) max|soft-raw|@latent=1.000
+  [PASS] off-state identity on real tensor            
+------------------------------------------------------------------------------
+v10 AUDIT PASSED — theory verified on real pipeline tensors.
+[bank input check] source=warp_warp_img shape=(1, 3, 512, 512) mean=0.3580 std=0.2525 finite=True
+[bank input check] source=y_hat shape=(1, 3, 512, 512) mean=0.4640 std=0.1770 finite=True
+[bank input check] source=target_hat shape=(1, 3, 512, 512) mean=0.5102 std=0.2590 finite=True
+[bank input check] source=x_mirror shape=(1, 3, 512, 512) mean=0.5158 std=0.2472 finite=True
+[bank input check] source=x_mirror shape=(1, 3, 512, 512) mean=0.3543 std=0.2238 finite=True
+[bank input check] source=y_hat_novel shape=(1, 3, 512, 512) mean=0.3588 std=0.1795 finite=True
+
+------------------------------------------------------------------------------
+[v10 REAL-DATA AUDIT — condition-side softening]
+  [PASS] output range [0,1]                           min=0.0000 max=1.0000
+  [info] hole mean growth = 0.1149 (raw 0.4300 bin 0.4300 soft 0.5449; fragmentation-dependent, orig-equivalent by the check below)
+  [PASS] vs ORIG ops on real tensor (kornia+tv, max diff < 1e-4) max_diff=3.58e-07
+  [PASS] transition band exists (soft, not re-binarized) band_frac=0.15118 band_px/img=39631
+  [PASS] no knife edge: max per-px jump <= 0.45 (orig ~0.38) max_jump=0.380
+  [PASS] supervision mask_latents == interp(RAW mask) 
+  [PASS] BrushNet channel != supervision at boundary (split real) max|soft-raw|@latent=1.000
+  [PASS] off-state identity on real tensor            
+------------------------------------------------------------------------------
+v10 AUDIT PASSED — theory verified on real pipeline tensors.
+[bank input check] source=warp_warp_img shape=(1, 3, 512, 512) mean=0.2298 std=0.2667 finite=True
+[bank input check] source=y_hat shape=(1, 3, 512, 512) mean=0.3523 std=0.2071 finite=True
+[bank input check] source=target_hat shape=(1, 3, 512, 512) mean=0.3727 std=0.2190 finite=True
+[bank input check] source=x_mirror shape=(1, 3, 512, 512) mean=0.4020 std=0.2464 finite=True
+[images] real: anchor | cond1 | cond2 | inv_warp_mirror | mask | mask_inv | p2_pred_x0 | warp_img | warp_warp_img | x | y_hat | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260910-023937]_smoke_v18w1_full/logs/images/train/real_step0000010.png
+[images] synth: cond | mask | pred_x0 | target | warp_img | x | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260910-023937]_smoke_v18w1_full/logs/images/train/synth_step0000010.png
+[val step 19] val_novel_full=0.3333 val_novel_hole=0.2502 val_novel_visible=0.3690
+[images] real: anchor | cond1 | cond2 | inv_warp_mirror | mask | mask_inv | p2_pred_x0 | warp_img | warp_warp_img | x | y_hat | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260910-023937]_smoke_v18w1_full/logs/images/train/real_step0000020.png
+[images] synth: cond | mask | pred_x0 | target | warp_img | x | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260910-023937]_smoke_v18w1_full/logs/images/train/synth_step0000020.png
+[ckpt] saved /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/[20260910-023937]_smoke_v18w1_full/checkpoints/iteration_0000029.pt
+[done] peak GPU memory: 22.68 GiB (budget <22 GiB on 24GB card)
+
+==============================================================================
+[SMOKE AUDIT — Step 0 checks (spec §8)]
+  [PASS] real_p1_eps                = 0.4369480013847351
+  [PASS] real_p2_eps                = 0.17476347088813782
+  [PASS] synth_eps                  = 0.2224319875240326
+  [info] real_p2_pixel_l1           = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] real_p2_pixel_pl           = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] real_p2_pixel_id           = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] real_p2_latent             = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] synth_pixel_l1             = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] synth_pixel_pl             = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] synth_pixel_id             = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] synth_latent               = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] v13 identity layer OFF (latent=0, id=0)
+  [PASS] v13: dual-band low-anchor OFF (blind_struct_weight=0.0) -> weighted eps path visible@1.0 + hole@0.0 (orig spec §5.3)
+  [info] real_p2_gen_fm             = 0.298277 (t<200 gate; fix_timestep=100 forces it)
+  [PASS] v14 discriminator loaded (6,962,369 params), fm_weight=100.0, g_adv_weight=10.0
+  [PASS] peak GPU memory = 22.68 GiB (<23.5 on 24G card)
+==============================================================================
+SMOKE AUDIT PASSED — all Step-0 criteria met.

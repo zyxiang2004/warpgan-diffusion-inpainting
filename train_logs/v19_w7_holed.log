@@ -1,0 +1,743 @@
+[v19-w7_holed] resume from /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/checkpoints/iteration_0079999.pt at Fri 18 Sep 2026 04:28:25 PM CST
+2026-09-18 16:28:28.356902: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-09-18 16:28:28.396978: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda-12.2/lib64:/usr/local/cuda-12.2/lib64:/usr/local/cuda-12.2/lib64
+2026-09-18 16:28:28.397012: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/sklearn/utils/fixes.py:28: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version  # type: ignore
+W0918 16:28:36.074235 468710 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0918 16:28:36.074235 468710 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+W0918 16:28:36.379685 468710 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0918 16:28:36.379685 468710 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+[compat] patched models/goae WindowAttention.forward (torch>=2.6 CPU-bound clamp fix; numerically identical)
+Resuming in existing experiment directory: /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k
+device: cuda:0
+prompt:
+  preset: ''
+  text: ''
+infer:
+  t_start: 0
+hf:
+  enable: false
+  thresh: 50.0
+prior_preserve:
+  freq: 0
+exp_dir: /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k
+checkpoint_path: /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/checkpoints/iteration_0079999.pt
+max_steps: 80130
+paths:
+  sd: ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  brushnet: ./pretrained_models/brushnet
+  wplus_stage_c: /data/xzy/warpgan20260803/20260803/experiments/_wplus_identity_pretrain/checkpoints/iteration_50000.pt
+  dataset:
+    train: ./data/FFHQ-EG3D_all_static_rebalanced
+    test: ./data/celeba-hq_1000_static_rebalanced
+    synth: ./data/SynthData100000_rebalanced
+data:
+  batch_size: 1
+  workers: 4
+  test_batch_size: 2
+  test_workers: 2
+  rebalanced: false
+  add_LPFF: false
+  synth:
+    able: true
+    zplus: false
+    batch_size: ${data.batch_size}
+gan:
+  device: ${device}
+  eg3d_type: plus_r
+  encoder_type: goae
+  psp:
+    n_styles: 14
+  goae:
+    mlp_layer: 2
+    cfg: ./configs/swinv2.yaml
+  state_dict_key: psp_state_dict
+  checkpoint_path: ./pretrained_models/inversion/gan_encoder.pt
+warp:
+  warp_ori_train: true
+  warp_ori_val: true
+  warp_pred: false
+  hybrid: true
+  cond_erode_kernel: 3
+  cond_gaussian_blur_kernel: 21
+wplus:
+  mode: s1_mapper
+  gate_value: 3.0
+  init_from_stage_c: false
+reference:
+  use: true
+  use_mirror: true
+  real_primary: mirror
+  gate_init: 0.5
+  lr: 5.0e-06
+  local_window_k: 0
+  local_gate_init: 0.25
+brushnet:
+  init: pretrained
+  lr: 1.0e-05
+  use_8bit_adam: true
+  gradient_checkpointing: true
+losses:
+  eps_weight: 1.0
+  synth_texture: full
+  synth_lowpass_sigma: 2.0
+  real_pass1:
+    forward: true
+    t_max: 0
+    anchor_median: 5
+    visible_weight: 1.0
+    hole_weight: 0
+    blind_struct_weight: 0
+    mirror_anchor: true
+  pixel:
+    max_timestep: 200
+    x0_clip: 3.0
+    resolution: 256
+    patch_latent: 32
+    apply_to_synth: false
+    l1_weight: 0
+    resnet_pl_weight: 0
+    id_weight: 0
+    weights_path: ./pretrained_models/LaMa_perceptual_loss_models
+  latent:
+    weight: 0
+  lpips:
+    weight: 0
+  adversarial:
+    weight: 0
+    kind: r1
+    gp_coef: 0.001
+    mask_as_fake_target: false
+    allow_scale_mask: true
+  feature_matching:
+    weight: 0
+  x0:
+    enable: true
+    mode: invsr
+    t_max: 300
+    w_ldif: 1.0
+    w_lfm: 2.0
+    w_ldis: 0.1
+    dis_warmup: 3000
+    latent_bound: 10.0
+    hole_d:
+      enable: true
+      weight: 0.1
+      warmup: 2000
+    l1_weight: 1.0
+    llpips_enable: true
+    llpips_ckpt: ./weights/vgg16_sdturbo_lpips.pth
+    clip: 8.0
+    res_latent: 32
+    d_real: paired_target
+  preserve:
+    weight: 0
+    teacher_wplus: true
+  discriminator:
+    kind: pix2pixhd_nlayer
+    input_nc: 3
+    ndf: 64
+    n_layers: 4
+  optimizers:
+    discriminator:
+      lr: 0.0001
+log:
+  image_interval: 500
+  board_interval: 50
+  val_interval: 2000
+  save_interval: 10000
+  use_wandb: false
+smoke:
+  check: true
+  fix_timestep: null
+
+==============================================================================
+[EFFECTIVE CONFIG — verify line by line before trusting any run]
+  exp_dir               : /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k
+  max_steps             : 80130
+  device                : cuda:0
+  synth/real 1:1        : use_synth=True
+  batch_size (real/synth): 1 / 1
+  warp: 512=True hybrid=True warp_pred=False mask=raw_splatting (NO erode/blur)
+  warp cond soften     : erode=3px blur_k=21 (v10: CONDITION-side only, supervision keeps raw mask; orig port)
+  wplus: mode=s1_mapper gate=fixed tanh(3.0) stage_c_init=False
+  reference: use=True use_mirror=True gate_init=0.5 lr=5e-06
+  reference real_primary : mirror (user plan: real photo = PRIMARY bank source, render -> extra)
+  reference LOCAL       : window=0 gate_init=0.25 (v11 texture-band retrieval from PRIMARY (real-photo) source; activates the formerly-dead reference_local_scale)
+  real pass1 dual-band  : visible/mirror FULL-band x1.0 + blind LOW-band x0.0 (v12: target=FULL SHARP render, only low-freq error penalized; hole_weight=0.0 ignored when dual-band active; 0=off -> single-band v11 path)
+  loss synth_texture     : full (sigma=2.0 latent px; user plan: structure-only supervision, texture band = 0)
+  brushnet: init=pretrained lr=1e-05 8bit=True grad_ckpt=True
+  loss eps_weight       : 1.0
+  real pass1 FORWARD    : True (False = STRUCT arm: real batch trains pass2 only; inference unchanged)
+  real pass1 t-domain   : FULL [0,1000) | infer.t_start=0 (0=pure-noise chain; >0=SDEdit from the noised anchor)
+  loss real_p1 anchor   : visible=1.0 (target=inv_warp) hole=0 (target=y_hat_novel) mirror_anchor=True (hole real-photo coverage via inv_warp(x_mirror))
+  loss pixel (t<200)   : L1*0 PL*0 ID*0 x0_clip=3.0 res=256
+  loss latent closure   : *0 (orig L1195-1200)
+  loss lpips/gan/fm     : 0 / 0 / 0  (orig GAN/FM 10/100 -> default 0)
+  timestep range        : [0, 1000) FULL RANGE (no low-t clamp; v3.1 lesson)
+  smoke: check=True fix_timestep=None
+  path [OK ] sd            : ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  path [OK ] brushnet      : ./pretrained_models/brushnet
+  path [OK ] train         : ./data/FFHQ-EG3D_all_static_rebalanced
+  path [OK ] test          : ./data/celeba-hq_1000_static_rebalanced
+  path [OK ] synth         : ./data/SynthData100000_rebalanced
+  path [OK ] LaMa_PL       : ./pretrained_models/LaMa_perceptual_loss_models
+  path [OK ] gan_encoder   : ./pretrained_models/inversion/gan_encoder.pt
+==============================================================================
+[BrushNet] init: official pretrained inpainting checkpoint
+[W7] hole photo-stat D ACTIVE: weight=0.1 d_warmup=+2000 steps from first pair (orig real-batch novel branch, real=photo)
+[v18.3] InvSR x0 SUPERVISION ACTIVE: latent-space MSE+FM+adv on the single-step x0, t<=300, w=ldif:1.0/lfm:2.0/ldis:0.1
+[v18.3 InvSR] latent UNet-D 106,176,612 params | t_max=300 | w ldif:lfm:ldis = 1.0:2.0:0.1 | latent clamp ±10.0 | dis_warmup=3000 (their 10K/100K iters scaled to our 30K budget)
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=VGG16_Weights.IMAGENET1K_V1`. You can also use `weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+[v18.4] InvSR finetuned latent-LPIPS ACTIVE (w=2.0) <- ./weights/vgg16_sdturbo_lpips.pth
+[params] bank-retrieval adapters trainable: 37,183,696 | W+ QKV (s2) trainable: 0 | W+ mapper trainable: 1,967,616 | mirror: own K/V 24,780,800 + softmax competition (16 gauged layers) | RefNet DELETED (860M saved, bank=main-UNet self-read)
+[optim] 8-bit AdamW (bitsandbytes)
+Synth dataset: ./data/SynthData100000_rebalanced -> 100000 samples
+Real train dataset: ./data/FFHQ-EG3D_all_static_rebalanced -> 139914 samples
+Test dataset: ./data/celeba-hq_1000_static_rebalanced -> 1000 samples
+[resume] v19 discriminator + optimizer_d restored (use_gan_fm or invsr)
+[resume] step 79999 from /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/checkpoints/iteration_0079999.pt
+Start diffusion-port training (orig semantics, BrushNet+SD1.5).
+/home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/./training/coach_inpainting_diffusion.py:1854: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  metrics['p1_eps'] = float(loss_p1)
+[ckpt] saved /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/checkpoints/iteration_0079999.pt
+[val step 79999] val_novel_full=0.0514 val_novel_hole=0.0863 val_novel_visible=0.0429
+[step 80000] real_p1_mirror_hole_cov=0.0207 real_holeD_hit=0.0000 real_p1_eps=0.0083 real_p1_hole_frac=0.2225 real_p2_eps=0.0355 real_p2_hit=0.0000 real_total=0.0438 synth_eps=0.0037 synth_eps_raw=0.0037 synth_x0_hit=0.0000 synth_total=0.0037 extra_render_attn_share=0.5476
+[images] real: anchor | cond1 | cond2 | inv_warp_mirror | mask | mask_inv | warp_img | warp_warp_img | x | y_hat | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/real_step0080000.png
+[images] synth: cond | mask | target | warp_img | x | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/synth_step0080000.png
+[step 80050] real_p1_mirror_hole_cov=0.1037 real_holeD_hit=1.0000 real_holeD_t=165.0000 real_p1_eps=0.1692 real_p1_hole_frac=0.5074 real_p2_eps=0.0260 real_p2_hit=0.0000 real_total=0.1952 discr_adv=0.9733 holeD_d_real=-0.8042 holeD_d_fake=-0.8575 g_grad_abs=982.9693 d_grad_abs=230.8289 synth_eps=0.1626 synth_eps_raw=0.1626 synth_x0_hit=1.0000 synth_x0_t=296.0000 synth_x0_ldif=0.1097 synth_x0_gen_adv=-0.0596 synth_x0_lfm=0.0073 synth_total=0.2810 extra_render_attn_share=0.5476
+[step 80100] real_p1_mirror_hole_cov=0.1900 real_holeD_hit=1.0000 real_holeD_t=210.0000 real_p1_eps=0.0899 real_p1_hole_frac=0.0377 real_p2_eps=0.0492 real_p2_hit=0.0000 real_total=0.1392 discr_adv=0.9998 holeD_d_real=-0.8867 holeD_d_fake=-0.8871 g_grad_abs=650.0287 d_grad_abs=3.2005 synth_eps=0.0221 synth_eps_raw=0.0221 synth_x0_hit=0.0000 synth_total=0.0221 extra_render_attn_share=0.5476
+[v19-w7_holed] resume from /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/checkpoints/iteration_0079999.pt at Fri 18 Sep 2026 04:36:02 PM CST
+2026-09-18 16:36:04.895858: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-09-18 16:36:04.901136: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda-12.2/lib64:/usr/local/cuda-12.2/lib64:/usr/local/cuda-12.2/lib64
+2026-09-18 16:36:04.901171: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/sklearn/utils/fixes.py:28: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version  # type: ignore
+W0918 16:36:11.828838 469653 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0918 16:36:11.828838 469653 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+W0918 16:36:12.113960 469653 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0918 16:36:12.113960 469653 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+[compat] patched models/goae WindowAttention.forward (torch>=2.6 CPU-bound clamp fix; numerically identical)
+Resuming in existing experiment directory: /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k
+device: cuda:0
+prompt:
+  preset: ''
+  text: ''
+infer:
+  t_start: 0
+hf:
+  enable: false
+  thresh: 50.0
+prior_preserve:
+  freq: 0
+exp_dir: /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k
+checkpoint_path: /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/checkpoints/iteration_0079999.pt
+max_steps: 300000
+paths:
+  sd: ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  brushnet: ./pretrained_models/brushnet
+  wplus_stage_c: /data/xzy/warpgan20260803/20260803/experiments/_wplus_identity_pretrain/checkpoints/iteration_50000.pt
+  dataset:
+    train: ./data/FFHQ-EG3D_all_static_rebalanced
+    test: ./data/celeba-hq_1000_static_rebalanced
+    synth: ./data/SynthData100000_rebalanced
+data:
+  batch_size: 1
+  workers: 4
+  test_batch_size: 2
+  test_workers: 2
+  rebalanced: false
+  add_LPFF: false
+  synth:
+    able: true
+    zplus: false
+    batch_size: ${data.batch_size}
+gan:
+  device: ${device}
+  eg3d_type: plus_r
+  encoder_type: goae
+  psp:
+    n_styles: 14
+  goae:
+    mlp_layer: 2
+    cfg: ./configs/swinv2.yaml
+  state_dict_key: psp_state_dict
+  checkpoint_path: ./pretrained_models/inversion/gan_encoder.pt
+warp:
+  warp_ori_train: true
+  warp_ori_val: true
+  warp_pred: false
+  hybrid: true
+  cond_erode_kernel: 3
+  cond_gaussian_blur_kernel: 21
+wplus:
+  mode: s1_mapper
+  gate_value: 3.0
+  init_from_stage_c: false
+reference:
+  use: true
+  use_mirror: true
+  real_primary: mirror
+  gate_init: 0.5
+  lr: 5.0e-06
+  local_window_k: 0
+  local_gate_init: 0.25
+brushnet:
+  init: pretrained
+  lr: 1.0e-05
+  use_8bit_adam: true
+  gradient_checkpointing: true
+losses:
+  eps_weight: 1.0
+  synth_texture: full
+  synth_lowpass_sigma: 2.0
+  real_pass1:
+    forward: true
+    t_max: 0
+    anchor_median: 5
+    visible_weight: 1.0
+    hole_weight: 0
+    blind_struct_weight: 0
+    mirror_anchor: true
+  pixel:
+    max_timestep: 200
+    x0_clip: 3.0
+    resolution: 256
+    patch_latent: 32
+    apply_to_synth: false
+    l1_weight: 0
+    resnet_pl_weight: 0
+    id_weight: 0
+    weights_path: ./pretrained_models/LaMa_perceptual_loss_models
+  latent:
+    weight: 0
+  lpips:
+    weight: 0
+  adversarial:
+    weight: 0
+    kind: r1
+    gp_coef: 0.001
+    mask_as_fake_target: false
+    allow_scale_mask: true
+  feature_matching:
+    weight: 0
+  x0:
+    enable: true
+    mode: invsr
+    t_max: 300
+    w_ldif: 1.0
+    w_lfm: 2.0
+    w_ldis: 0.1
+    dis_warmup: 3000
+    latent_bound: 10.0
+    hole_d:
+      enable: true
+      weight: 0.1
+      warmup: 2000
+    l1_weight: 1.0
+    llpips_enable: true
+    llpips_ckpt: ./weights/vgg16_sdturbo_lpips.pth
+    clip: 8.0
+    res_latent: 32
+    d_real: paired_target
+  preserve:
+    weight: 0
+    teacher_wplus: true
+  discriminator:
+    kind: pix2pixhd_nlayer
+    input_nc: 3
+    ndf: 64
+    n_layers: 4
+  optimizers:
+    discriminator:
+      lr: 0.0001
+log:
+  image_interval: 500
+  board_interval: 50
+  val_interval: 2000
+  save_interval: 10000
+  use_wandb: false
+smoke:
+  check: true
+  fix_timestep: null
+
+==============================================================================
+[EFFECTIVE CONFIG — verify line by line before trusting any run]
+  exp_dir               : /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k
+  max_steps             : 300000
+  device                : cuda:0
+  synth/real 1:1        : use_synth=True
+  batch_size (real/synth): 1 / 1
+  warp: 512=True hybrid=True warp_pred=False mask=raw_splatting (NO erode/blur)
+  warp cond soften     : erode=3px blur_k=21 (v10: CONDITION-side only, supervision keeps raw mask; orig port)
+  wplus: mode=s1_mapper gate=fixed tanh(3.0) stage_c_init=False
+  reference: use=True use_mirror=True gate_init=0.5 lr=5e-06
+  reference real_primary : mirror (user plan: real photo = PRIMARY bank source, render -> extra)
+  reference LOCAL       : window=0 gate_init=0.25 (v11 texture-band retrieval from PRIMARY (real-photo) source; activates the formerly-dead reference_local_scale)
+  real pass1 dual-band  : visible/mirror FULL-band x1.0 + blind LOW-band x0.0 (v12: target=FULL SHARP render, only low-freq error penalized; hole_weight=0.0 ignored when dual-band active; 0=off -> single-band v11 path)
+  loss synth_texture     : full (sigma=2.0 latent px; user plan: structure-only supervision, texture band = 0)
+  brushnet: init=pretrained lr=1e-05 8bit=True grad_ckpt=True
+  loss eps_weight       : 1.0
+  real pass1 FORWARD    : True (False = STRUCT arm: real batch trains pass2 only; inference unchanged)
+  real pass1 t-domain   : FULL [0,1000) | infer.t_start=0 (0=pure-noise chain; >0=SDEdit from the noised anchor)
+  loss real_p1 anchor   : visible=1.0 (target=inv_warp) hole=0 (target=y_hat_novel) mirror_anchor=True (hole real-photo coverage via inv_warp(x_mirror))
+  loss pixel (t<200)   : L1*0 PL*0 ID*0 x0_clip=3.0 res=256
+  loss latent closure   : *0 (orig L1195-1200)
+  loss lpips/gan/fm     : 0 / 0 / 0  (orig GAN/FM 10/100 -> default 0)
+  timestep range        : [0, 1000) FULL RANGE (no low-t clamp; v3.1 lesson)
+  smoke: check=True fix_timestep=None
+  path [OK ] sd            : ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  path [OK ] brushnet      : ./pretrained_models/brushnet
+  path [OK ] train         : ./data/FFHQ-EG3D_all_static_rebalanced
+  path [OK ] test          : ./data/celeba-hq_1000_static_rebalanced
+  path [OK ] synth         : ./data/SynthData100000_rebalanced
+  path [OK ] LaMa_PL       : ./pretrained_models/LaMa_perceptual_loss_models
+  path [OK ] gan_encoder   : ./pretrained_models/inversion/gan_encoder.pt
+==============================================================================
+[BrushNet] init: official pretrained inpainting checkpoint
+[W7] hole photo-stat D ACTIVE: weight=0.1 d_warmup=+2000 steps from first pair (orig real-batch novel branch, real=photo)
+[v18.3] InvSR x0 SUPERVISION ACTIVE: latent-space MSE+FM+adv on the single-step x0, t<=300, w=ldif:1.0/lfm:2.0/ldis:0.1
+[v18.3 InvSR] latent UNet-D 106,176,612 params | t_max=300 | w ldif:lfm:ldis = 1.0:2.0:0.1 | latent clamp ±10.0 | dis_warmup=3000 (their 10K/100K iters scaled to our 30K budget)
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=VGG16_Weights.IMAGENET1K_V1`. You can also use `weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+[v18.4] InvSR finetuned latent-LPIPS ACTIVE (w=2.0) <- ./weights/vgg16_sdturbo_lpips.pth
+[params] bank-retrieval adapters trainable: 37,183,696 | W+ QKV (s2) trainable: 0 | W+ mapper trainable: 1,967,616 | mirror: own K/V 24,780,800 + softmax competition (16 gauged layers) | RefNet DELETED (860M saved, bank=main-UNet self-read)
+[optim] 8-bit AdamW (bitsandbytes)
+Synth dataset: ./data/SynthData100000_rebalanced -> 100000 samples
+Real train dataset: ./data/FFHQ-EG3D_all_static_rebalanced -> 139914 samples
+Test dataset: ./data/celeba-hq_1000_static_rebalanced -> 1000 samples
+[resume] v19 discriminator + optimizer_d restored (use_gan_fm or invsr)
+[resume] step 79999 from /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/checkpoints/iteration_0079999.pt
+Start diffusion-port training (orig semantics, BrushNet+SD1.5).
+Error executing job with overrides: ['exp_dir=/home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k', 'max_steps=300000', "checkpoint_path='/home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/checkpoints/iteration_0079999.pt'", 'wplus.mode=s1_mapper', 'wplus.init_from_stage_c=False', 'losses.x0.enable=True', 'losses.x0.mode=invsr', 'losses.x0.t_max=300', 'losses.x0.w_ldif=1.0', 'losses.x0.w_lfm=2.0', 'losses.x0.w_ldis=0.1', 'losses.x0.dis_warmup=3000', 'losses.x0.latent_bound=10.0', 'losses.x0.hole_d.enable=True', 'losses.x0.hole_d.weight=0.1', 'losses.x0.hole_d.warmup=2000', 'losses.x0.llpips_enable=True', 'losses.x0.llpips_ckpt=./weights/vgg16_sdturbo_lpips.pth', 'losses.feature_matching.weight=0', 'losses.adversarial.weight=0', 'losses.real_pass1.forward=True', 'losses.real_pass1.mirror_anchor=True', 'losses.real_pass1.visible_weight=1.0', 'losses.real_pass1.hole_weight=0', 'losses.real_pass1.blind_struct_weight=0', 'losses.real_pass1.anchor_median=5', 'losses.synth_texture=full', 'losses.pixel.l1_weight=0', 'losses.pixel.resnet_pl_weight=0', 'losses.pixel.id_weight=0', 'losses.latent.weight=0', 'losses.preserve.weight=0', 'reference.use_mirror=True', 'reference.real_primary=mirror', 'reference.local_window_k=0', 'warp.cond_erode_kernel=3', 'warp.cond_gaussian_blur_kernel=21', 'smoke.check=True', 'log.val_interval=2000', 'log.save_interval=10000', 'log.image_interval=500']
+Traceback (most recent call last):
+  File "/home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/scripts/train_inpainting_diffusion.py", line 70, in main
+    coach.train()
+  File "/home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/./training/coach_inpainting_diffusion.py", line 2040, in train
+    loss_p1, loss_p2, m_real, panels_real = self._forward_real(
+  File "/home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/./training/coach_inpainting_diffusion.py", line 1671, in _forward_real
+    nv = self._build_novel_view(
+  File "/home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/./training/coach_inpainting_diffusion.py", line 1603, in _build_novel_view
+    anchor = median_blur(anchor, (self.anchor_median,) * 2)
+  File "/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/kornia/filters/median.py", line 51, in median_blur
+    features: torch.Tensor = F.conv2d(input.reshape(b * c, 1, h, w), kernel, padding=padding, stride=1)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 76.00 MiB. GPU 0 has a total capacity of 23.69 GiB of which 54.75 MiB is free. Process 468710 has 14.33 GiB memory in use. Including non-PyTorch memory, this process has 9.30 GiB memory in use. Of the allocated memory 8.87 GiB is allocated by PyTorch, and 94.28 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
+[ckpt] saved /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/checkpoints/iteration_0080129.pt
+[done] peak GPU memory: 23.08 GiB (budget <22 GiB on 24GB card)
+
+==============================================================================
+[SMOKE AUDIT — Step 0 checks (spec §8)]
+  [PASS] real_p1_eps                = 0.011541575193405151
+  [PASS] real_p2_eps                = 0.019515348598361015
+  [PASS] synth_eps                  = 0.0540677085518837
+  [info] real_p2_pixel_l1           = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] real_p2_pixel_pl           = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] real_p2_pixel_id           = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] real_p2_latent             = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] synth_pixel_l1             = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] synth_pixel_pl             = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] synth_pixel_id             = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] synth_latent               = 0.000000 (weight=0 by recipe — red line, correctly inactive)
+  [info] v13 identity layer OFF (latent=0, id=0)
+  [PASS] v13: dual-band low-anchor OFF (blind_struct_weight=0.0) -> weighted eps path visible@1.0 + hole@0.0 (orig spec §5.3)
+  [info] real_p2_ldif               = 0.000000 (stochastic t<=300 domain; fix_timestep=100 forces it)
+  [info] synth_x0_ldif              = 0.000000 (stochastic t<=300 domain; fix_timestep=100 forces it)
+  [PASS] v18.3 InvSR latent UNet-D loaded (106,176,612 params), t_max=300, warmup=3000
+  [PASS] peak GPU memory = 23.08 GiB (<23.5 on 24G card)
+==============================================================================
+SMOKE AUDIT PASSED — all Step-0 criteria met.
+[v19-w7_holed] resume from /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/checkpoints/iteration_0080129.pt at Fri 18 Sep 2026 04:41:02 PM CST
+2026-09-18 16:41:04.790027: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-09-18 16:41:04.794894: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda-12.2/lib64:/usr/local/cuda-12.2/lib64:/usr/local/cuda-12.2/lib64
+2026-09-18 16:41:04.794937: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/sklearn/utils/fixes.py:28: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version  # type: ignore
+W0918 16:41:10.875995 470361 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0918 16:41:10.875995 470361 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+W0918 16:41:11.144678 470361 site-packages/torch/utils/cpp_extension.py:2425] TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+W0918 16:41:11.144678 470361 site-packages/torch/utils/cpp_extension.py:2425] If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'] to specific architectures.
+[compat] patched models/goae WindowAttention.forward (torch>=2.6 CPU-bound clamp fix; numerically identical)
+Resuming in existing experiment directory: /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k
+device: cuda:0
+prompt:
+  preset: ''
+  text: ''
+infer:
+  t_start: 0
+hf:
+  enable: false
+  thresh: 50.0
+prior_preserve:
+  freq: 0
+exp_dir: /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k
+checkpoint_path: /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/checkpoints/iteration_0080129.pt
+max_steps: 300000
+paths:
+  sd: ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  brushnet: ./pretrained_models/brushnet
+  wplus_stage_c: /data/xzy/warpgan20260803/20260803/experiments/_wplus_identity_pretrain/checkpoints/iteration_50000.pt
+  dataset:
+    train: ./data/FFHQ-EG3D_all_static_rebalanced
+    test: ./data/celeba-hq_1000_static_rebalanced
+    synth: ./data/SynthData100000_rebalanced
+data:
+  batch_size: 1
+  workers: 4
+  test_batch_size: 2
+  test_workers: 2
+  rebalanced: false
+  add_LPFF: false
+  synth:
+    able: true
+    zplus: false
+    batch_size: ${data.batch_size}
+gan:
+  device: ${device}
+  eg3d_type: plus_r
+  encoder_type: goae
+  psp:
+    n_styles: 14
+  goae:
+    mlp_layer: 2
+    cfg: ./configs/swinv2.yaml
+  state_dict_key: psp_state_dict
+  checkpoint_path: ./pretrained_models/inversion/gan_encoder.pt
+warp:
+  warp_ori_train: true
+  warp_ori_val: true
+  warp_pred: false
+  hybrid: true
+  cond_erode_kernel: 3
+  cond_gaussian_blur_kernel: 21
+wplus:
+  mode: s1_mapper
+  gate_value: 3.0
+  init_from_stage_c: false
+reference:
+  use: true
+  use_mirror: true
+  real_primary: mirror
+  gate_init: 0.5
+  lr: 5.0e-06
+  local_window_k: 0
+  local_gate_init: 0.25
+brushnet:
+  init: pretrained
+  lr: 1.0e-05
+  use_8bit_adam: true
+  gradient_checkpointing: true
+losses:
+  eps_weight: 1.0
+  synth_texture: full
+  synth_lowpass_sigma: 2.0
+  real_pass1:
+    forward: true
+    t_max: 0
+    anchor_median: 5
+    visible_weight: 1.0
+    hole_weight: 0
+    blind_struct_weight: 0
+    mirror_anchor: true
+  pixel:
+    max_timestep: 200
+    x0_clip: 3.0
+    resolution: 256
+    patch_latent: 32
+    apply_to_synth: false
+    l1_weight: 0
+    resnet_pl_weight: 0
+    id_weight: 0
+    weights_path: ./pretrained_models/LaMa_perceptual_loss_models
+  latent:
+    weight: 0
+  lpips:
+    weight: 0
+  adversarial:
+    weight: 0
+    kind: r1
+    gp_coef: 0.001
+    mask_as_fake_target: false
+    allow_scale_mask: true
+  feature_matching:
+    weight: 0
+  x0:
+    enable: true
+    mode: invsr
+    t_max: 300
+    w_ldif: 1.0
+    w_lfm: 2.0
+    w_ldis: 0.1
+    dis_warmup: 3000
+    latent_bound: 10.0
+    hole_d:
+      enable: true
+      weight: 0.1
+      warmup: 2000
+    l1_weight: 1.0
+    llpips_enable: true
+    llpips_ckpt: ./weights/vgg16_sdturbo_lpips.pth
+    clip: 8.0
+    res_latent: 32
+    d_real: paired_target
+  preserve:
+    weight: 0
+    teacher_wplus: true
+  discriminator:
+    kind: pix2pixhd_nlayer
+    input_nc: 3
+    ndf: 64
+    n_layers: 4
+  optimizers:
+    discriminator:
+      lr: 0.0001
+log:
+  image_interval: 500
+  board_interval: 50
+  val_interval: 2000
+  save_interval: 10000
+  use_wandb: false
+smoke:
+  check: true
+  fix_timestep: null
+
+==============================================================================
+[EFFECTIVE CONFIG — verify line by line before trusting any run]
+  exp_dir               : /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k
+  max_steps             : 300000
+  device                : cuda:0
+  synth/real 1:1        : use_synth=True
+  batch_size (real/synth): 1 / 1
+  warp: 512=True hybrid=True warp_pred=False mask=raw_splatting (NO erode/blur)
+  warp cond soften     : erode=3px blur_k=21 (v10: CONDITION-side only, supervision keeps raw mask; orig port)
+  wplus: mode=s1_mapper gate=fixed tanh(3.0) stage_c_init=False
+  reference: use=True use_mirror=True gate_init=0.5 lr=5e-06
+  reference real_primary : mirror (user plan: real photo = PRIMARY bank source, render -> extra)
+  reference LOCAL       : window=0 gate_init=0.25 (v11 texture-band retrieval from PRIMARY (real-photo) source; activates the formerly-dead reference_local_scale)
+  real pass1 dual-band  : visible/mirror FULL-band x1.0 + blind LOW-band x0.0 (v12: target=FULL SHARP render, only low-freq error penalized; hole_weight=0.0 ignored when dual-band active; 0=off -> single-band v11 path)
+  loss synth_texture     : full (sigma=2.0 latent px; user plan: structure-only supervision, texture band = 0)
+  brushnet: init=pretrained lr=1e-05 8bit=True grad_ckpt=True
+  loss eps_weight       : 1.0
+  real pass1 FORWARD    : True (False = STRUCT arm: real batch trains pass2 only; inference unchanged)
+  real pass1 t-domain   : FULL [0,1000) | infer.t_start=0 (0=pure-noise chain; >0=SDEdit from the noised anchor)
+  loss real_p1 anchor   : visible=1.0 (target=inv_warp) hole=0 (target=y_hat_novel) mirror_anchor=True (hole real-photo coverage via inv_warp(x_mirror))
+  loss pixel (t<200)   : L1*0 PL*0 ID*0 x0_clip=3.0 res=256
+  loss latent closure   : *0 (orig L1195-1200)
+  loss lpips/gan/fm     : 0 / 0 / 0  (orig GAN/FM 10/100 -> default 0)
+  timestep range        : [0, 1000) FULL RANGE (no low-t clamp; v3.1 lesson)
+  smoke: check=True fix_timestep=None
+  path [OK ] sd            : ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  path [OK ] brushnet      : ./pretrained_models/brushnet
+  path [OK ] train         : ./data/FFHQ-EG3D_all_static_rebalanced
+  path [OK ] test          : ./data/celeba-hq_1000_static_rebalanced
+  path [OK ] synth         : ./data/SynthData100000_rebalanced
+  path [OK ] LaMa_PL       : ./pretrained_models/LaMa_perceptual_loss_models
+  path [OK ] gan_encoder   : ./pretrained_models/inversion/gan_encoder.pt
+==============================================================================
+[BrushNet] init: official pretrained inpainting checkpoint
+[W7] hole photo-stat D ACTIVE: weight=0.1 d_warmup=+2000 steps from first pair (orig real-batch novel branch, real=photo)
+[v18.3] InvSR x0 SUPERVISION ACTIVE: latent-space MSE+FM+adv on the single-step x0, t<=300, w=ldif:1.0/lfm:2.0/ldis:0.1
+[v18.3 InvSR] latent UNet-D 106,176,612 params | t_max=300 | w ldif:lfm:ldis = 1.0:2.0:0.1 | latent clamp ±10.0 | dis_warmup=3000 (their 10K/100K iters scaled to our 30K budget)
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/xzy/miniconda3/envs/warpgan/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=VGG16_Weights.IMAGENET1K_V1`. You can also use `weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+[v18.4] InvSR finetuned latent-LPIPS ACTIVE (w=2.0) <- ./weights/vgg16_sdturbo_lpips.pth
+[params] bank-retrieval adapters trainable: 37,183,696 | W+ QKV (s2) trainable: 0 | W+ mapper trainable: 1,967,616 | mirror: own K/V 24,780,800 + softmax competition (16 gauged layers) | RefNet DELETED (860M saved, bank=main-UNet self-read)
+[optim] 8-bit AdamW (bitsandbytes)
+Synth dataset: ./data/SynthData100000_rebalanced -> 100000 samples
+Real train dataset: ./data/FFHQ-EG3D_all_static_rebalanced -> 139914 samples
+Test dataset: ./data/celeba-hq_1000_static_rebalanced -> 1000 samples
+[resume] v19 discriminator + optimizer_d restored (use_gan_fm or invsr)
+[resume] step 80129 from /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/checkpoints/iteration_0080129.pt
+Start diffusion-port training (orig semantics, BrushNet+SD1.5).
+/home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/./training/coach_inpainting_diffusion.py:1854: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  metrics['p1_eps'] = float(loss_p1)
+[step 80150] real_p1_mirror_hole_cov=0.4415 real_holeD_hit=0.0000 real_p1_eps=0.0012 real_p1_hole_frac=0.1383 real_p2_eps=0.0696 real_p2_hit=0.0000 real_total=0.0708 synth_eps=0.0473 synth_eps_raw=0.0473 synth_x0_hit=0.0000 synth_total=0.0473
+[step 80200] real_p1_mirror_hole_cov=0.1777 real_holeD_hit=0.0000 real_p1_eps=0.0037 real_p1_hole_frac=0.5048 real_p2_eps=0.1139 real_p2_hit=0.0000 real_total=0.1176 synth_eps=0.0016 synth_eps_raw=0.0016 synth_x0_hit=0.0000 synth_total=0.0016
+[step 80250] real_p1_mirror_hole_cov=0.0093 real_holeD_hit=1.0000 real_holeD_t=159.0000 real_p1_eps=0.1355 real_p1_hole_frac=0.0413 real_p2_eps=0.0053 real_p2_hit=0.0000 real_total=0.1408 discr_adv=1.0141 holeD_d_real=-1.0070 holeD_d_fake=-1.0545 g_grad_abs=791.4469 d_grad_abs=413.0139 synth_eps=0.0387 synth_eps_raw=0.0387 synth_x0_hit=0.0000 synth_total=0.0387
+[step 80300] real_p1_mirror_hole_cov=0.0024 real_holeD_hit=0.0000 real_p1_eps=0.0150 real_p1_hole_frac=0.0378 real_p2_eps=0.0059 real_p2_hit=0.0000 real_total=0.0208 synth_eps=0.0858 synth_eps_raw=0.0858 synth_x0_hit=0.0000 synth_total=0.0858
+[step 80350] real_p1_mirror_hole_cov=0.0902 real_holeD_hit=1.0000 real_holeD_t=234.0000 real_p1_eps=0.1256 real_p1_hole_frac=0.3979 real_p2_eps=0.1777 real_p2_hit=1.0000 real_p2_t=249.0000 real_p2_ldif=0.0854 real_p2_gen_adv=-0.6856 real_p2_lfm=0.0059 real_total=0.3319 discr_adv=1.4123 holeD_d_real=0.2606 holeD_d_fake=-0.9194 p2_d_real=0.7123 p2_d_fake=0.6856 g_grad_abs=1548.0902 d_grad_abs=921.9759 synth_eps=0.0351 synth_eps_raw=0.0351 synth_x0_hit=0.0000 synth_total=0.0351
+[step 80400] real_p1_mirror_hole_cov=0.2566 real_holeD_hit=1.0000 real_holeD_t=181.0000 real_p1_eps=0.1820 real_p1_hole_frac=0.6150 real_p2_eps=0.5632 real_p2_hit=1.0000 real_p2_t=29.0000 real_p2_ldif=0.0158 real_p2_gen_adv=-0.9686 real_p2_lfm=0.0016 real_total=0.6673 discr_adv=1.2795 holeD_d_real=0.7521 holeD_d_fake=-0.7309 p2_d_real=0.9897 p2_d_fake=0.9686 g_grad_abs=1384.5452 d_grad_abs=1349.9831 synth_eps=0.0714 synth_eps_raw=0.0714 synth_x0_hit=0.0000 synth_total=0.0714
+[step 80450] real_p1_mirror_hole_cov=0.1922 real_holeD_hit=0.0000 real_p1_eps=0.0405 real_p1_hole_frac=0.4680 real_p2_eps=0.4000 real_p2_hit=1.0000 real_p2_t=84.0000 real_p2_ldif=0.0378 real_p2_gen_adv=-0.6979 real_p2_lfm=0.0039 real_total=0.4164 discr_adv=0.9700 p2_d_real=0.7590 p2_d_fake=0.6979 g_grad_abs=1045.4546 d_grad_abs=128.8966 synth_eps=0.0022 synth_eps_raw=0.0022 synth_x0_hit=0.0000 synth_total=0.0022
+[step 80500] real_p1_mirror_hole_cov=0.2905 real_holeD_hit=0.0000 real_p1_eps=0.0060 real_p1_hole_frac=0.2834 real_p2_eps=0.1848 real_p2_hit=1.0000 real_p2_t=244.0000 real_p2_ldif=0.0855 real_p2_gen_adv=-0.9992 real_p2_lfm=0.0056 real_total=0.1876 discr_adv=1.0156 p2_d_real=1.0163 p2_d_fake=0.9992 g_grad_abs=1105.3713 d_grad_abs=528.8032 synth_eps=0.0088 synth_eps_raw=0.0088 synth_x0_hit=0.0000 synth_total=0.0088
+[images] real: anchor | cond1 | cond2 | inv_warp_mirror | mask | mask_inv | warp_img | warp_warp_img | x | y_hat | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/real_step0080500.png
+[images] synth: cond | mask | target | warp_img | x | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/synth_step0080500.png
+[step 80550] real_p1_mirror_hole_cov=0.0238 real_holeD_hit=0.0000 real_p1_eps=0.0239 real_p1_hole_frac=0.2514 real_p2_eps=0.0249 real_p2_hit=0.0000 real_total=0.0488 synth_eps=0.1277 synth_eps_raw=0.1277 synth_x0_hit=0.0000 synth_total=0.1277
+[step 80600] real_p1_mirror_hole_cov=0.1245 real_holeD_hit=0.0000 real_p1_eps=0.0203 real_p1_hole_frac=0.5134 real_p2_eps=0.2766 real_p2_hit=1.0000 real_p2_t=99.0000 real_p2_ldif=0.0323 real_p2_gen_adv=0.0113 real_p2_lfm=0.0041 real_total=0.3386 discr_adv=0.9641 p2_d_real=0.0604 p2_d_fake=-0.0113 g_grad_abs=1707.0436 d_grad_abs=430.7691 synth_eps=0.1842 synth_eps_raw=0.1842 synth_x0_hit=1.0000 synth_x0_t=225.0000 synth_x0_ldif=0.0737 synth_x0_gen_adv=-0.9187 synth_x0_lfm=0.0064 synth_total=0.1788
+[step 80650] real_p1_mirror_hole_cov=0.1265 real_holeD_hit=0.0000 real_p1_eps=0.0018 real_p1_hole_frac=0.4274 real_p2_eps=0.0149 real_p2_hit=0.0000 real_total=0.0167 synth_eps=0.0737 synth_eps_raw=0.0737 synth_x0_hit=0.0000 synth_total=0.0737
+[step 80700] real_p1_mirror_hole_cov=0.4584 real_holeD_hit=1.0000 real_holeD_t=0.0000 real_p1_eps=0.8896 real_p1_hole_frac=0.1060 real_p2_eps=0.1432 real_p2_hit=1.0000 real_p2_t=149.0000 real_p2_ldif=0.0295 real_p2_gen_adv=-1.0611 real_p2_lfm=0.0029 real_total=0.9620 discr_adv=2.0901 x0_d_real=0.8945 x0_d_fake=0.8503 holeD_d_real=0.8839 holeD_d_fake=-1.1516 p2_d_real=1.0558 p2_d_fake=1.0611 g_grad_abs=1483.5993 d_grad_abs=432.9592 synth_eps=0.0468 synth_eps_raw=0.0468 synth_x0_hit=0.0000 synth_total=0.0468
+[step 80750] real_p1_mirror_hole_cov=0.0080 real_holeD_hit=0.0000 real_p1_eps=0.0723 real_p1_hole_frac=0.2618 real_p2_eps=0.0077 real_p2_hit=0.0000 real_total=0.0799 synth_eps=0.0748 synth_eps_raw=0.0748 synth_x0_hit=0.0000 synth_total=0.0748
+[step 80800] real_p1_mirror_hole_cov=0.0061 real_holeD_hit=0.0000 real_p1_eps=0.0094 real_p1_hole_frac=0.2104 real_p2_eps=0.3477 real_p2_hit=1.0000 real_p2_t=48.0000 real_p2_ldif=0.0169 real_p2_gen_adv=-1.0430 real_p2_lfm=0.0014 real_total=0.2725 discr_adv=2.0520 x0_d_real=1.0003 x0_d_fake=0.9697 p2_d_real=1.0516 p2_d_fake=1.0430 g_grad_abs=1059.8303 d_grad_abs=636.8257 synth_eps=0.0024 synth_eps_raw=0.0024 synth_x0_hit=0.0000 synth_total=0.0024
+[step 80850] real_p1_mirror_hole_cov=0.0425 real_holeD_hit=0.0000 real_p1_eps=0.0025 real_p1_hole_frac=0.3969 real_p2_eps=0.4818 real_p2_hit=1.0000 real_p2_t=66.0000 real_p2_ldif=0.0339 real_p2_gen_adv=-0.8614 real_p2_lfm=0.0025 real_total=0.4371 discr_adv=0.9863 p2_d_real=0.8890 p2_d_fake=0.8614 g_grad_abs=1180.9987 d_grad_abs=58.6717 synth_eps=0.3018 synth_eps_raw=0.3018 synth_x0_hit=1.0000 synth_x0_t=153.0000 synth_x0_ldif=0.0647 synth_x0_gen_adv=-0.7319 synth_x0_lfm=0.0058 synth_total=0.3049
+[step 80900] real_p1_mirror_hole_cov=0.0185 real_holeD_hit=0.0000 real_p1_eps=0.0296 real_p1_hole_frac=0.2885 real_p2_eps=0.0682 real_p2_hit=0.0000 real_total=0.0978 discr_adv=0.9701 x0_d_real=0.9009 x0_d_fake=0.8386 g_grad_abs=621.2016 d_grad_abs=148.1103 synth_eps=0.0774 synth_eps_raw=0.0774 synth_x0_hit=0.0000 synth_total=0.0774
+[step 80950] real_p1_mirror_hole_cov=0.0274 real_holeD_hit=1.0000 real_holeD_t=64.0000 real_p1_eps=0.2120 real_p1_hole_frac=0.2160 real_p2_eps=0.0019 real_p2_hit=0.0000 real_total=0.2139 discr_adv=0.0593 holeD_d_real=0.9057 holeD_d_fake=-1.1117 g_grad_abs=975.5069 d_grad_abs=623.0756 synth_eps=0.2874 synth_eps_raw=0.2874 synth_x0_hit=1.0000 synth_x0_t=147.0000 synth_x0_ldif=0.0581 synth_x0_gen_adv=-0.5622 synth_x0_lfm=0.0053 synth_total=0.2997
+[step 81000] real_p1_mirror_hole_cov=0.0081 real_holeD_hit=1.0000 real_holeD_t=116.0000 real_p1_eps=0.1760 real_p1_hole_frac=0.1184 real_p2_eps=0.0084 real_p2_hit=0.0000 real_total=0.1845 discr_adv=0.0282 holeD_d_real=0.9707 holeD_d_fake=-1.2821 g_grad_abs=909.2540 d_grad_abs=334.9288 synth_eps=0.0157 synth_eps_raw=0.0157 synth_x0_hit=0.0000 synth_total=0.0157
+[images] real: anchor | cond1 | cond2 | inv_warp_mirror | mask | mask_inv | warp_img | warp_warp_img | x | y_hat | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/real_step0081000.png
+[images] synth: cond | mask | target | warp_img | x | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/synth_step0081000.png
+[step 81050] real_p1_mirror_hole_cov=0.0069 real_holeD_hit=1.0000 real_holeD_t=79.0000 real_p1_eps=0.1764 real_p1_hole_frac=0.0842 real_p2_eps=0.0030 real_p2_hit=0.0000 real_total=0.1794 discr_adv=1.0558 x0_d_real=1.0121 x0_d_fake=0.9718 holeD_d_real=0.8969 holeD_d_fake=-1.2356 g_grad_abs=810.0851 d_grad_abs=596.0395 synth_eps=0.0516 synth_eps_raw=0.0516 synth_x0_hit=0.0000 synth_total=0.0516
+[step 81100] real_p1_mirror_hole_cov=0.3060 real_holeD_hit=0.0000 real_p1_eps=0.0010 real_p1_hole_frac=0.4858 real_p2_eps=0.0208 real_p2_hit=0.0000 real_total=0.0218 synth_eps=0.0100 synth_eps_raw=0.0100 synth_x0_hit=0.0000 synth_total=0.0100
+[step 81150] real_p1_mirror_hole_cov=0.1415 real_holeD_hit=0.0000 real_p1_eps=0.0819 real_p1_hole_frac=0.1826 real_p2_eps=0.0088 real_p2_hit=0.0000 real_total=0.0908 discr_adv=0.9513 x0_d_real=0.9193 x0_d_fake=0.8213 g_grad_abs=623.1575 d_grad_abs=329.5576 synth_eps=0.0374 synth_eps_raw=0.0374 synth_x0_hit=0.0000 synth_total=0.0374
+[step 81200] real_p1_mirror_hole_cov=0.0296 real_holeD_hit=0.0000 real_p1_eps=0.0138 real_p1_hole_frac=0.1062 real_p2_eps=0.0086 real_p2_hit=0.0000 real_total=0.0224 synth_eps=0.0145 synth_eps_raw=0.0145 synth_x0_hit=0.0000 synth_total=0.0145
+[step 81250] real_p1_mirror_hole_cov=0.0053 real_holeD_hit=0.0000 real_p1_eps=0.0011 real_p1_hole_frac=0.2701 real_p2_eps=0.0024 real_p2_hit=0.0000 real_total=0.0035 discr_adv=0.9504 x0_d_real=0.9759 x0_d_fake=0.8671 g_grad_abs=99.0297 d_grad_abs=593.4101 synth_eps=0.0290 synth_eps_raw=0.0290 synth_x0_hit=0.0000 synth_total=0.0290
+[step 81300] real_p1_mirror_hole_cov=0.1758 real_holeD_hit=1.0000 real_holeD_t=87.0000 real_p1_eps=0.3069 real_p1_hole_frac=0.4721 real_p2_eps=0.0583 real_p2_hit=0.0000 real_total=0.3652 discr_adv=0.0317 holeD_d_real=0.9665 holeD_d_fake=-1.2561 g_grad_abs=1155.6650 d_grad_abs=380.2726 synth_eps=0.0080 synth_eps_raw=0.0080 synth_x0_hit=0.0000 synth_total=0.0080
+[step 81350] real_p1_mirror_hole_cov=0.0946 real_holeD_hit=1.0000 real_holeD_t=292.0000 real_p1_eps=0.0706 real_p1_hole_frac=0.3347 real_p2_eps=0.3143 real_p2_hit=1.0000 real_p2_t=78.0000 real_p2_ldif=0.0271 real_p2_gen_adv=-0.8539 real_p2_lfm=0.0018 real_total=0.3302 discr_adv=0.9995 holeD_d_real=0.9909 holeD_d_fake=-1.1392 p2_d_real=0.8889 p2_d_fake=0.8539 g_grad_abs=1201.3054 d_grad_abs=299.0910 synth_eps=0.0062 synth_eps_raw=0.0062 synth_x0_hit=0.0000 synth_total=0.0062
+[step 81400] real_p1_mirror_hole_cov=0.4709 real_holeD_hit=1.0000 real_holeD_t=211.0000 real_p1_eps=0.1563 real_p1_hole_frac=0.3116 real_p2_eps=0.0362 real_p2_hit=0.0000 real_total=0.1925 discr_adv=0.0754 holeD_d_real=0.8593 holeD_d_fake=-1.1217 g_grad_abs=907.8820 d_grad_abs=503.6817 synth_eps=0.0132 synth_eps_raw=0.0132 synth_x0_hit=0.0000 synth_total=0.0132
+[step 81450] real_p1_mirror_hole_cov=0.3223 real_holeD_hit=0.0000 real_p1_eps=0.0060 real_p1_hole_frac=0.0366 real_p2_eps=0.0254 real_p2_hit=0.0000 real_total=0.0315 discr_adv=0.9847 x0_d_real=0.9710 x0_d_fake=0.9281 g_grad_abs=276.8267 d_grad_abs=240.6329 synth_eps=0.0704 synth_eps_raw=0.0704 synth_x0_hit=0.0000 synth_total=0.0704
+[step 81500] real_p1_mirror_hole_cov=0.1197 real_holeD_hit=0.0000 real_p1_eps=0.0767 real_p1_hole_frac=0.3610 real_p2_eps=0.2510 real_p2_hit=1.0000 real_p2_t=128.0000 real_p2_ldif=0.0415 real_p2_gen_adv=-0.8341 real_p2_lfm=0.0037 real_total=0.2933 discr_adv=1.9569 x0_d_real=0.8380 x0_d_fake=0.8106 p2_d_real=0.8938 p2_d_fake=0.8341 g_grad_abs=1194.1456 d_grad_abs=257.9837 synth_eps=0.0565 synth_eps_raw=0.0565 synth_x0_hit=0.0000 synth_total=0.0565
+[images] real: anchor | cond1 | cond2 | inv_warp_mirror | mask | mask_inv | warp_img | warp_warp_img | x | y_hat | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/real_step0081500.png
+[images] synth: cond | mask | target | warp_img | x | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/synth_step0081500.png
+[step 81550] real_p1_mirror_hole_cov=0.0371 real_holeD_hit=1.0000 real_holeD_t=20.0000 real_p1_eps=0.4271 real_p1_hole_frac=0.0687 real_p2_eps=0.0052 real_p2_hit=0.0000 real_total=0.4323 discr_adv=0.2040 holeD_d_real=0.6084 holeD_d_fake=-1.0797 g_grad_abs=1316.2935 d_grad_abs=2639.4100 synth_eps=0.0164 synth_eps_raw=0.0164 synth_x0_hit=0.0000 synth_total=0.0164
+[step 81600] real_p1_mirror_hole_cov=0.1681 real_holeD_hit=0.0000 real_p1_eps=0.0047 real_p1_hole_frac=0.3866 real_p2_eps=0.0087 real_p2_hit=0.0000 real_total=0.0133 synth_eps=0.0052 synth_eps_raw=0.0052 synth_x0_hit=0.0000 synth_total=0.0052
+[step 81650] real_p1_mirror_hole_cov=0.1260 real_holeD_hit=0.0000 real_p1_eps=0.0149 real_p1_hole_frac=0.3109 real_p2_eps=0.1077 real_p2_hit=0.0000 real_total=0.1226 synth_eps=0.0325 synth_eps_raw=0.0325 synth_x0_hit=0.0000 synth_total=0.0325
+[step 81700] real_p1_mirror_hole_cov=0.0782 real_holeD_hit=0.0000 real_p1_eps=0.0576 real_p1_hole_frac=0.1681 real_p2_eps=0.1241 real_p2_hit=1.0000 real_p2_t=246.0000 real_p2_ldif=0.0583 real_p2_gen_adv=-0.7515 real_p2_lfm=0.0046 real_total=0.1741 discr_adv=0.9887 p2_d_real=0.7742 p2_d_fake=0.7515 g_grad_abs=1106.9581 d_grad_abs=82.4547 synth_eps=0.2540 synth_eps_raw=0.2540 synth_x0_hit=1.0000 synth_x0_t=159.0000 synth_x0_ldif=0.0577 synth_x0_gen_adv=-0.8323 synth_x0_lfm=0.0044 synth_total=0.2373
+[step 81750] real_p1_mirror_hole_cov=0.2036 real_holeD_hit=0.0000 real_p1_eps=0.0573 real_p1_hole_frac=0.2849 real_p2_eps=0.2163 real_p2_hit=1.0000 real_p2_t=242.0000 real_p2_ldif=0.0986 real_p2_gen_adv=-0.8272 real_p2_lfm=0.0072 real_total=0.3040 discr_adv=0.9844 p2_d_real=0.8585 p2_d_fake=0.8272 g_grad_abs=1462.5409 d_grad_abs=90.1311 synth_eps=0.0257 synth_eps_raw=0.0257 synth_x0_hit=0.0000 synth_total=0.0257
+[step 81800] real_p1_mirror_hole_cov=0.4089 real_holeD_hit=0.0000 real_p1_eps=0.0015 real_p1_hole_frac=0.2296 real_p2_eps=0.2435 real_p2_hit=1.0000 real_p2_t=139.0000 real_p2_ldif=0.0453 real_p2_gen_adv=-0.8830 real_p2_lfm=0.0047 real_total=0.2114 discr_adv=0.9774 p2_d_real=0.9283 p2_d_fake=0.8830 g_grad_abs=923.8485 d_grad_abs=136.5125 synth_eps=0.0190 synth_eps_raw=0.0190 synth_x0_hit=0.0000 synth_total=0.0190
+[step 81850] real_p1_mirror_hole_cov=0.0155 real_holeD_hit=0.0000 real_p1_eps=0.0295 real_p1_hole_frac=0.3015 real_p2_eps=0.0036 real_p2_hit=0.0000 real_total=0.0332 discr_adv=1.0074 x0_d_real=1.0238 x0_d_fake=0.9987 g_grad_abs=338.1943 d_grad_abs=323.3467 synth_eps=0.1016 synth_eps_raw=0.1016 synth_x0_hit=0.0000 synth_total=0.1016
+[step 81900] real_p1_mirror_hole_cov=0.0549 real_holeD_hit=0.0000 real_p1_eps=0.0030 real_p1_hole_frac=0.2371 real_p2_eps=0.0199 real_p2_hit=0.0000 real_total=0.0229 synth_eps=0.0056 synth_eps_raw=0.0056 synth_x0_hit=0.0000 synth_total=0.0056
+[step 81950] real_p1_mirror_hole_cov=0.2489 real_holeD_hit=0.0000 real_p1_eps=0.0241 real_p1_hole_frac=0.2799 real_p2_eps=0.0008 real_p2_hit=0.0000 real_total=0.0249 synth_eps=0.0866 synth_eps_raw=0.0866 synth_x0_hit=0.0000 synth_total=0.0866
+[val step 81999] val_novel_full=0.0360 val_novel_hole=0.0464 val_novel_visible=0.0334
+[step 82000] real_p1_mirror_hole_cov=0.0262 real_holeD_hit=1.0000 real_holeD_t=69.0000 real_p1_eps=0.3063 real_p1_hole_frac=0.5168 real_p2_eps=0.0922 real_p2_hit=0.0000 real_total=0.3985 discr_adv=0.0092 holeD_d_real=1.0123 holeD_d_fake=-1.2343 g_grad_abs=1424.2835 d_grad_abs=145.8130 synth_eps=0.0096 synth_eps_raw=0.0096 synth_x0_hit=0.0000 synth_total=0.0096 extra_render_attn_share=0.5532
+[images] real: anchor | cond1 | cond2 | inv_warp_mirror | mask | mask_inv | warp_img | warp_warp_img | x | y_hat | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/real_step0082000.png
+[images] synth: cond | mask | target | warp_img | x | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/synth_step0082000.png
+[step 82050] real_p1_mirror_hole_cov=0.0559 real_holeD_hit=0.0000 real_p1_eps=0.0538 real_p1_hole_frac=0.3855 real_p2_eps=0.1611 real_p2_hit=1.0000 real_p2_t=289.0000 real_p2_ldif=0.1035 real_p2_gen_adv=-0.7323 real_p2_lfm=0.0040 real_total=0.2531 discr_adv=0.9346 p2_d_real=0.8631 p2_d_fake=0.7323 g_grad_abs=1377.6612 d_grad_abs=385.0550 synth_eps=0.0060 synth_eps_raw=0.0060 synth_x0_hit=0.0000 synth_total=0.0060 extra_render_attn_share=0.5532
+[step 82100] real_p1_mirror_hole_cov=0.3606 real_holeD_hit=0.0000 real_p1_eps=0.0206 real_p1_hole_frac=0.0232 real_p2_eps=0.1626 real_p2_hit=1.0000 real_p2_t=75.0000 real_p2_ldif=0.0134 real_p2_gen_adv=-0.8912 real_p2_lfm=0.0020 real_total=0.1114 discr_adv=0.9955 p2_d_real=0.9002 p2_d_fake=0.8912 g_grad_abs=862.0976 d_grad_abs=28.0887 synth_eps=0.0166 synth_eps_raw=0.0166 synth_x0_hit=0.0000 synth_total=0.0166 extra_render_attn_share=0.5532
+[step 82150] real_p1_mirror_hole_cov=0.0476 real_holeD_gen_adv=-0.8211 real_holeD_hit=1.0000 real_holeD_t=49.0000 real_p1_eps=0.2800 real_p1_hole_frac=0.2108 real_p2_eps=0.0811 real_p2_hit=0.0000 real_total=0.3611 discr_adv=0.9202 holeD_d_real=1.0041 holeD_d_fake=0.8211 g_grad_abs=1865.9068 d_grad_abs=2426.2068 synth_eps=0.0018 synth_eps_raw=0.0018 synth_x0_hit=0.0000 synth_total=0.0018 extra_render_attn_share=0.5532
+[step 82200] real_p1_mirror_hole_cov=0.0126 real_holeD_hit=0.0000 real_p1_eps=0.0009 real_p1_hole_frac=0.1313 real_p2_eps=0.0084 real_p2_hit=0.0000 real_total=0.0092 synth_eps=0.1045 synth_eps_raw=0.1045 synth_x0_hit=0.0000 synth_total=0.1045 extra_render_attn_share=0.5532
+[step 82250] real_p1_mirror_hole_cov=0.1446 real_holeD_hit=0.0000 real_p1_eps=0.0165 real_p1_hole_frac=0.3046 real_p2_eps=0.0508 real_p2_hit=0.0000 real_total=0.0672 synth_eps=0.0050 synth_eps_raw=0.0050 synth_x0_hit=0.0000 synth_total=0.0050 extra_render_attn_share=0.5532
+[step 82300] real_p1_mirror_hole_cov=0.0052 real_holeD_gen_adv=1.2013 real_holeD_hit=1.0000 real_holeD_t=99.0000 real_p1_eps=0.3212 real_p1_hole_frac=0.2062 real_p2_eps=0.0044 real_p2_hit=0.0000 real_total=0.3257 discr_adv=0.0233 holeD_d_real=0.9606 holeD_d_fake=-1.2013 g_grad_abs=917.6067 d_grad_abs=290.5500 synth_eps=0.0139 synth_eps_raw=0.0139 synth_x0_hit=0.0000 synth_total=0.0139 extra_render_attn_share=0.5532
+[step 82350] real_p1_mirror_hole_cov=0.0657 real_holeD_hit=0.0000 real_p1_eps=0.0021 real_p1_hole_frac=0.2028 real_p2_eps=0.1627 real_p2_hit=1.0000 real_p2_t=234.0000 real_p2_ldif=0.0698 real_p2_gen_adv=-0.9513 real_p2_lfm=0.0041 real_total=0.1476 discr_adv=0.9917 p2_d_real=0.9849 p2_d_fake=0.9513 g_grad_abs=1212.5535 d_grad_abs=273.1033 synth_eps=0.1405 synth_eps_raw=0.1405 synth_x0_hit=0.0000 synth_total=0.1405 extra_render_attn_share=0.5532
+[step 82400] real_p1_mirror_hole_cov=0.0415 real_holeD_hit=0.0000 real_p1_eps=0.0847 real_p1_hole_frac=0.4450 real_p2_eps=0.0354 real_p2_hit=0.0000 real_total=0.1201 discr_adv=0.9644 x0_d_real=0.4796 x0_d_fake=0.4084 g_grad_abs=841.0616 d_grad_abs=285.5947 synth_eps=0.2282 synth_eps_raw=0.2282 synth_x0_hit=1.0000 synth_x0_t=214.0000 synth_x0_ldif=0.0836 synth_x0_gen_adv=-0.4043 synth_x0_lfm=0.0065 synth_total=0.2844 extra_render_attn_share=0.5532
+[step 82450] real_p1_mirror_hole_cov=0.0000 real_holeD_hit=0.0000 real_p1_eps=0.0483 real_p1_hole_frac=0.0698 real_p2_eps=0.3106 real_p2_hit=1.0000 real_p2_t=50.0000 real_p2_ldif=0.0158 real_p2_gen_adv=-0.9621 real_p2_lfm=0.0019 real_total=0.2822 discr_adv=1.9530 x0_d_real=0.9263 x0_d_fake=0.8386 p2_d_real=0.9728 p2_d_fake=0.9621 g_grad_abs=1332.6578 d_grad_abs=406.4826 synth_eps=0.0481 synth_eps_raw=0.0481 synth_x0_hit=0.0000 synth_total=0.0481 extra_render_attn_share=0.5532
+[step 82500] real_p1_mirror_hole_cov=0.0518 real_holeD_hit=0.0000 real_p1_eps=0.0589 real_p1_hole_frac=0.4335 real_p2_eps=0.1506 real_p2_hit=1.0000 real_p2_t=264.0000 real_p2_ldif=0.0808 real_p2_gen_adv=-0.6035 real_p2_lfm=0.0063 real_total=0.2426 discr_adv=0.9568 p2_d_real=0.6900 p2_d_fake=0.6035 g_grad_abs=1437.7962 d_grad_abs=167.9021 synth_eps=0.0042 synth_eps_raw=0.0042 synth_x0_hit=0.0000 synth_total=0.0042 extra_render_attn_share=0.5532
+[images] real: anchor | cond1 | cond2 | inv_warp_mirror | mask | mask_inv | warp_img | warp_warp_img | x | y_hat | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/real_step0082500.png
+[images] synth: cond | mask | target | warp_img | x | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/synth_step0082500.png
+[step 82550] real_p1_mirror_hole_cov=0.1347 real_holeD_hit=0.0000 real_p1_eps=0.0008 real_p1_hole_frac=0.1836 real_p2_eps=0.2864 real_p2_hit=1.0000 real_p2_t=55.0000 real_p2_ldif=0.0163 real_p2_gen_adv=-0.9524 real_p2_lfm=0.0021 real_total=0.2124 discr_adv=1.9439 x0_d_real=0.6808 x0_d_fake=0.5842 p2_d_real=0.9716 p2_d_fake=0.9524 g_grad_abs=988.8480 d_grad_abs=241.6155 synth_eps=0.0628 synth_eps_raw=0.0628 synth_x0_hit=0.0000 synth_total=0.0628 extra_render_attn_share=0.5532
+[step 82600] real_p1_mirror_hole_cov=0.0357 real_holeD_hit=0.0000 real_p1_eps=0.0184 real_p1_hole_frac=0.4416 real_p2_eps=0.2614 real_p2_hit=1.0000 real_p2_t=138.0000 real_p2_ldif=0.0481 real_p2_gen_adv=-0.8199 real_p2_lfm=0.0033 real_total=0.2526 discr_adv=1.8852 x0_d_real=0.5345 x0_d_fake=0.3759 p2_d_real=0.8908 p2_d_fake=0.8199 g_grad_abs=1179.5620 d_grad_abs=429.3849 synth_eps=0.0078 synth_eps_raw=0.0078 synth_x0_hit=0.0000 synth_total=0.0078 extra_render_attn_share=0.5532
+[step 82650] real_p1_mirror_hole_cov=0.0818 real_holeD_gen_adv=1.1462 real_holeD_hit=1.0000 real_holeD_t=257.0000 real_p1_eps=0.2267 real_p1_hole_frac=0.4628 real_p2_eps=0.2897 real_p2_hit=1.0000 real_p2_t=143.0000 real_p2_ldif=0.0562 real_p2_gen_adv=-0.8800 real_p2_lfm=0.0025 real_total=0.4895 discr_adv=2.0589 x0_d_real=0.7962 x0_d_fake=0.6423 holeD_d_real=0.6483 holeD_d_fake=-1.1462 p2_d_real=0.9666 p2_d_fake=0.8800 g_grad_abs=1735.5473 d_grad_abs=1655.6127 synth_eps=0.2341 synth_eps_raw=0.2341 synth_x0_hit=1.0000 synth_x0_t=255.0000 synth_x0_ldif=0.1176 synth_x0_gen_adv=-0.6560 synth_x0_lfm=0.0067 synth_total=0.2995 extra_render_attn_share=0.5532
+[step 82700] real_p1_mirror_hole_cov=0.0738 real_holeD_gen_adv=0.9045 real_holeD_hit=1.0000 real_holeD_t=51.0000 real_p1_eps=0.3993 real_p1_hole_frac=0.2082 real_p2_eps=0.0133 real_p2_hit=0.0000 real_total=0.4126 discr_adv=1.0533 x0_d_real=1.0078 x0_d_fake=0.9788 holeD_d_real=1.0545 holeD_d_fake=-0.9045 g_grad_abs=1715.9233 d_grad_abs=1330.8235 synth_eps=0.0101 synth_eps_raw=0.0101 synth_x0_hit=0.0000 synth_total=0.0101 extra_render_attn_share=0.5532
+[step 82750] real_p1_mirror_hole_cov=0.0898 real_holeD_hit=0.0000 real_p1_eps=0.0382 real_p1_hole_frac=0.2382 real_p2_eps=0.4574 real_p2_hit=1.0000 real_p2_t=22.0000 real_p2_ldif=0.0096 real_p2_gen_adv=-0.8365 real_p2_lfm=0.0008 real_total=0.4233 discr_adv=0.9883 p2_d_real=0.8599 p2_d_fake=0.8365 g_grad_abs=1221.6110 d_grad_abs=74.9963 synth_eps=0.7494 synth_eps_raw=0.7494 synth_x0_hit=1.0000 synth_x0_t=7.0000 synth_x0_ldif=0.0052 synth_x0_gen_adv=-0.9408 synth_x0_lfm=0.0012 synth_total=0.6630 extra_render_attn_share=0.5532
+[step 82800] real_p1_mirror_hole_cov=0.1668 real_holeD_hit=0.0000 real_p1_eps=0.0199 real_p1_hole_frac=0.0459 real_p2_eps=0.1071 real_p2_hit=1.0000 real_p2_t=152.0000 real_p2_ldif=0.0227 real_p2_gen_adv=-0.9194 real_p2_lfm=0.0025 real_total=0.0627 discr_adv=1.9343 x0_d_real=0.9107 x0_d_fake=0.7852 p2_d_real=0.9254 p2_d_fake=0.9194 g_grad_abs=870.1286 d_grad_abs=415.4804 synth_eps=0.0334 synth_eps_raw=0.0334 synth_x0_hit=0.0000 synth_total=0.0334 extra_render_attn_share=0.5532
+[step 82850] real_p1_mirror_hole_cov=0.2287 real_holeD_gen_adv=0.9223 real_holeD_hit=1.0000 real_holeD_t=154.0000 real_p1_eps=0.3303 real_p1_hole_frac=0.6032 real_p2_eps=0.0138 real_p2_hit=0.0000 real_total=0.3441 discr_adv=0.1951 holeD_d_real=0.7296 holeD_d_fake=-0.9223 g_grad_abs=1704.7189 d_grad_abs=1392.6750 synth_eps=0.0024 synth_eps_raw=0.0024 synth_x0_hit=0.0000 synth_total=0.0024 extra_render_attn_share=0.5532
+[step 82900] real_p1_mirror_hole_cov=0.2895 real_holeD_hit=0.0000 real_p1_eps=0.0054 real_p1_hole_frac=0.5603 real_p2_eps=0.0343 real_p2_hit=0.0000 real_total=0.0397 synth_eps=0.0617 synth_eps_raw=0.0617 synth_x0_hit=0.0000 synth_total=0.0617 extra_render_attn_share=0.5532
+[step 82950] real_p1_mirror_hole_cov=0.1736 real_holeD_gen_adv=-0.8313 real_holeD_hit=1.0000 real_holeD_t=159.0000 real_p1_eps=0.1677 real_p1_hole_frac=0.1728 real_p2_eps=0.0138 real_p2_hit=0.0000 real_total=0.1815 discr_adv=0.9312 holeD_d_real=1.0113 holeD_d_fake=0.8313 g_grad_abs=1449.5529 d_grad_abs=2045.9810 synth_eps=0.0146 synth_eps_raw=0.0146 synth_x0_hit=0.0000 synth_total=0.0146 extra_render_attn_share=0.5532
+[step 83000] real_p1_mirror_hole_cov=0.2851 real_holeD_hit=0.0000 real_p1_eps=0.0008 real_p1_hole_frac=0.6522 real_p2_eps=0.4830 real_p2_hit=1.0000 real_p2_t=47.0000 real_p2_ldif=0.0229 real_p2_gen_adv=-0.6387 real_p2_lfm=0.0031 real_total=0.4490 discr_adv=1.9063 x0_d_real=0.7729 x0_d_fake=0.6725 p2_d_real=0.7258 p2_d_fake=0.6387 g_grad_abs=844.7692 d_grad_abs=335.2829 synth_eps=0.0215 synth_eps_raw=0.0215 synth_x0_hit=0.0000 synth_total=0.0215 extra_render_attn_share=0.5532
+[images] real: anchor | cond1 | cond2 | inv_warp_mirror | mask | mask_inv | warp_img | warp_warp_img | x | y_hat | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/real_step0083000.png
+[images] synth: cond | mask | target | warp_img | x | y_hat_novel -> /home/xzy/warpgan-diffusiong-inpainting/warpgan-diffusion-inpainting-main/experiments/train_inpainting_diffusion/v19_w7_holed_300k/logs/images/train/synth_step0083000.png
+[step 83050] real_p1_mirror_hole_cov=0.0331 real_holeD_gen_adv=1.0580 real_holeD_hit=1.0000 real_holeD_t=48.0000 real_p1_eps=0.4800 real_p1_hole_frac=0.4417 real_p2_eps=0.0029 real_p2_hit=0.0000 real_total=0.4829 discr_adv=0.9861 x0_d_real=0.9798 x0_d_fake=0.9307 holeD_d_real=1.0623 holeD_d_fake=-1.0580 g_grad_abs=1494.0069 d_grad_abs=526.8522 synth_eps=0.0374 synth_eps_raw=0.0374 synth_x0_hit=0.0000 synth_total=0.0374 extra_render_attn_share=0.5532
+[step 83100] real_p1_mirror_hole_cov=0.0884 real_holeD_gen_adv=-0.9698 real_holeD_hit=1.0000 real_holeD_t=227.0000 real_p1_eps=-0.0123 real_p1_hole_frac=0.0261 real_p2_eps=0.0168 real_p2_hit=0.0000 real_total=0.0044 discr_adv=0.9953 holeD_d_real=0.9882 holeD_d_fake=0.9698 g_grad_abs=863.6300 d_grad_abs=645.7091 synth_eps=0.0036 synth_eps_raw=0.0036 synth_x0_hit=0.0000 synth_total=0.0036 extra_render_attn_share=0.5532
+[step 83150] real_p1_mirror_hole_cov=0.0050 real_holeD_gen_adv=0.2074 real_holeD_hit=1.0000 real_holeD_t=264.0000 real_p1_eps=0.1290 real_p1_hole_frac=0.2215 real_p2_eps=0.2078 real_p2_hit=1.0000 real_p2_t=167.0000 real_p2_ldif=0.0508 real_p2_gen_adv=-1.0375 real_p2_lfm=0.0020 real_total=0.2878 discr_adv=1.4355 holeD_d_real=0.9850 holeD_d_fake=-0.2074 p2_d_real=1.0521 p2_d_fake=1.0375 g_grad_abs=20540.4152 d_grad_abs=8056.0495 synth_eps=0.0313 synth_eps_raw=0.0313 synth_x0_hit=0.0000 synth_total=0.0313 extra_render_attn_share=0.5532
+[step 83200] real_p1_mirror_hole_cov=0.1133 real_holeD_gen_adv=-0.6153 real_holeD_hit=1.0000 real_holeD_t=195.0000 real_p1_eps=0.0633 real_p1_hole_frac=0.0370 real_p2_eps=0.0065 real_p2_hit=0.0000 real_total=0.0698 discr_adv=2.8955 x0_d_real=0.8576 x0_d_fake=0.8214 holeD_d_real=-1.2119 holeD_d_fake=0.6153 g_grad_abs=3684.8071 d_grad_abs=3408.0823 synth_eps=0.5976 synth_eps_raw=0.5976 synth_x0_hit=1.0000 synth_x0_t=17.0000 synth_x0_ldif=0.0097 synth_x0_gen_adv=-0.7667 synth_x0_lfm=0.0014 synth_total=0.5334 extra_render_attn_share=0.5532
+[step 83250] real_p1_mirror_hole_cov=0.2642 real_holeD_hit=0.0000 real_p1_eps=0.0038 real_p1_hole_frac=0.4053 real_p2_eps=0.0756 real_p2_hit=0.0000 real_total=0.0794 synth_eps=0.2283 synth_eps_raw=0.2283 synth_x0_hit=1.0000 synth_x0_t=243.0000 synth_x0_ldif=0.1049 synth_x0_gen_adv=-0.7483 synth_x0_lfm=0.0069 synth_total=0.2720 extra_render_attn_share=0.5532
+[step 83300] real_p1_mirror_hole_cov=0.1068 real_holeD_hit=0.0000 real_p1_eps=0.0031 real_p1_hole_frac=0.1398 real_p2_eps=0.3411 real_p2_hit=1.0000 real_p2_t=35.0000 real_p2_ldif=0.0117 real_p2_gen_adv=-0.1867 real_p2_lfm=0.0018 real_total=0.3407 discr_adv=1.0216 p2_d_real=0.1436 p2_d_fake=0.1867 g_grad_abs=2495.7908 d_grad_abs=491.8379 synth_eps=0.1703 synth_eps_raw=0.1703 synth_x0_hit=1.0000 synth_x0_t=263.0000 synth_x0_ldif=0.0907 synth_x0_gen_adv=-0.6979 synth_x0_lfm=0.0065 synth_total=0.2043 extra_render_attn_share=0.5532
+[step 83350] real_p1_mirror_hole_cov=0.0592 real_holeD_gen_adv=-1.0091 real_holeD_hit=1.0000 real_holeD_t=147.0000 real_p1_eps=0.1161 real_p1_hole_frac=0.1683 real_p2_eps=0.0416 real_p2_hit=0.0000 real_total=0.1577 discr_adv=1.0108 holeD_d_real=1.0073 holeD_d_fake=1.0091 g_grad_abs=2129.7351 d_grad_abs=200.3433 synth_eps=0.0133 synth_eps_raw=0.0133 synth_x0_hit=0.0000 synth_total=0.0133 extra_render_attn_share=0.5532
+[step 83400] real_p1_mirror_hole_cov=0.0897 real_holeD_hit=0.0000 real_p1_eps=0.0270 real_p1_hole_frac=0.2752 real_p2_eps=0.0009 real_p2_hit=0.0000 real_total=0.0279 discr_adv=1.0646 x0_d_real=0.2819 x0_d_fake=0.4110 g_grad_abs=2271.7994 d_grad_abs=572.4370 synth_eps=0.0053 synth_eps_raw=0.0053 synth_x0_hit=0.0000 synth_total=0.0053 extra_render_attn_share=0.5532
