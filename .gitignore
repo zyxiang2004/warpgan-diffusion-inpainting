@@ -180,7 +180,3 @@ experiments/**
 #    NOTE: `dir/**` (not `dir/`) so the negation below can re-include.
 user_calibration_*/**
 !user_calibration_20260918/MANIFEST.md
-
-# --- local-machine additions (2026-09-18 sync from full bundle) ---
-BUNDLE_INFO_*.txt
-new/

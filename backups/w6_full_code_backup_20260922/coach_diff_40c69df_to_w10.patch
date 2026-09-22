@@ -1,0 +1,445 @@
+diff --git a/warpgan-diffusion-inpainting-main/training/coach_inpainting_diffusion.py b/warpgan-diffusion-inpainting-main/training/coach_inpainting_diffusion.py
+index e96b718..c7bb4f2 100644
+--- a/warpgan-diffusion-inpainting-main/training/coach_inpainting_diffusion.py
++++ b/warpgan-diffusion-inpainting-main/training/coach_inpainting_diffusion.py
+@@ -235,6 +235,18 @@ class Coach:
+         # inverse-warp coverage gaps / sub-pixel misalignment). 0 = off.
+         self.anchor_median = int(getattr(
+             getattr(opts.losses, 'real_pass1', None), 'anchor_median', 0) or 0)
++        # W10 (2026-09-22, §7.30 fix): anchor cleaning mode.
++        #   'whole'         = v18.7 legacy whole-image median — TEACHES GLOBAL
++        #                     SMOOTHING incl. the visible region (the measured
++        #                     tug-of-war root: full-frame eps-MSE vs copy contract).
++        #   'selective_hole' = visible region UNTOUCHED (copy contract restored),
++        #                     hole region impulse-selective median (isolated
++        #                     outliers replaced by median; organized texture kept).
++        self.anchor_clean = str(getattr(
++            getattr(opts.losses, 'real_pass1', None), 'anchor_clean', 'whole') or 'whole')
++        self.anchor_despeckle_tau = float(getattr(
++            getattr(opts.losses, 'real_pass1', None), 'anchor_despeckle_tau', 0.07)
++            or 0.07)
+         # v18.8 (W5): AnyDoor-style high-frequency conditioning channel.
+         # Sobel edge-weighted image of the texture reference (mirror photo),
+         # warped to the target view, concatenated into BrushNet conditioning
+@@ -439,6 +451,34 @@ class Coach:
+         self.x0_w_ldis = float(_x0.w_ldis) if _x0 is not None and 'w_ldis' in _x0 else 0.1
+         self.x0_dis_warmup = int(_x0.dis_warmup) if _x0 is not None and 'dis_warmup' in _x0 else 3000
+         self.x0_latent_bound = float(_x0.latent_bound) if _x0 is not None and 'latent_bound' in _x0 else 10.0
++        # W7 (2026-09-18): pass1 hole photo-statistics D pair (orig real-batch
++        # novel branch, static coach L415-420). See yaml losses.x0.hole_d.
++        _hole_d = _x0.get('hole_d', None) if _x0 is not None else None
++        self.hole_d_enable = bool(_hole_d.get('enable', False)) if _hole_d is not None else False
++        self.hole_d_weight = float(_hole_d.get('weight', 0.1)) if _hole_d is not None else 0.1
++        self.hole_d_warmup = int(_hole_d.get('warmup', 2000)) if _hole_d is not None else 2000
++        self._hole_d_start = None      # set at the FIRST queued hole pair
++        if self.hole_d_enable:
++            print(f'[W7] hole photo-stat D ACTIVE: weight={self.hole_d_weight} '
++                  f'd_warmup=+{self.hole_d_warmup} steps from first pair '
++                  f'(orig real-batch novel branch, real=photo)')
++        # W8 (2026-09-19): pass1 PIXEL D — the orig third layer itself. See
++        # yaml losses.x0.pixel_d and PROJECT_STATUS §7.20 (3 deviations).
++        _pd = _x0.get('pixel_d', None) if _x0 is not None else None
++        self.pixel_d_enable = bool(_pd.get('enable', False)) if _pd is not None else False
++        self.pixel_d_warmup = int(_pd.get('warmup', 1000)) if _pd is not None else 1000
++        if self.pixel_d_enable:
++            assert self.use_gan_fm, ('losses.x0.pixel_d.enable=True needs '
++                                     'losses.adversarial.weight>0 or '
++                                     'losses.feature_matching.weight>0')
++            print(f'[W8] pass1 PIXEL D ACTIVE (orig third layer): '
++                  f'adv x{self.adv_weight} fm x{self.fm_weight} '
++                  f'warmup=+{self.pixel_d_warmup} from first pair')
++        # v19.2/W9 (2026-09-20): EMA — see the activation block AFTER
++        # self.optimizer is built (L~577); options parsed here for the
++        # print only.
++        _ema = self.opts.get('ema', None)
++        self.ema_rate = float(_ema.rate) if _ema is not None and 'rate' in _ema else 0.0
+         # v18.4: InvSR's finetuned latent-LPIPS (their MAIN loss term). Replaces
+         # the FM substitute once the weight file is downloaded. Built lazily in
+         # __init__ (see the discriminator block below) — frozen metric net.
+@@ -467,24 +507,30 @@ class Coach:
+             from omegaconf import OmegaConf as _OC
+             disc_cfg = _OC.to_container(self.opts.losses.discriminator)
+             disc_cfg.pop('kind', None)
+-            self.discriminator = make_discriminator(
++            # W8 (2026-09-19): the v14 NLayer D is now a SEPARATE pixel-space
++            # discriminator — it previously lived in self.discriminator and was
++            # SILENTLY OVERWRITTEN by the InvSR UNet-D below when both modes
++            # were on (blocker bug, §7.20 #1). Renamed attrs:
++            #   pixel_discriminator / pixel_optimizer_d / _pixel_disc_queue
++            self.pixel_discriminator = make_discriminator(
+                 self.opts.losses.discriminator.kind, **disc_cfg).to(self.device)
+-            self.discriminator.train()
++            self.pixel_discriminator.train()
+             adv_cfg = _OC.to_container(self.opts.losses.adversarial)
+             adv_cfg.pop('kind', None)
+             self.adversarial_loss = make_discrim_loss(
+                 self.opts.losses.adversarial.kind, **adv_cfg)
+-            self.optimizer_d = torch.optim.Adam(
+-                self.discriminator.parameters(),
++            self.pixel_optimizer_d = torch.optim.Adam(
++                self.pixel_discriminator.parameters(),
+                 lr=float(self.opts.losses.optimizers.discriminator.lr))
+-            self._disc_queue = []   # detached (fake, real) pairs queued at G time
+-            n_d = sum(p.numel() for p in self.discriminator.parameters())
+-            print(f'[v14] GAN/FM ACTIVE: NLayer D params={n_d:,} | '
++            self._pixel_disc_queue = []   # detached (tag, fake, real) pairs
++            self._pixel_d_start = None    # set at the FIRST queued pixel pair
++            n_d = sum(p.numel() for p in self.pixel_discriminator.parameters())
++            print(f'[v14/W8] PIXEL GAN/FM: NLayer D params={n_d:,} | '
+                   f'fm_weight={self.fm_weight} (orig 100) | '
+-                  f'g_adv_weight={self.adv_weight} (orig 10; 0=FM-first) | '
++                  f'g_adv_weight={self.adv_weight} (orig 10) | '
+                   f'r1 gp_coef={self.opts.losses.adversarial.gp_coef}')
+         else:
+-            self.discriminator = None
++            self.pixel_discriminator = None
+ 
+         # v18.3 InvSR mode: latent UNet discriminator (timestep-conditioned,
+         # projected-input, multi-scale heads — unet_discriminator.py, a
+@@ -526,6 +572,24 @@ class Coach:
+         # ---------------- optimizer (spec §5.2 routing) ----------------
+         self._route_trainable_parameters()
+         self.optimizer = self._build_optimizer()
++        # v19.2/W9 (2026-09-20): EMA activation — MUST run after the optimizer
++        # exists. Shadow tensors on GPU (+~1.6GB), one update per iteration,
++        # saved as ckpt['ema_state'] (InvSR trainer.py ema_rate convention).
++        self._ema_named = []
++        self._ema_shadow = []
++        if self.ema_rate > 0:
++            in_opt = {id(p) for g in self.optimizer.param_groups for p in g['params']}
++            named = list(self.brushnet.named_parameters())
++            if self.w_mapper is not None:
++                named += [(f'w_mapper.{n}', p) for n, p in self.w_mapper.named_parameters()]
++            for pname, proc in self.denoising_unet.attn_processors.items():
++                if isinstance(proc, ReferenceAttentionProcessor):
++                    named += [(f'{pname}.{n}', p) for n, p in proc.named_parameters()]
++            self._ema_named = [(n, p) for n, p in named if id(p) in in_opt]
++            self._ema_shadow = [p.detach().clone() for _, p in self._ema_named]
++            n_ema = sum(p.numel() for _, p in self._ema_named)
++            print(f'[W9] EMA ACTIVE: rate={self.ema_rate} over {n_ema:,} params '
++                  f'({len(self._ema_named)} tensors) — damps the §7.17 weight diffusion')
+ 
+         # ---------------- data ----------------
+         self.dataset_json = 'dataset.json'
+@@ -1366,17 +1430,24 @@ class Coach:
+         fake = out['pred_x0_img_g']
+         real = F.interpolate(real_img.detach(), size=fake.shape[-2:],
+                              mode='bilinear', align_corners=False)
+-        set_requires_grad(self.discriminator, False)   # orig: D frozen at G step
+-        discr_real_pred, discr_real_features = self.discriminator(real)
+-        discr_fake_pred, discr_fake_features = self.discriminator(fake)
++        set_requires_grad(self.pixel_discriminator, False)   # orig: D frozen at G step
++        discr_real_pred, discr_real_features = self.pixel_discriminator(real)
++        discr_fake_pred, discr_fake_features = self.pixel_discriminator(fake)
+         metrics, total = {}, fake.new_zeros(())
+         if self.adv_weight > 1e-5:
+-            adv_gen_loss, adv_metrics = self.adversarial_loss.generator_loss(
+-                real_batch=real, fake_batch=fake,
+-                discr_real_pred=discr_real_pred,
+-                discr_fake_pred=discr_fake_pred, mask=None)
+-            total = total + adv_gen_loss
+-            metrics[f'{tag}_gen_adv'] = float(adv_gen_loss)
++            # W8: G-adv waits out the pixel-D warmup (fresh D on a pretrained G
++            # gives random gradients at first — deviation #3, §7.20). The
++            # legacy renoise-mode context (pixel_d_enable=False) keeps the
++            # orig behavior of adv-from-step-0.
++            adv_gated = not (self.pixel_d_enable and self._pixel_d_start is not None
++                             and (self.global_step - self._pixel_d_start) <= self.pixel_d_warmup)
++            if adv_gated:
++                adv_gen_loss, adv_metrics = self.adversarial_loss.generator_loss(
++                    real_batch=real, fake_batch=fake,
++                    discr_real_pred=discr_real_pred,
++                    discr_fake_pred=discr_fake_pred, mask=None)
++                total = total + adv_gen_loss
++                metrics[f'{tag}_gen_adv'] = float(adv_gen_loss)
+         if self.fm_weight > 1e-5:
+             fm_value = feature_matching_loss(
+                 discr_fake_features, discr_real_features, mask=None)
+@@ -1395,25 +1466,29 @@ class Coach:
+         # (the pass2 pair and the synth pair were previously
+         # indistinguishable in metrics); the caller's SNR weight (ab) is
+         # applied HERE to the returned total.
+-        self._disc_queue.append((tag, fake.detach(), real.detach()))
++        self._pixel_disc_queue.append((tag, fake.detach(), real.detach()))
++        if self._pixel_d_start is None:
++            self._pixel_d_start = self.global_step
+         return total * float(weight), metrics
+ 
+     def _discriminator_step(self):
+         """D update on the queued detached pairs (orig coach L1215-1240:
+         pred.detach(), pre_discriminator_step -> R1 needs real.requires_grad,
+-        inline gp_coef=0.001, external backward, then optimizer step)."""
+-        if not self.use_gan_fm or not self._disc_queue:
++        inline gp_coef=0.001, external backward, then optimizer step).
++        W8: operates on the PIXEL NLayer D (pixel_discriminator) — the InvSR
++        UNet-D has its own _discriminator_step_invsr below."""
++        if not self.use_gan_fm or not self._pixel_disc_queue:
+             return None
+-        set_requires_grad(self.discriminator, True)
+-        self.optimizer_d.zero_grad(set_to_none=True)
++        set_requires_grad(self.pixel_discriminator, True)
++        self.pixel_optimizer_d.zero_grad(set_to_none=True)
+         total, m = 0.0, {}
+-        for dtag, fake, real in self._disc_queue:
++        for dtag, fake, real in self._pixel_disc_queue:
+             real = real.clone().requires_grad_(True)   # R1 gradient penalty input
+             self.adversarial_loss.pre_discriminator_step(
+                 real_batch=real, fake_batch=fake,
+-                generator=None, discriminator=self.discriminator)
+-            discr_real_pred, _ = self.discriminator(real)
+-            discr_fake_pred, _ = self.discriminator(fake)
++                generator=None, discriminator=self.pixel_discriminator)
++            discr_real_pred, _ = self.pixel_discriminator(real)
++            discr_fake_pred, _ = self.pixel_discriminator(fake)
+             adv_discr_loss, adv_metrics = self.adversarial_loss.discriminator_loss(
+                 real_batch=real, fake_batch=fake,
+                 discr_real_pred=discr_real_pred,
+@@ -1425,13 +1500,13 @@ class Coach:
+             # the synth pair separates much faster than the pass2 pair, D is
+             # again keying on a nuisance axis instead of content/texture.
+             m.update({f'{dtag}_{k}': float(v) for k, v in adv_metrics.items()})
+-        self.optimizer_d.step()
++        self.pixel_optimizer_d.step()
+         if self.smoke_check and not getattr(self, '_dstep_logged', False):
+             self._dstep_logged = True
+-            print(f'[v18 D-step FIRED] pairs={len(self._disc_queue)} '
++            print(f'[v18 D-step FIRED] pairs={len(self._pixel_disc_queue)} '
+                   f'discr_adv={total:.4f} | ' +
+                   ' | '.join(f'{k}={v:.4f}' for k, v in m.items()))
+-        self._disc_queue = []
++        self._pixel_disc_queue = []
+         return total, m
+ 
+     def _discriminator_step_invsr(self):
+@@ -1457,13 +1532,21 @@ class Coach:
+         return total, m
+ 
+     def _gan_fm_grad_norms(self):
+-        """Stage-B stop-loss gauge: per-block |grad| sums for G and D."""
++        """Stage-B stop-loss gauge: per-block |grad| sums for G and D(s).
++        W8: reports BOTH discriminators when present (pixel NLayer + UNet-D)."""
+         if not (self.use_gan_fm or self._invsr()):
+             return {}
+         gn = sum(float(p.grad.abs().sum()) for p in self.brushnet.parameters()
+                  if p.grad is not None)
+-        dn = sum(float(p.grad.abs().sum()) for p in self.discriminator.parameters()
+-                 if p.grad is not None)
++        dn = 0.0
++        if self.pixel_discriminator is not None:
++            dn += sum(float(p.grad.abs().sum())
++                      for p in self.pixel_discriminator.parameters()
++                      if p.grad is not None)
++        if self._invsr() and getattr(self, 'discriminator', None) is not None:
++            dn += sum(float(p.grad.abs().sum())
++                      for p in self.discriminator.parameters()
++                      if p.grad is not None)
+         return {'g_grad_abs': gn, 'd_grad_abs': dn}
+ 
+ 
+@@ -1587,7 +1670,21 @@ class Coach:
+             # misalignment in the inverse-warped evidence are IMPULSE noise —
+             # the textbook response is a median filter, applied to the
+             # supervision target ONLY (condition untouched). 0 = off.
+-            if self.anchor_median > 0:
++            if self.anchor_median > 0 and self.anchor_clean == 'selective_hole':
++                # W10 (§7.30): visible = EXACT anchor pixels, NO filtering —
++                # the "copy is correct" contract is restored. hole = replace
++                # ONLY isolated impulse outliers (|anchor-median| > tau per
++                # pixel, max over channels) with the median value; organized
++                # texture (hair strands, skin) passes through untouched.
++                from kornia.filters import median_blur
++                _k = self.anchor_median
++                _med = median_blur(anchor, (_k,) * 2)
++                _diff = (anchor - _med).abs().amax(dim=1, keepdim=True)
++                _impulse = (_diff > self.anchor_despeckle_tau).to(anchor.dtype) * mask
++                anchor = _med * _impulse + anchor * (1.0 - _impulse)
++            elif self.anchor_median > 0:
++                # v18.7 legacy: whole-image median (TEACHES GLOBAL SMOOTHING —
++                # kept only for reproduction of W6-arm experiments).
+                 from kornia.filters import median_blur
+                 anchor = median_blur(anchor, (self.anchor_median,) * 2)
+             # condition: orig hybrid contract (EG3D fills the hole). v10: the
+@@ -1780,15 +1877,68 @@ class Coach:
+                 out1['pred_x0_img'] = out1['pred_x0_img_g'].detach()
+                 if 'pred_x0_img' not in panels:
+                     panels['p1_pred_x0'] = out1['pred_x0_img']
+-            # v14 G-side FM on the pass1 x0 decode — LEGACY path only. Under
+-            # x0_enable the pass1 output gets NO distribution supervision by
+-            # design: the novel view has no photo-distribution reference (the v14
+-            # failure mode), quality transfers from pass2 through the shared net.
+-            if not self.x0_enable:
++            # v14 G-side FM on the pass1 x0 decode — LEGACY path when x0 is
++            # off. W8 (2026-09-19): under x0_enable the pass1 output regains
++            # PIXEL-space distribution supervision when pixel_d is enabled —
++            # the orig real-batch novel branch (real=photo x, NLayer D,
++            # adv x10 + FM x100). p2 stays latent-only (the InvSR UNet-D pair
++            # already serves it; double supervision removed by design).
++            if self.use_gan_fm and (not self.x0_enable or self.pixel_d_enable):
+                 gm1 = self._gan_fm_g_loss(out1, x, 'p1')
+                 if gm1 is not None:
+                     loss_p1 = loss_p1 + gm1[0]
+                     metrics.update(gm1[1])
++            # ============ W7 (2026-09-18): pass1 hole photo-statistics D ========
++            # Restores the ORIG WarpGAN real-batch novel-branch D pair (static
++            # coach L415-420: fake=pred_novel, real=PHOTO x) into the latent
++            # InvSR-D. fake = x0_hat masked to the hole; real = the SAME soft
++            # mask on clean PHOTO latents (deterministic .mode() encode — the
++            # exact convention of _write_bank/target latents). Identical masks
++            # on both sides -> D cannot key on the visible region or on mask
++            # edges; only the hole texture statistics remain discriminative,
++            # which is precisely the §7.7 layer-2/3 unconstrained dimension.
++            # G side: adv ONLY — no ldif/llpips on this pair (novel-view fake
++            # vs source-view real forbids any regression target; geometry
++            # stays with the eps-MSE anchor). The synth D pair (real=render,
++            # static coach L554-558) is intentionally untouched.
++            if self.hole_d_enable and self._invsr():
++                t1 = out1['timesteps']
++                selh = t1 <= self.x0_t_max
++                if bool(selh.any()):
++                    if self._hole_d_start is None:
++                        self._hole_d_start = self.global_step
++                    ab1 = self.noise_scheduler.alphas_cumprod[t1].view(-1, 1, 1, 1)
++                    x0h = (out1['noisy_latents'] - (1.0 - ab1).sqrt() * out1['eps_pred']) \
++                        / ab1.sqrt()
++                    x0h = x0h[selh].clamp(-self.x0_latent_bound, self.x0_latent_bound)
++                    # soft hole mask in latent space (v12 recipe: 13px box ->
++                    # area downsample; removes the 1px-step latent seam)
++                    k = 13
++                    box = torch.ones(1, 1, k, k, device=mask.device,
++                                     dtype=mask.dtype) / float(k * k)
++                    m_soft = F.conv2d(F.pad(mask, (k // 2,) * 4, mode='replicate'), box)
++                    m_lat = F.interpolate(m_soft, size=out1['mask_latents'].shape[-2:],
++                                          mode='area')[selh]
++                    fake_h = x0h * m_lat
++                    with torch.no_grad():
++                        photo_z = self.vae.encode(
++                            x[selh] * 2.0 - 1.0).latent_dist.mode() * 0.18215
++                    real_h = photo_z * m_lat
++                    set_requires_grad(self.discriminator, False)  # D frozen at G step
++                    prompt_h = self.empty_prompt_embeds.expand(x0h.shape[0], -1, -1)
++                    logits_h, _ = self.discriminator(fake_h, t1[selh], prompt_h,
++                                                     return_features=True)
++                    if ((self.global_step - self._hole_d_start) > self.hole_d_warmup
++                            and self.hole_d_weight > 0):
++                        adv_h = sum(-lg.mean() for lg in logits_h) / len(logits_h)
++                        loss_p1 = loss_p1 + adv_h * self.hole_d_weight
++                        metrics['holeD_gen_adv'] = float(adv_h)
++                    self._disc_queue_invsr.append(
++                        ('holeD', fake_h.detach(), real_h.detach(), t1[selh].detach()))
++                    metrics['holeD_hit'] = 1.0
++                    metrics['holeD_t'] = float(t1[selh].float().mean())
++                else:
++                    metrics['holeD_hit'] = 0.0
+             metrics['p1_eps'] = float(loss_p1)
+         else:
+             # v18 STRUCT: pass1 entirely unsupervised on real batches (orig
+@@ -1949,6 +2099,14 @@ class Coach:
+             if p.grad is not None:
+                 p.grad = None
+ 
++    def _ema_update(self):
++        """W9: one EMA step over the trainable G-side params (InvSR
++        trainer.py update_ema_model: ema = ema*rate + p*(1-rate))."""
++        if self.ema_rate > 0:
++            r = self.ema_rate
++            for s, (_, p) in zip(self._ema_shadow, self._ema_named):
++                s.mul_(r).add_(p.detach(), alpha=1.0 - r)
++
+     def _wplus_params_for_audit(self):
+         if not self.use_wplus:
+             return []
+@@ -2042,6 +2200,9 @@ class Coach:
+                 self.optimizer.step()
+                 metrics['prior_preserve'] = float(loss_pp)
+ 
++            # ---------------- v19.2/W9: EMA weights ---------------------------
++            self._ema_update()
++
+             # ---------------- logging ----------------
+             if self.global_step % int(self.opts.log.board_interval) == 0:
+                 for k, v in metrics.items():
+@@ -2544,16 +2705,40 @@ class Coach:
+             'w_mapper': self.w_mapper.state_dict() if self.w_mapper is not None else None,
+             'attention_processors': processors,
+             'optimizer': self.optimizer.state_dict(),
++            # InvSR latent UNet-D (p2/synth pairs)
+             'discriminator': self.discriminator.state_dict()
+-                if (self.use_gan_fm or self._invsr()) else None,
++                if self._invsr() else None,
+             'optimizer_d': self.optimizer_d.state_dict()
+-                if (self.use_gan_fm or self._invsr()) else None,
++                if self._invsr() else None,
++            # W8 pixel NLayer D (pass1 novel branch). NOTE: renoise-era ckpts
++            # stored the NLayer D under 'discriminator' — those are pre-W8
++            # and not resumed (no active arm runs renoise mode).
++            'pixel_discriminator': self.pixel_discriminator.state_dict()
++                if self.pixel_discriminator is not None else None,
++            'pixel_optimizer_d': self.pixel_optimizer_d.state_dict()
++                if self.pixel_discriminator is not None else None,
++            # W9 EMA shadow of the trainable G-side params (None when off)
++            'ema_state': {n: s for (n, _), s in zip(self._ema_named, self._ema_shadow)}
++                if self.ema_rate > 0 else None,
+         }
+ 
+     def checkpoint_me(self, metrics):
+         path = os.path.join(self.checkpoint_dir, f'iteration_{self.global_step:07d}.pt')
+         torch.save(self.__get_save_dict(), path)
+         print(f"[ckpt] saved {path}")
++        # W10 disk guard: rotate — keep only the newest log.max_ckpt_keep
++        # checkpoints (each ~1.4G; the 2026-09-20 disk-full incident killed
++        # two runs at ~0 steps — this makes it structurally impossible).
++        try:
++            keep = int(getattr(getattr(self.opts, 'log', None),
++                               'max_ckpt_keep', 2) or 2)
++            cks = sorted(f for f in os.listdir(self.checkpoint_dir)
++                         if f.startswith('iteration_') and f.endswith('.pt'))
++            for old in (cks[:-keep] if len(cks) > keep else []):
++                os.remove(os.path.join(self.checkpoint_dir, old))
++                print(f"[ckpt] rotated out {old}")
++        except Exception as _e:  # never let cleanup kill training
++            print(f"[ckpt] rotation skipped: {_e}")
+ 
+     def resume(self):
+         ckpt = torch.load(self.opts.checkpoint_path, map_location='cpu',
+@@ -2570,6 +2755,17 @@ class Coach:
+             self.optimizer_d.load_state_dict(ckpt['optimizer_d'])
+             print('[resume] v19 discriminator + optimizer_d restored '
+                   '(use_gan_fm or invsr)')
++        # W8: pixel NLayer D — fresh init on pre-W8 ckpts (adv gated by
++        # pixel_d_warmup from the first queued pair)
++        if getattr(self, 'pixel_discriminator', None) is not None:
++            if ckpt.get('pixel_discriminator') is not None:
++                self.pixel_discriminator.load_state_dict(
++                    ckpt['pixel_discriminator'], strict=True)
++                self.pixel_optimizer_d.load_state_dict(ckpt['pixel_optimizer_d'])
++                print('[resume] W8 pixel discriminator + pixel_optimizer_d restored')
++            else:
++                print('[resume] W8 pixel discriminator: FRESH init (ckpt predates W8); '
++                      'G-adv gated for the warmup window')
+         if self.w_mapper is not None and ckpt.get('w_mapper') is not None:
+             self.w_mapper.load_state_dict(ckpt['w_mapper'], strict=True)
+         for name, proc in self.denoising_unet.attn_processors.items():
+@@ -2623,6 +2819,23 @@ class Coach:
+                   f'{migrated} params kept moments, {fresh} fresh (lazy init). '
+                   f'Groups now: {[g.get("name") for g in self.optimizer.param_groups]}')
+         print(f"[resume] step {self.global_step} from {self.opts.checkpoint_path}")
++        # W9: EMA shadow bookkeeping AFTER weights are loaded — either restore
++        # a saved shadow or re-seed it from the (now real) weights. Without
++        # this, a fork from a pre-W9 ckpt would blend random-init values into
++        # the shadow for its first few thousand steps.
++        if self.ema_rate > 0:
++            saved = ckpt.get('ema_state')
++            if saved:
++                matched = 0
++                for i, (n, _) in enumerate(self._ema_named):
++                    if n in saved:
++                        self._ema_shadow[i].copy_(saved[n])
++                        matched += 1
++                print(f'[resume] W9 EMA shadow restored ({matched}/{len(self._ema_named)} tensors)')
++            else:
++                self._ema_shadow = [p.detach().clone() for _, p in self._ema_named]
++                print('[resume] W9 EMA shadow re-seeded from loaded weights '
++                      '(ckpt predates W9)')
+ 
+ 
+     # ------------------------------------------------------------------

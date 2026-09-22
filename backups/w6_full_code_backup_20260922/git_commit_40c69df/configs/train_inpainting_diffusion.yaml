@@ -1,0 +1,317 @@
+# Diffusion port of orig WarpGAN SVINet training (ORIG_FAITHFUL_PORT_SPEC.md).
+# New file — the orig config train_inpainting.yaml stays untouched for diffing.
+#
+# Loss weights follow the ORIG checkpoint (L1 10 / PL 30 / ID 0.5 / latent 0.1)
+# with the two diffusion-mandated changes: epsilon-MSE is the main signal and
+# GAN/FM default to 0 (two white-blow divergences on x0 residual noise, §4.4).
+
+device: cuda:0
+
+# v18.5: constant prompt conditioning. InvSR TRAINS with a positive quality
+# prompt (not empty) and infers with positive+negative CFG; teacher ② intended
+# W+ tokens to align WITH text features. preset '' (or text '') reproduces the
+# historical empty-prompt behavior exactly.
+prompt:
+  preset: ''              # '' | invsr  (invsr = their exact quality string)
+  text: ''                # explicit text overrides preset
+
+# v18.6: SDEdit / InvSR partial-noise inference — start from the noised
+# ANCHOR at t_start (user-verified domain fix 2026-09-13). 0 = legacy
+# pure-noise 50-step chain. Pair with real_pass1.t_max = the same value.
+infer:
+  t_start: 0
+
+# v18.8 (W5): AnyDoor-style high-frequency texture conditioning channel.
+# Sobel edge-weighted image of the mirror photo (the same-person texture
+# source), forward-warped to the novel view, concatenated into BrushNet
+# conditioning (5ch → 8ch). New channels ZERO-initialized (safe from-scratch).
+# Source: AnyDoor CVPR 2024, datasets/data_utils.py sobel(), exact port.
+hf:
+  enable: False          # True = activate the 3ch HF conditioning channel
+  thresh: 50.0           # AnyDoor's default (on 0-255 scale; /255 internally)
+
+# v18.8 (W5): DreamBooth-style prior preservation. Every N steps, one extra
+# forward where condition=target=real photo (identity mapping). Prevents
+# fine-tuning from eroding SD's photographic prior.
+prior_preserve:
+  freq: 0                # 0 = off; N = every N-th step (e.g., 10)
+exp_dir: ./experiments/train_inpainting_diffusion/step0_smoke
+
+checkpoint_path: null
+max_steps: 300000
+
+paths:
+  sd: ./pretrained_models/AI-ModelScope/stable-diffusion-v1-5
+  brushnet: ./pretrained_models/brushnet
+  # Stage-C W+ identity checkpoint (frozen档 mapper weights). See spec §4.2.
+  wplus_stage_c: /data/xzy/warpgan20260803/20260803/experiments/_wplus_identity_pretrain/checkpoints/iteration_50000.pt
+  dataset:
+    train: ./data/FFHQ-EG3D_all_static_rebalanced
+    test: ./data/celeba-hq_1000_static_rebalanced
+    synth: ./data/SynthData100000_rebalanced
+
+data:
+  batch_size: 1        # 512px diffusion stack precedent: bs=1 on 24GB
+  workers: 4
+  test_batch_size: 2
+  test_workers: 2
+  rebalanced: False    # orig default -> dataset.json
+  add_LPFF: False
+  synth:
+    able: True         # orig default: synth/real 1:1 alternation
+    zplus: False
+    batch_size: ${data.batch_size}
+
+gan:                   # WplusNet (GOAE encoder) for the latent closure loss only
+  device: ${device}
+  eg3d_type: plus_r
+  encoder_type: goae
+  psp:
+    n_styles: 14
+  goae:
+    mlp_layer: 2
+    cfg: ./configs/swinv2.yaml
+  state_dict_key: psp_state_dict
+  checkpoint_path: ./pretrained_models/inversion/gan_encoder.pt
+
+warp:
+  warp_ori_train: True   # 512x512
+  warp_ori_val: True
+  warp_pred: False       # orig default: pass2 warps the hybrid CONDITION, never the model output
+  hybrid: True           # orig default: hole filled with the complete inversion render
+  # v10 (2026-08-27): CONDITION-side mask softening, ported from orig
+  # process_mask (coach_inpainting_static L186-198). The orig feeds the
+  # generator ONLY softened inputs (erode visible 3px + GaussianBlur k=21);
+  # our BrushNet condition carried a raw hard seam that its copy-prior
+  # faithfully reproduced (§8.26). Applies EXCLUSIVELY to the condition
+  # channel (hybrid mixing + BrushNet mask input); the supervision side
+  # (continuous-confidence anchor, weight map, val metrics) keeps the raw
+  # mask — single-variable edit. 0/0 = old behavior.
+  cond_erode_kernel: 0        # orig erode_kernel=3: erode VISIBLE region (hole grows)
+  cond_gaussian_blur_kernel: 0  # orig gaussian_blur_kernel=21 (sigma fixed 6.5, deterministic)
+  # NOTE: orig's erode_kernel/gaussian_blur_kernel are deliberately NOT ported
+  # (raw splatting mask; spec §2 — pixel erosion was falsified, 先验 4).
+
+wplus:
+  mode: frozen           # off | frozen | s1_mapper | s2_qkv  (spec §4.2 ladder)
+                         # off = "SD 之外零预训练"档：完全不注入 W+ tokens
+  gate_value: 3.0        # fixed tanh(3)≈0.995 constant injection (w-plus-adapter recipe)
+  init_from_stage_c: True  # frozen档 requires it; s1/s2 may restart from scratch
+
+reference:
+  use: True
+  use_mirror: False      # ablation #1 (Step 2): x_mirror rides RefNet in parallel
+  real_primary: render   # render | mirror — user's plan (2026-08-26):
+                         # 'mirror' = REAL pass1 (and validate) swaps reference
+                         # order: the REAL PHOTO x_mirror becomes the PRIMARY
+                         # bank source (texture injected via the main retrieval
+                         # channel, alongside W+ identity tokens); the render
+                         # y_hat_novel demotes to the extra/mirror-KV channel.
+                         # Same-person texture = main teacher, not ignorable
+                         # extra. 'render' = old order. SYNTH batch unaffected
+                         # (synthetic identities have no real photo).
+                          # v7a (2026-08-25): mirror = EVIDENCE with its OWN trainable
+                          # K/V (source-separating channel; SD warm-start; lr=brushnet).
+                          # Usage decided by softmax competition against the inversion
+                          # tokens (mutual-self-attn paradigm) — no hand-set strength.
+                          # v1..v7 failure modes addressed: fixed-gate injection (v1),
+                          # incentive mismatch (v2-v4), condition asymmetry (v5),
+                          # binary-fragmentation (v6), shared-K/V indistinguishability (v7).
+  gate_init: 0.5         # PRIMARY reference gate 0->0.5 init (先验 16)
+  lr: 5.0e-6             # primary RefNet K/V/O adapters
+  local_window_k: 0      # v11: local texture-band retrieval (0=off, 7=orig plan).
+                         #   Per-position window retrieval over the PRIMARY bank
+                         #   source; activates reference_local_scale (dead param
+                         #   until 2026-08-27 audit). Zero new parameters.
+  local_gate_init: 0.25  # warm-start (先验 16: zero gates never grow)
+
+brushnet:
+  init: pretrained       # pretrained | from_unet | random
+                         #   pretrained = official inpainting ckpt (default, spec §4.1)
+                         #   from_unet  = official "train from scratch" recipe: copy SD
+                         #                UNet encoder (ONLY SD weights used)
+                         #   random     = fully random (no official precedent)
+  lr: 1.0e-5
+  use_8bit_adam: True
+  gradient_checkpointing: True
+
+losses:
+  eps_weight: 1.0
+  synth_texture: full       # full | zero | lowpass  — user's plan (2026-08-26):
+                             # the synth exam paper (EG3D render target) keeps
+                             # teaching STRUCTURE (low freq) at full weight, but
+                             # its TEXTURE band (high freq) gets ZERO supervision
+                             # — texture must come from the injected REAL-photo
+                             # bank (same-person texture), not from the render.
+                             #   full    = every frequency supervised (old behavior)
+                             #   zero    = structure-only: eps-MSE weighted by a
+                             #              spatial low-pass mask (texture band = 0)
+                             #   lowpass = also low-pass the TARGET latents before
+                             #              noising (stronger variant, ablation)
+  synth_lowpass_sigma: 2.0  # Gaussian sigma IN LATENT PIXELS (64x64 latent grid).
+                             # Physical basis: face contour / organ boundaries are
+                             # ~8-16px structures at 512 -> 1-2 latent px; sigma=2
+                             # keeps structure intact while zeroing skin-pore /
+                             # hair-strain bands (~sub-latent-pixel detail).
+  real_pass1:
+    # v18 STRUCT arm switch: False = the real batch runs pass2 ONLY (no
+    # pass1 forward / supervision — the orig coach never supervised
+    # pred_novel on real data; the anchor's blind region is fabricated
+    # render evidence). cond1 is still built (pass2's condition derives
+    # from it); inference (validate/_sample_novel) is unchanged.
+    forward: True
+    # v18.6: pass1 trains ONLY in the deployed SDEdit domain (0 = full range).
+    # Set = losses.x0.t_max when infer.t_start > 0 (train/inference contract).
+    t_max: 0
+    # v18.7: median filter on the SUPERVISION anchor (impulse-noise cleanup:
+    # pinholes, sub-pixel boundary noise). 0 = off; 3 or 5 = kernel size.
+    anchor_median: 0
+    # Weak epsilon anchor (spec §5.3) — the ONLY freedom beyond orig semantics.
+    visible_weight: 1.0  # target = Warper.inverse_warp(x)  (v2 contract, streak-free)
+    hole_weight: 0.1     # target = y_hat_novel @0.1 (ablation A: hole needs an anchor)
+    blind_struct_weight: 0.0   # v12: blind-region LOW-band anchor (0=off=v11 path).
+                               #   >0 activates evidence-graded dual-band: photo
+                               #   evidence -> full-band eps-MSE; blind -> ONLY the
+                               #   low-freq component of the error vs the FULL SHARP
+                               #   render anchor (no lowpassed image ever enters
+                               #   targets — v3.2 lesson). Replaces hole_weight.
+    mirror_anchor: False # v7 (2026-08-25): mirror as EVIDENCE, not truth —
+                         # (a) supervision: continuous confidence w from the
+                         #     depth mismatch (threshold demoted to attenuation
+                         #     scale; no cliff -> no salt-and-pepper, §8.18);
+                         # (b) retrieval: mirror tokens join the reference K/V
+                         #     axis and compete in one softmax (mutual-self-attn
+                         #     paradigm) — no hand-set injection strength;
+                         # (c) condition: orig hybrid contract (mirror contributes
+                         #     ZERO condition pixels; v6 fragmentation lesson).
+                         # False = exact v4 behavior (single-variable discipline).
+  pixel:
+    max_timestep: 200    # self-gated low-t x0 single-step decode (FFC 1-step translation)
+    x0_clip: 3.0
+    resolution: 256      # latent-space resize then decode (memory precedent 15-17GB)
+    patch_latent: 32     # v16 memory precedent (PROJECT_HISTORY "32x32 latent
+                         # patch (+4px ctx)"): decode ONE random latent crop of
+                         # this size instead of the full frame — keeps 256px-class
+                         # texture resolution while decoder activations drop ~4x
+                         # (22.4GiB full-frame Step-0 FAIL -> <22GiB budget).
+                         # Both pred and target crop the SAME place; 0 = off.
+    apply_to_synth: false  # v16 paint-oil red line: synth targets are EG3D
+                           # renders — the photo-ref pixel backflow is REAL
+                           # pass2-only (target = the real photo x).
+    l1_weight: 10.0      # orig L1 weight_known (with_mask=False -> full frame).
+                         # DEFAULTS STAY ORIG (project discipline: recipe variants
+                         # ride the CLI). v16 (2026-09-02) launch overrides:
+                         #   losses.pixel.l1_weight=2.0 losses.pixel.resnet_pl_weight=0
+                         #   losses.pixel.id_weight=0 losses.latent.weight=0
+                         # — pass2's x0-decode L1 vs REAL PHOTO x is the orig
+                         # pillar-2 pixel backflow (coach L1269/_low_t_losses),
+                         # zeroed by CLI in v9-v15 ("poison list"); re-opened at
+                         # 2.0 (orig 10, halved twice — Stage-B divergence family,
+                         # lesson #14) as the ONLY new variable vs the v12 recipe.
+    resnet_pl_weight: 30.0
+    id_weight: 0.5
+    weights_path: ./pretrained_models/LaMa_perceptual_loss_models
+  latent:
+    weight: 0.1          # orig L1195-1200 faithful port (first time in diffusion port)
+  lpips:
+    weight: 0            # orig default: off
+  adversarial:
+    weight: 0            # v14 G-side adversarial (orig x10). FM-first policy:
+                         #   0 until FM is proven stable; code path fully ported.
+    kind: r1             # orig train_inpainting.yaml: NonSaturatingWithR1
+    gp_coef: 0.001       # orig value; NON-lazy (inline every D step, faithful)
+    mask_as_fake_target: False  # orig: ${losses.with_mask}=False -> FULL-FRAME D
+    allow_scale_mask: True
+  feature_matching:
+    weight: 10           # orig x100 (coach L1189-1194, mask_for_fm=None full
+                         # frame). v14 starts at 1/10 — Stage-B lesson: gradual.
+  x0:
+    enable: False          # v17-prime: gate-free distribution supervision.
+    mode: renoise          # v18.3: 'renoise' = wave-1 legacy path (verbatim,
+                           # see _x0_losses); 'invsr' = InvSR-calibrated
+                           # (CVPR'5 2412.09013) latent-space supervision:
+                           # MSE + FM + small-adv on the single-step x0,
+                           # t<=t_max only, timestep-conditioned UNet
+                           # discriminator (unet_discriminator.py port),
+                           # hinge D loss, D warmup. No VAE decode in the loss.
+    t_max: 300             # invsr validity domain (MEASURED — diag_pair_domain;
+                           # InvSR trains at [100,250] on the SD-Turbo scale)
+    w_ldif: 1.0            # InvSR loss_coef.ldif (their exact value)
+    w_lfm: 2.0             # InvSR loss_coef.llpips slot — feature matching on
+                           # D head features stands in for their finetuned
+                           # latent-LPIPS (not downloadable offline)
+    w_ldis: 0.1            # InvSR loss_coef.ldis (adversarial = SMALLEST term)
+    dis_warmup: 3000       # their dis_init_iterations 10K/100K scaled to 30K
+    latent_bound: 10.0     # their _Latent_bound clamp on z0_pred
+                           # ---- legacy 'renoise' mode keys below ----
+                           # Re-noising construction (see Coach._x0_losses):
+                           #   fake_t = sqrt(ab)*x0_hat + sqrt(1-ab)*eps_new
+                           #   real_t = same noise level on the reference
+                           # -> noise shortcut symmetrized away; supervision
+                           #    decays ANALYTICALLY as t->T (both sides ->
+                           #    noise); gradient carries sqrt(ab) (free SNR
+                           #    weighting). Replaces the t<200 gate, x0_clip=3,
+                           #    patch decode and hand-set L1 weights.
+    l1_weight: 1.0         # legacy 'renoise' key (unused in invsr mode)
+    llpips_enable: False   # v18.4: TRUE once vgg16_sdturbo_lpips.pth is
+                           # downloaded (https://huggingface.co/OAOA/InvSR)
+                           # -> replaces the numerically-dead FM substitute
+                           # (measured lfm~0.001-0.009, effectively no domain
+                           # pull) with InvSR's finetuned latent-LPIPS, their
+                           # MAIN loss term. Weights at ./weights/, module at
+                           # models/invsr_latent_lpips/ (copied from their zip).
+    llpips_ckpt: ./weights/vgg16_sdturbo_lpips.pth
+    clip: 8.0              # NUMERIC guard for the VAE input range only
+    res_latent: 32         # v18: random latent CROP size (+4px decode ctx) —
+                           # NATIVE-frequency supervision at the same memory
+                           # budget (the old 64->32 latent downscale halved
+                           # texture frequencies AND fed the VAE off-manifold
+                           # latents)
+    d_real: paired_target  # v18 P1 fix: real side = the noised TARGET latents
+                           # on BOTH batches (pass2: noised photo x_t; synth:
+                           # noised paired target render) — view-aligned,
+                           # pixel-paired, same noise level; mirrors the orig
+                           # D pairs exactly (real batch L1177 real=img; synth
+                           # batch L530-536 real=target_img). The whole
+                           # distribution family (L1+FM+adv) additionally
+                           # carries the ab_t SNR weight (v18, min-SNR
+                           # principle; net eps_grad factor ab*sqrt(1-ab)).
+  preserve:                # v15 (2026-08-31): blind high-freq SCORE preservation.
+    weight: 1.0            # The ONLY new variable vs the v12 recipe. Teacher =
+                           # the SAME frozen UNet, ZERO control injection, on the
+                           # SAME noisy anchor (geometry rides in x_t) — the
+                           # photo-prior denoising instinct; control's HIGH band
+                           # in the blind region must not deviate from it.
+    teacher_wplus: true    # L1 reuse: teacher keeps the frozen W+ identity
+                           # tokens (skin-type/age direction in the prior).
+  discriminator:
+    kind: pix2pixhd_nlayer   # orig discriminator section, verbatim
+    input_nc: 3
+    ndf: 64
+    n_layers: 4
+  optimizers:
+    discriminator:
+      lr: 0.0001         # orig optimizers.discriminator adam lr=1e-4
+
+log:
+  image_interval: 500
+  board_interval: 50
+  val_interval: 2000
+  save_interval: 2000
+  use_wandb: False
+
+smoke:
+  check: True            # Step-0 audit: loss terms non-zero / W+ grad-free / RefNet input / peak mem
+  fix_timestep: null     # e.g. 100 — force the low-t path so pixel & latent terms must fire
+
+###################################################
+
+defaults:
+  - _self_
+  - override hydra/hydra_logging: disabled
+  - override hydra/job_logging: disabled
+
+hydra:
+  output_subdir: null
+  run:
+    dir: .

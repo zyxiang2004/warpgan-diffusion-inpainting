@@ -35,6 +35,14 @@ hf:
 # fine-tuning from eroding SD's photographic prior.
 prior_preserve:
   freq: 0                # 0 = off; N = every N-th step (e.g., 10)
+
+# v19.2/W9 (2026-09-20): EMA weights — InvSR trainer.py ema_rate convention
+# (their sd-turbo-sr-ldis.yaml: 0.999). Directly damps the §7.17 bounded
+# weight diffusion (the diagnosed good/bad oscillation carrier). Shadow copy
+# of every trainable G-side param (optimizer groups), updated once per
+# iteration, saved into ckpt as 'ema_state' for offline eval/decoding.
+ema:
+  rate: 0.0              # 0 = off (default; protects legacy resumes)
 exp_dir: ./experiments/train_inpainting_diffusion/step0_smoke
 
 checkpoint_path: null
@@ -166,6 +174,11 @@ losses:
     # v18.7: median filter on the SUPERVISION anchor (impulse-noise cleanup:
     # pinholes, sub-pixel boundary noise). 0 = off; 3 or 5 = kernel size.
     anchor_median: 0
+    # W10 (§7.30): 'whole' = v18.7 legacy whole-image median (teaches global
+    # smoothing — W6 arms). 'selective_hole' = visible untouched + hole-only
+    # impulse-selective median (the §7.30 fix). tau = outlier threshold.
+    anchor_clean: whole
+    anchor_despeckle_tau: 0.07
     # Weak epsilon anchor (spec §5.3) — the ONLY freedom beyond orig semantics.
     visible_weight: 1.0  # target = Warper.inverse_warp(x)  (v2 contract, streak-free)
     hole_weight: 0.1     # target = y_hat_novel @0.1 (ablation A: hole needs an anchor)
@@ -260,6 +273,19 @@ losses:
       weight: 0.1          # G-adv dose for the hole pair (InvSR ldis scale)
       warmup: 2000         # D-only head start counted from FIRST hole pair
                            # (resume-aware: 0 = relative to run start, not step 0)
+    pixel_d:               # W8 (2026-09-19): pass1 PIXEL D — the orig third
+                           # layer itself (static coach L415-420 novel branch +
+                           # L1215-1240 NLayer D, NonSaturating+R1, FM): fake =
+                           # pass1 x0_hat PIXEL decode (t<pixel.max_timestep=200,
+                           # 256px = the orig's own operating resolution), real =
+                           # the PHOTO x. Coexists with the InvSR UNet-D (which
+                           # keeps p2/synth latent pairs) as two specialized
+                           # heads — see PROJECT_STATUS §7.20 for the 3
+                           # preregistered deviations from the orig.
+      enable: False
+      warmup: 1000         # D-only head start from first queued pixel pair
+                           # (orig trained from scratch with none; we attach a
+                           # fresh D to a 130K-pretrained G — deviation #3)
                            # ---- legacy 'renoise' mode keys below ----
                            # Re-noising construction (see Coach._x0_losses):
                            #   fake_t = sqrt(ab)*x0_hat + sqrt(1-ab)*eps_new
@@ -315,6 +341,7 @@ log:
   board_interval: 50
   val_interval: 2000
   save_interval: 2000
+  max_ckpt_keep: 2        # W10 disk guard: rotate checkpoints (newest N only)
   use_wandb: False
 
 smoke:

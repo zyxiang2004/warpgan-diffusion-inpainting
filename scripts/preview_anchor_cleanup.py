@@ -83,37 +83,45 @@ def build_anchor(case, ident):
     return anchor, mask
 
 
+def selective_hole(anchor, mask, k=5, tau=0.07):
+    """W10 (§7.30): visible untouched; hole-only impulse-selective median."""
+    med = median_blur(anchor, (k,) * 2)
+    diff = (anchor - med).abs().amax(dim=1, keepdim=True)
+    impulse = (diff > tau).to(anchor.dtype) * mask
+    return med * impulse + anchor * (1.0 - impulse)
+
+
 def main():
     rows_full, rows_crop = [], []
     for ident in IDS:
         case = load_case(ident, VIEW)
         anchor, mask = build_anchor(case, ident)
-        med3 = median_blur(anchor, (3, 3))
-        med5 = median_blur(anchor, (5, 5))
+        med5 = median_blur(anchor, (5, 5))          # v18.7 legacy (W6 arms)
+        sel = selective_hole(anchor, mask, k=5, tau=0.07)   # W10 new
         row = [case['x'][0].cpu(), case['yh'][0].cpu(),
                mask[0].expand(3, -1, -1).cpu(), anchor[0].cpu(),
-               med3[0].cpu(), med5[0].cpu()]
+               med5[0].cpu(), sel[0].cpu()]
         rows_full.append(torch.stack(row, 0))
-        # 2x zoom at hole centroid (eval_anchor_compare crop logic)
         m = mask[0, 0]
         ys, xs = torch.nonzero(m > 0.5, as_tuple=True)
         cy, cx = (int(ys.float().mean()), int(xs.float().mean())) if len(ys) else (256, 256)
         r1, c1 = min(512, cy + 80), min(512, cx + 80)
         r0, c0 = r1 - 160, c1 - 160
         crops = []
-        for t in (anchor, med3, med5):
+        for t in (anchor, med5, sel, (sel - anchor).abs() * 5):
             cr = t[0, :, r0:r1, c0:c1].cpu()
             crops.append(F.interpolate(cr.unsqueeze(0), scale_factor=2,
                                        mode='bilinear', align_corners=False)[0])
         rows_crop.append(torch.stack(crops, 0))
-        print(f'[anchor-preview] {ident} hole={float(mask.mean()):.2f} done', flush=True)
+        print(f'[anchor-preview] {ident} hole={float(mask.mean()):.2f} '
+              f'impulse_px={int(((anchor - med5).abs().amax(1, keepdim=True) > 0.07).sum())} done', flush=True)
 
     g1 = torch.cat(rows_full, 0)
     vutils.save_image(g1, OUT_FULL, nrow=6, padding=2)
     g2 = torch.cat(rows_crop, 0)
-    vutils.save_image(g2, OUT_CROP, nrow=3, padding=2)
-    print(f'full  -> {OUT_FULL}  (cols: photo|render|mask|anchor_raw|med3|med5)')
-    print(f'crops -> {OUT_CROP}  (2x hole zoom: anchor_raw|med3|med5)')
+    vutils.save_image(g2, OUT_CROP, nrow=4, padding=2)
+    print(f'full  -> {OUT_FULL}  (cols: photo|render|mask|anchor_raw|med5_LEGACY|selective_W10)')
+    print(f'crops -> {OUT_CROP}  (2x hole zoom: raw|med5_LEGACY|selective_W10|diff_x5)')
 
 
 if __name__ == '__main__':

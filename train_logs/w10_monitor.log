@@ -1,0 +1,9 @@
+===== Tue 22 Sep 2026 02:06:53 AM CST =====
+/dev/mapper/ubuntu--vg-ubuntu--lv  936G  497G  400G  56% /
+[20260915-085452]_v19_w6a_300k: frames=81 good_rate=0.44 last10 P(G) mean=0.445 std=0.104
+v19_w10_20k: frames=1 good_rate=0.00 last10 P(G) mean=0.430 std=0.000
+v19_w10c_20k: frames=1 good_rate=0.00 last10 P(G) mean=0.430 std=0.000
+v19_ema_300k: frames=1 good_rate=0.00 last10 P(G) mean=0.393 std=0.000
+0, 14554 MiB
+1, 17266 MiB
+2, 17296 MiB

@@ -19398,3 +19398,763 @@
 [gpu] 0, 18038 MiB, 100 %
 [gpu] 1, 17948 MiB, 100 %
 [gpu] 2, 16004 MiB, 99 %
+===== 2026-09-18 19:49:24 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 96 %
+[gpu] 2, 16004 MiB, 100 %
+===== 2026-09-18 19:59:25 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 97 %
+[gpu] 2, 16004 MiB, 100 %
+===== 2026-09-18 20:09:25 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 16004 MiB, 100 %
+===== 2026-09-18 20:19:25 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 64 %
+[gpu] 1, 17948 MiB, 96 %
+[gpu] 2, 16004 MiB, 100 %
+===== 2026-09-18 20:29:25 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18052 MiB, 100 %
+===== 2026-09-18 20:39:26 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18052 MiB, 100 %
+===== 2026-09-18 20:49:26 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 66 %
+[gpu] 1, 17948 MiB, 72 %
+[gpu] 2, 18052 MiB, 100 %
+===== 2026-09-18 20:59:26 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 47 %
+===== 2026-09-18 21:09:26 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 85 %
+===== 2026-09-18 21:19:27 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 96 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 100 %
+===== 2026-09-18 21:29:27 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 100 %
+===== 2026-09-18 21:39:27 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 87 %
+[gpu] 2, 18054 MiB, 99 %
+===== 2026-09-18 21:49:27 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 57 %
+===== 2026-09-18 21:59:28 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 74 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 98 %
+===== 2026-09-18 22:09:28 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 84 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 30 %
+===== 2026-09-18 22:19:28 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 100 %
+===== 2026-09-18 22:29:28 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 100 %
+===== 2026-09-18 22:39:29 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 99 %
+[gpu] 2, 18054 MiB, 100 %
+===== 2026-09-18 22:49:29 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 95 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 95 %
+===== 2026-09-18 22:59:29 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 85 %
+===== 2026-09-18 23:09:29 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 95 %
+[gpu] 2, 18054 MiB, 91 %
+===== 2026-09-18 23:19:30 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 99 %
+[gpu] 2, 18054 MiB, 81 %
+===== 2026-09-18 23:29:30 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 71 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 69 %
+===== 2026-09-18 23:39:30 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 99 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 95 %
+===== 2026-09-18 23:49:30 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 93 %
+[gpu] 1, 17948 MiB, 98 %
+[gpu] 2, 18054 MiB, 100 %
+===== 2026-09-18 23:59:31 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 51 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 95 %
+===== 2026-09-19 00:09:31 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 65 %
+===== 2026-09-19 00:19:31 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 72 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 100 %
+===== 2026-09-19 00:29:31 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 98 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 65 %
+===== 2026-09-19 00:39:32 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 95 %
+[gpu] 2, 18054 MiB, 99 %
+===== 2026-09-19 00:49:32 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 97 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 100 %
+===== 2026-09-19 00:59:32 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 100 %
+===== 2026-09-19 01:09:33 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 96 %
+[gpu] 2, 18054 MiB, 100 %
+===== 2026-09-19 01:19:33 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 89 %
+[gpu] 2, 18054 MiB, 100 %
+===== 2026-09-19 01:29:33 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 66 %
+[gpu] 1, 17948 MiB, 60 %
+[gpu] 2, 18054 MiB, 80 %
+===== 2026-09-19 01:39:33 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 98 %
+[gpu] 2, 18054 MiB, 97 %
+===== 2026-09-19 01:49:34 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 100 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 82 %
+===== 2026-09-19 01:59:34 =====
+[w3d] alive=0 tb=0 step 92300
+[w3d] real_p2_ldif=0.0456
+[w3d] real_p2_lfm=0.0006
+[w3d] real_p2_gen_adv=-0.8965
+[w3d] synth_x0_ldif=0.0536
+[w3d] discr_adv=1.0041
+[w3d] g_grad_abs=991.0227
+[w3d] val_novel_full=0.0749
+[w3p] alive=0 tb=0 step 175150
+[w3p] real_p2_ldif=0.0286
+[w3p] real_p2_lfm=0.0001
+[w3p] real_p2_gen_adv=0.1669
+[w3p] synth_x0_ldif=0.1254
+[w3p] discr_adv=0.9808
+[w3p] g_grad_abs=1407.4401
+[w3p] val_novel_full=0.0704
+[gpu] 0, 18038 MiB, 97 %
+[gpu] 1, 17948 MiB, 100 %
+[gpu] 2, 18054 MiB, 100 %

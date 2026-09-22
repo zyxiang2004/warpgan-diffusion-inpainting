@@ -1,0 +1,3 @@
+classes={'GOOD': 38, 'SMEAR': 28, 'SPECKLED': 15, 'SHARP': 0} flips=54 PH0=16.9 SLOPE_T=-0.02 SHARP_T=0.04
+ring/interior=22x; ph_condvis=36/kpx vs anchor .28 yhat .20
+blotch detector uncalibrated (floor ~20/kpx on clean renders) - excluded
