@@ -28,6 +28,10 @@ from PIL import Image, ImageFilter
 
 PANEL_ORDER = ['x', 'render', 'cond', 'mask', 'anchor', 'gen']
 TH = 20  # intensity threshold, 0-255 grayscale
+# Hole convention (CORRECTED 2026-09-19 to match server calib_user_calibration.py
+# L29 and PROJECT_STATUS §7.6 "暗像素计数"): mask tile BLACK (<128) = hole.
+# Verified: per-sample hole fractions 78.2/63.5/42.8% == server's
+# 112170/166416/204907 px @512² (78.1/63.5/42.8%).
 
 
 def gray(a):
@@ -56,7 +60,7 @@ def analyse(path):
     for i, name in enumerate(PANEL_ORDER):
         tiles[name] = a[:, i * tw:(i + 1) * tw]
     g = {k: gray(v) for k, v in tiles.items()}
-    mask = g['mask'] > 128.0
+    mask = g['mask'] < 128.0  # BLACK = hole (server calib convention)
     if mask.sum() < 50 or (~mask).sum() < 50:
         return None
     gen_hole_speck3 = med_diff_masked(g['gen'], 3, mask)
@@ -64,12 +68,16 @@ def analyse(path):
     anchor_blotch7 = med_diff_masked(g['anchor'], 7, mask)
     gen_vis_speck3 = med_diff_masked(g['gen'], 3, ~mask)
     x_vis_speck3 = med_diff_masked(g['x'], 3, ~mask)
+    # tex: server calib_user_calibration.py convention — mean |dx| of gen inside hole
+    dx = np.abs(np.diff(g['gen'], axis=1))
+    gm = mask[:, :-1] & mask[:, 1:]
+    hole_tex = float(dx[gm].mean())
     hole_frac = float(mask.mean())
     step = int(re.search(r'val_step(\d+)', os.path.basename(path)).group(1))
     return dict(step=step, ahash=ahash(g['x']), hole_frac=hole_frac,
                 hole_speck3=gen_hole_speck3, hole_blotch7=gen_hole_blotch7,
                 anchor_blotch7=anchor_blotch7, vis_speck3=gen_vis_speck3,
-                x_vis_speck3=x_vis_speck3)
+                x_vis_speck3=x_vis_speck3, hole_tex=hole_tex)
 
 
 def main():
@@ -101,11 +109,11 @@ def main():
         r['sample'] = rank[round(r['hole_frac'], 3)]
     order = list(range(len(hf_vals)))
 
-    print(f"{'step':>7} {'smp':>3} {'hole%':>6} {'L1':>6} | {'hole_spk3':>9} {'hole_blt7':>9} "
+    print(f"{'step':>7} {'smp':>3} {'hole%':>6} {'L1':>6} {'tex':>5} | {'hole_spk3':>9} {'hole_blt7':>9} "
           f"{'anch_blt7':>9} {'vis_spk3':>8} {'xvis_spk3':>9}")
     for r in sorted(rows, key=lambda r: r['step']):
         print(f"{r['step']:>7} {r['sample']:>3} {r['hole_frac']*100:>5.1f}% "
-              f"{l1.get(r['step'], float('nan')):>6.4f} | {r['hole_speck3']:>9.1f} {r['hole_blotch7']:>9.1f} "
+              f"{l1.get(r['step'], float('nan')):>6.4f} {r['hole_tex']:>5.1f} | {r['hole_speck3']:>9.1f} {r['hole_blotch7']:>9.1f} "
               f"{r['anchor_blotch7']:>9.1f} {r['vis_speck3']:>8.1f} {r['x_vis_speck3']:>9.1f}")
 
     print("\nper-sample summary (mean over all steps / mean over last 6 vals):")
@@ -114,6 +122,7 @@ def main():
         last = rs[-6:]
         def m(k, rr): return np.mean([x[k] for x in rr])
         print(f"  sample {s} (hole {m('hole_frac', rs)*100:.0f}%): "
+              f"tex {m('hole_tex', rs):.1f}/{m('hole_tex', last):.1f}  "
               f"hole_spk3 {m('hole_speck3', rs):.1f}/{m('hole_speck3', last):.1f}  "
               f"hole_blt7 {m('hole_blotch7', rs):.1f}/{m('hole_blotch7', last):.1f}  "
               f"anch_blt7 {m('anchor_blotch7', rs):.1f}/{m('anchor_blotch7', last):.1f}  "
